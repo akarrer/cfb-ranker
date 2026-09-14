@@ -1,0 +1,81 @@
+<title>This Week ATS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--ground:#f5f6f8;--surface:#fff;--surface-2:#fafbfc;--ink:#14171d;--muted:#5b6270;--faint:#8b93a1;
+    --hair:#e5e8ed;--hair-strong:#d5dae1;--gold:#b9822a;--gold-deep:#8f6415;
+    --pos:#2f8f5b;--pos-soft:#e4f2ea;--pos-line:#bfe0cd;--neg:#c2532f;--neg-soft:#f9e7df;--neg-line:#eecbbc;
+    --accent:#2f6d8f;--accent-soft:#e4eef4;--accent-line:#bcd6e4;--shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.06);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;
+    --ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;--hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;
+    --pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;--neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;
+    --accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}}
+  :root[data-theme="dark"]{--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;--ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;
+    --hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;--pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;
+    --neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;--accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold-deep);font-weight:750;margin:0 0 8px}
+  h1{font-size:clamp(27px,4.4vw,40px);line-height:1.03;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;color:var(--muted);max-width:68ch}
+  h2{font-size:17px;font-weight:800;margin:28px 0 12px;display:flex;gap:9px;align-items:center}
+  h2 .n{color:var(--faint);font-weight:700;font-size:13px}
+  .caveat{display:flex;gap:13px;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:12px;padding:15px 17px;margin:20px 0 6px;box-shadow:var(--shadow)}
+  .caveat .dot{flex:none;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:7px}
+  .caveat b{color:var(--ink)}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:13px;box-shadow:var(--shadow);overflow:hidden}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:620px}
+  th{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:750;text-align:right;padding:10px 12px;border-bottom:1.5px solid var(--hair-strong);white-space:nowrap;background:var(--surface-2);position:sticky;top:0}
+  th.l{text-align:left}
+  td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.l{text-align:left} tr:last-child td{border-bottom:none}
+  .gm{font-weight:650}
+  .lean{font-weight:800}
+  .edge{font-weight:800;font-variant-numeric:tabular-nums}
+  .e-hi{color:var(--neg)} .e-md{color:var(--gold-deep)} .e-lo{color:var(--muted)}
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:10px;padding:13px 16px;margin:14px 0;box-shadow:var(--shadow);color:var(--muted)}
+  .note b{color:var(--ink)}
+  footer{margin-top:24px;color:var(--faint);font-size:12px;line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; This Week ATS</p>
+    <h1>This week &mdash; model vs. the spread</h1>
+    <p class="sub">Every priced FBS-vs-FBS game of the upcoming slate (Sept&nbsp;11&ndash;13), with the recalibrated model's
+      line next to the Bovada / DraftKings consensus. "Lean" is the side the model would take; "edge" is how far the model
+      differs from the number. Sorted by edge &mdash; biggest disagreements first.</p>
+  </header>
+
+  <div class="caveat"><span class="dot"></span><div><b>Caveat &mdash; Michigan / Western Michigan corrected.</b> The Week&nbsp;1
+    result was overridden to <b>Western Michigan def. Michigan</b> (correcting a blown call at the end of the game). These
+    ratings reflect that, and in-season results now carry more weight (moderate setting): Michigan slips to #12. All predictions below are built on the corrected ratings.</div></div>
+
+  <h2>The board <span class="n" id="cnt"></span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">Away @ Home</th><th>Date</th><th class="l">Model line</th><th>Market</th><th class="l">Lean</th><th>Edge</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <div class="note"><b>Read the edges with heavy skepticism.</b> Last weekend the recalibrated model went sub-50% ATS &mdash;
+    matching the market's scale doesn't beat it. A double-digit "edge" almost always means the model is missing something
+    the market knows (injury, matchup, motivation), not free money. Treat this as where the model <i>disagrees</i>, not a bet slip.</div>
+  <footer id="foot"></footer>
+</div>
+<script>
+const D={"rows": [{"home": "FAU", "away": "Navy", "date": "2026-09-12", "ml": -12.0, "mkt": 5.5, "edge": -17.5, "lean": "FAU +5.5", "absedge": 17.5}, {"home": "Purdue", "away": "Wake Forest", "date": "2026-09-12", "ml": -11.0, "mkt": 4.5, "edge": -15.5, "lean": "Purdue +4.5", "absedge": 15.5}, {"home": "Air Force", "away": "North Dakota State", "date": "2026-09-13", "ml": -11.0, "mkt": 3.5, "edge": -14.5, "lean": "Air Force +3.5", "absedge": 14.5}, {"home": "Oregon State", "away": "Texas Tech", "date": "2026-09-12", "ml": 12.0, "mkt": 26.0, "edge": -14.0, "lean": "Oregon State +26.0", "absedge": 14.0}, {"home": "Boston College", "away": "Rutgers", "date": "2026-09-11", "ml": 10.5, "mkt": -3.5, "edge": 14.0, "lean": "Rutgers +3.5", "absedge": 14.0}, {"home": "Georgia", "away": "Western Kentucky", "date": "2026-09-12", "ml": -26.5, "mkt": -40.0, "edge": 13.5, "lean": "Western Kentucky +40.0", "absedge": 13.5}, {"home": "Ole Miss", "away": "Charlotte", "date": "2026-09-12", "ml": -35.0, "mkt": -47.5, "edge": 12.5, "lean": "Charlotte +47.5", "absedge": 12.5}, {"home": "Notre Dame", "away": "Rice", "date": "2026-09-12", "ml": -33.0, "mkt": -44.5, "edge": 11.5, "lean": "Rice +44.5", "absedge": 11.5}, {"home": "Connecticut", "away": "Maryland", "date": "2026-09-12", "ml": 24.0, "mkt": 12.5, "edge": 11.5, "lean": "Maryland -12.5", "absedge": 11.5}, {"home": "Kentucky", "away": "Alabama", "date": "2026-09-12", "ml": 0.0, "mkt": 10.2, "edge": -10.2, "lean": "Kentucky +10.2", "absedge": 10.2}, {"home": "Auburn", "away": "Southern Miss", "date": "2026-09-12", "ml": -20.5, "mkt": -29.8, "edge": 9.3, "lean": "Southern Miss +29.8", "absedge": 9.3}, {"home": "Kansas State", "away": "Washington State", "date": "2026-09-12", "ml": -9.0, "mkt": -17.5, "edge": 8.5, "lean": "Washington State +17.5", "absedge": 8.5}, {"home": "Temple", "away": "Penn State", "date": "2026-09-12", "ml": 15.5, "mkt": 23.5, "edge": -8.0, "lean": "Temple +23.5", "absedge": 8.0}, {"home": "Boise State", "away": "Memphis", "date": "2026-09-12", "ml": -15.0, "mkt": -7.5, "edge": -7.5, "lean": "Boise State -7.5", "absedge": 7.5}, {"home": "Illinois", "away": "Duke", "date": "2026-09-12", "ml": -13.0, "mkt": -6.2, "edge": -6.8, "lean": "Illinois -6.2", "absedge": 6.8}, {"home": "Nebraska", "away": "Bowling Green", "date": "2026-09-12", "ml": -35.5, "mkt": -28.8, "edge": -6.7, "lean": "Nebraska -28.8", "absedge": 6.7}, {"home": "Minnesota", "away": "Mississippi State", "date": "2026-09-12", "ml": -5.5, "mkt": 1.2, "edge": -6.7, "lean": "Minnesota +1.2", "absedge": 6.7}, {"home": "Tulane", "away": "South Alabama", "date": "2026-09-12", "ml": -4.0, "mkt": -10.2, "edge": 6.2, "lean": "South Alabama +10.2", "absedge": 6.2}, {"home": "Washington", "away": "Utah State", "date": "2026-09-12", "ml": -20.5, "mkt": -26.5, "edge": 6.0, "lean": "Utah State +26.5", "absedge": 6.0}, {"home": "Pittsburgh", "away": "UCF", "date": "2026-09-12", "ml": -2.5, "mkt": -7.5, "edge": 5.0, "lean": "UCF +7.5", "absedge": 5.0}, {"home": "Clemson", "away": "Georgia Southern", "date": "2026-09-12", "ml": -16.0, "mkt": -21.0, "edge": 5.0, "lean": "Georgia Southern +21.0", "absedge": 5.0}, {"home": "Utah", "away": "Arkansas", "date": "2026-09-13", "ml": -8.0, "mkt": -12.8, "edge": 4.8, "lean": "Arkansas +12.8", "absedge": 4.8}, {"home": "Hawaii", "away": "New Mexico State", "date": "2026-09-13", "ml": -5.0, "mkt": -9.8, "edge": 4.8, "lean": "New Mexico State +9.8", "absedge": 4.8}, {"home": "Kennesaw State", "away": "Georgia State", "date": "2026-09-12", "ml": -4.0, "mkt": -8.8, "edge": 4.8, "lean": "Georgia State +8.8", "absedge": 4.8}, {"home": "East Carolina", "away": "Appalachian State", "date": "2026-09-12", "ml": -3.5, "mkt": -8.2, "edge": 4.7, "lean": "Appalachian State +8.2", "absedge": 4.7}, {"home": "Oklahoma State", "away": "Oregon", "date": "2026-09-12", "ml": 18.0, "mkt": 22.5, "edge": -4.5, "lean": "Oklahoma State +22.5", "absedge": 4.5}, {"home": "Texas A&M", "away": "Arizona State", "date": "2026-09-12", "ml": -18.5, "mkt": -14.0, "edge": -4.5, "lean": "Texas A&M -14.0", "absedge": 4.5}, {"home": "Georgia Tech", "away": "Tennessee", "date": "2026-09-12", "ml": 9.0, "mkt": 13.5, "edge": -4.5, "lean": "Georgia Tech +13.5", "absedge": 4.5}, {"home": "Ohio", "away": "Jacksonville State", "date": "2026-09-12", "ml": -6.5, "mkt": -2.2, "edge": -4.3, "lean": "Ohio -2.2", "absedge": 4.3}, {"home": "Vanderbilt", "away": "Delaware", "date": "2026-09-12", "ml": -16.5, "mkt": -20.8, "edge": 4.3, "lean": "Delaware +20.8", "absedge": 4.3}, {"home": "Texas State", "away": "UTSA", "date": "2026-09-12", "ml": -3.0, "mkt": 1.2, "edge": -4.2, "lean": "Texas State +1.2", "absedge": 4.2}, {"home": "Michigan", "away": "Oklahoma", "date": "2026-09-12", "ml": 2.0, "mkt": 6.0, "edge": -4.0, "lean": "Michigan +6.0", "absedge": 4.0}, {"home": "Kansas", "away": "Missouri", "date": "2026-09-12", "ml": 9.5, "mkt": 6.0, "edge": 3.5, "lean": "Missouri -6.0", "absedge": 3.5}, {"home": "UAB", "away": "UL Monroe", "date": "2026-09-12", "ml": -14.0, "mkt": -10.5, "edge": -3.5, "lean": "UAB -10.5", "absedge": 3.5}, {"home": "Sam Houston", "away": "Tulsa", "date": "2026-09-12", "ml": 10.0, "mkt": 13.5, "edge": -3.5, "lean": "Sam Houston +13.5", "absedge": 3.5}, {"home": "Fresno State", "away": "Sacramento State", "date": "2026-09-13", "ml": -15.0, "mkt": -18.2, "edge": 3.2, "lean": "Sacramento State +18.2", "absedge": 3.2}, {"home": "UCLA", "away": "San Diego State", "date": "2026-09-12", "ml": -14.5, "mkt": -11.5, "edge": -3.0, "lean": "UCLA -11.5", "absedge": 3.0}, {"home": "LSU", "away": "Louisiana Tech", "date": "2026-09-12", "ml": -30.5, "mkt": -33.0, "edge": 2.5, "lean": "Louisiana Tech +33.0", "absedge": 2.5}, {"home": "North Texas", "away": "UNLV", "date": "2026-09-12", "ml": 2.5, "mkt": 4.5, "edge": -2.0, "lean": "North Texas +4.5", "absedge": 2.0}, {"home": "Michigan State", "away": "Eastern Michigan", "date": "2026-09-12", "ml": -19.0, "mkt": -17.2, "edge": -1.8, "lean": "Michigan State -17.2", "absedge": 1.8}, {"home": "USC", "away": "Louisiana", "date": "2026-09-13", "ml": -29.0, "mkt": -30.8, "edge": 1.8, "lean": "Louisiana +30.8", "absedge": 1.8}, {"home": "FIU", "away": "Buffalo", "date": "2026-09-12", "ml": -8.5, "mkt": -10.2, "edge": 1.7, "lean": "Buffalo +10.2", "absedge": 1.7}, {"home": "Army", "away": "USF", "date": "2026-09-12", "ml": -2.0, "mkt": -3.5, "edge": 1.5, "lean": "USF +3.5", "absedge": 1.5}, {"home": "Texas", "away": "Ohio State", "date": "2026-09-12", "ml": -2.5, "mkt": -1.2, "edge": -1.3, "lean": "Texas -1.2", "absedge": 1.3}, {"home": "Iowa", "away": "Iowa State", "date": "2026-09-12", "ml": -13.0, "mkt": -14.0, "edge": 1.0, "lean": "Iowa State +14.0", "absedge": 1.0}, {"home": "BYU", "away": "Arizona", "date": "2026-09-12", "ml": -6.5, "mkt": -7.5, "edge": 1.0, "lean": "Arizona +7.5", "absedge": 1.0}, {"home": "Virginia Tech", "away": "Old Dominion", "date": "2026-09-12", "ml": -18.0, "mkt": -18.5, "edge": 0.5, "lean": "Old Dominion +18.5", "absedge": 0.5}], "n": 47},sp=n=>(n>0?'+':'')+n.toFixed(1);
+document.getElementById('cnt').textContent=`${D.n} games, biggest disagreements first`;
+document.getElementById('rows').innerHTML=D.rows.map(r=>{
+  const ae=Math.abs(r.edge), cls=ae>=10?'e-hi':(ae>=6?'e-md':'e-lo');
+  return `<tr>
+    <td class="l gm">${r.away} @ ${r.home}</td>
+    <td style="color:var(--faint)">${r.date.slice(5)}</td>
+    <td class="l">${r.home} ${sp(r.ml)}</td>
+    <td>${sp(r.mkt)}</td>
+    <td class="l lean">${r.lean}</td>
+    <td class="edge ${cls}">${sp(r.edge)}</td></tr>`;
+}).join('');
+document.getElementById('foot').innerHTML=`Lines: Bovada/DraftKings consensus (CollegeFootballData), captured `+
+ `${new Date().toISOString().slice(0,10)}; lines move before kickoff. Model line = recalibrated rating gap + 2.5 home field, `+
+ `built on results through Sept 6 (incl. the Michigan/Western Michigan override). Generated by <b>cfb_ranker</b>.`;
+</script>

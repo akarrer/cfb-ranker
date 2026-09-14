@@ -1,0 +1,160 @@
+<title>Week 0 Report Card</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#f6f7f9; --surface:#ffffff; --surface-2:#fbfcfd;
+    --ink:#15171c; --muted:#5c6472; --faint:#8a92a1;
+    --hair:#e4e7ec; --hair-strong:#d3d8e0;
+    --gold:#c1892a; --gold-deep:#9c6c17;
+    --pos:#2f8f5b; --pos-soft:#e3f1e9; --pos-line:#bfe0cd;
+    --neg:#c2532f; --neg-soft:#f8e5dd; --neg-line:#eecabb;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 8px 24px rgba(20,23,28,.05);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0d1015; --surface:#151922; --surface-2:#111520;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#6a7382;
+    --hair:#232936; --hair-strong:#2e3644;
+    --gold:#e0a838; --gold-deep:#b98421;
+    --pos:#4bb47c; --pos-soft:#16281f; --pos-line:#1f4030;
+    --neg:#e07048; --neg-soft:#2a1a14; --neg-line:#44271c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+  }}
+  :root[data-theme="dark"]{
+    --ground:#0d1015; --surface:#151922; --surface-2:#111520;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#6a7382;
+    --hair:#232936; --hair-strong:#2e3644;
+    --gold:#e0a838; --gold-deep:#b98421;
+    --pos:#4bb47c; --pos-soft:#16281f; --pos-line:#1f4030;
+    --neg:#e07048; --neg-soft:#2a1a14; --neg-line:#44271c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin:0 0 8px}
+  h1{font-size:clamp(28px,4.5vw,42px);line-height:1.03;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:12px 0 0;color:var(--muted);max-width:66ch}
+  h2{font-size:18px;font-weight:800;letter-spacing:-.01em;margin:34px 0 12px}
+
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0 8px}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:15px 16px;box-shadow:var(--shadow)}
+  .tile .k{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .tile .v{font-size:30px;font-weight:850;letter-spacing:-.02em;margin-top:5px}
+  .tile .v small{font-size:14px;font-weight:650;color:var(--muted)}
+  .tile.good .v{color:var(--pos)} .tile.warn .v{color:var(--gold-deep)}
+  @media(max-width:680px){.tiles{grid-template-columns:repeat(2,1fr)}}
+
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:640px}
+  th{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:750;
+    text-align:right;padding:12px 14px;border-bottom:1.5px solid var(--hair-strong);white-space:nowrap}
+  th.l{text-align:left}
+  td{padding:12px 14px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.l{text-align:left}
+  tr:last-child td{border-bottom:none}
+  .res{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;font-size:12px;font-weight:800}
+  .res.ok{background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line)}
+  .res.miss{background:var(--neg-soft);color:var(--neg);border:1px solid var(--neg-line)}
+  tr.miss{background:linear-gradient(90deg,var(--neg-soft),transparent 60%)}
+  .match{font-weight:700}
+  .pick{color:var(--muted)}
+  .err-lo{color:var(--pos);font-weight:700}
+  .err-hi{color:var(--neg);font-weight:700}
+  .err-mid{color:var(--gold-deep);font-weight:700}
+
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);
+    border-radius:10px;padding:14px 16px;margin:12px 0;box-shadow:var(--shadow)}
+  .note b{color:var(--ink)}
+  ul{margin:10px 0;padding-left:22px} li{margin:6px 0;color:var(--muted)} li b{color:var(--ink)}
+  footer{margin-top:30px;color:var(--faint);font-size:12.5px;line-height:1.6}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; Week 0 Report Card</p>
+    <h1>How the preseason model called Week&nbsp;0</h1>
+    <p class="sub">Grading the model's <b>preseason (week&nbsp;0) ratings</b> against the eight games actually
+      played on the opening weekend. Each pick is the higher-rated team plus <b>+2.5</b> for home field
+      (neutral sites get none); the predicted margin is the rating gap.</p>
+  </header>
+
+  <div class="tiles">
+    <div class="tile good"><div class="k">Straight-up</div><div class="v">6<small>/8 &middot; 75%</small></div></div>
+    <div class="tile warn"><div class="k">Margin MAE</div><div class="v">12.2<small>pts</small></div></div>
+    <div class="tile"><div class="k">Confident misses</div><div class="v">0<small>/8</small></div></div>
+    <div class="tile"><div class="k">Margins under-called</div><div class="v">6<small>/6 correct</small></div></div>
+  </div>
+
+  <div class="card scroll">
+    <table>
+      <thead><tr>
+        <th class="l"></th><th class="l">Matchup</th><th class="l">Final</th>
+        <th class="l">Model pick</th><th>Pred</th><th>Actual</th><th>Err</th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+
+  <h2>What it got right</h2>
+  <ul>
+    <li><b>Every clear game.</b> All six favorites the model liked by a real margin held — USC, Virginia,
+      Florida State, Stanford, Eastern Michigan, and North Dakota State all won.</li>
+    <li><b>No confident call was wrong.</b> The two misses were the two closest predictions on the board
+      (+0.7 and +3.0) &mdash; the model had them as coin-flips, not convictions.</li>
+  </ul>
+
+  <h2>Where it missed</h2>
+  <ul>
+    <li><b>North Carolina 15, TCU 10</b> (neutral) &mdash; model leaned TCU by <b>0.7</b>, the definition of a
+      toss-up. A pick'em that flipped.</li>
+    <li><b>Memphis 27, UNLV 21</b> &mdash; model had UNLV +3.0 at home; Memphis went in and won by six. A
+      one-possession game inside the model's noise band.</li>
+  </ul>
+
+  <h2>Calibration: right direction, shy on margin</h2>
+  <div class="note">
+    The model <b>under-projected the margin in all six games it got right</b>, by ~14 points on average
+    (North Dakota State by 26, Virginia by 26). Two structural reasons: preseason <b>SOS is deliberately
+    muted</b> (week&nbsp;0 runs it at &times;0.25), which compresses ratings toward the mean, and the points
+    scale is conservative. It calls winners well but expects closer games than a weak-opponent opening slate delivers.
+  </div>
+  <ul>
+    <li><b>Fix in flight:</b> as the schedule ramps to full weight by week&nbsp;4, spread widens and margin error should fall.</li>
+    <li><b>Caveat:</b> this slate was P4/FBS vs. FCS &amp; G5 &mdash; easy winners. The real test is competitive matchups in the coming weeks.</li>
+  </ul>
+
+  <footer>
+    Ratings graded: preseason (week&nbsp;0). Outcomes via ESPN. Straight-up = correct winner; Margin MAE = mean
+    absolute error between predicted and actual point margin. Home field = +2.5 rating pts (0 at neutral sites).
+    Generated by <b>cfb_ranker grade</b>.
+  </footer>
+</div>
+
+<script>
+const games=[
+  // correct first (by error asc), then misses
+  {r:"ok",away:"San Jose State",home:"USC",final:"26-42",pick:"USC",pred:"+7.8",act:"+16",err:8},
+  {r:"ok",away:"Hawaii",home:"Stanford",final:"27-37",pick:"Stanford",pred:"+2.0",act:"+10",err:8},
+  {r:"ok",away:"Sacramento State",home:"Eastern Michigan",final:"17-28",pick:"Eastern Michigan",pred:"+3.4",act:"+11",err:8},
+  {r:"ok",away:"New Mexico State",home:"Florida State",final:"17-34",pick:"Florida State",pred:"+5.1",act:"+17",err:12},
+  {r:"ok",away:"NC State",home:"Virginia",final:"8-34",pick:"Virginia",pred:"+3.0",act:"+26",err:23},
+  {r:"ok",away:"Jacksonville State",home:"North Dakota State",final:"7-33",pick:"North Dakota State",pred:"+1.4",act:"+26",err:25},
+  {r:"miss",away:"North Carolina",home:"TCU",final:"15-10",pick:"TCU",pred:"+0.7",act:"-5",err:6,neutral:true},
+  {r:"miss",away:"Memphis",home:"UNLV",final:"27-21",pick:"UNLV",pred:"+3.0",act:"-6",err:9},
+];
+const ec=e=>e<=8?"err-lo":e<=15?"err-mid":"err-hi";
+document.getElementById("tb").innerHTML=games.map(g=>`
+  <tr class="${g.r==='miss'?'miss':''}">
+    <td class="l"><span class="res ${g.r}">${g.r==='ok'?'&#10003;':'&#10007;'}</span></td>
+    <td class="l"><span class="match">${g.away} @ ${g.home}</span>${g.neutral?' <span class="pick">(N)</span>':''}</td>
+    <td class="l num">${g.final}</td>
+    <td class="l pick">${g.pick}</td>
+    <td class="num">${g.pred}</td>
+    <td class="num">${g.act}</td>
+    <td class="num ${ec(g.err)}">${g.err}</td>
+  </tr>`).join("");
+</script>

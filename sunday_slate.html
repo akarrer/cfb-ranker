@@ -1,0 +1,107 @@
+<title>Sunday Slate Predictions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#f5f6f8; --surface:#ffffff; --surface-2:#fafbfc;
+    --ink:#14171d; --muted:#5b6270; --faint:#8b93a1;
+    --hair:#e5e8ed; --hair-strong:#d5dae1;
+    --gold:#b9822a; --gold-deep:#8f6415;
+    --pos:#2f8f5b; --pos-soft:#e4f2ea; --pos-line:#bfe0cd;
+    --neg:#c2532f; --neg-soft:#f9e7df; --neg-line:#eecbbc;
+    --accent:#2f6d8f; --accent-soft:#e4eef4;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.06);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0c0f14; --surface:#141922; --surface-2:#10151d;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#69727f;
+    --hair:#222834; --hair-strong:#2d3542;
+    --gold:#e0a838; --gold-deep:#c08d2b;
+    --pos:#4cb47c; --pos-soft:#15271e; --pos-line:#204030;
+    --neg:#e07048; --neg-soft:#2a1a13; --neg-line:#43271c;
+    --accent:#5aa6cc; --accent-soft:#12222b;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);
+  }}
+  :root[data-theme="dark"]{
+    --ground:#0c0f14; --surface:#141922; --surface-2:#10151d;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#69727f;
+    --hair:#222834; --hair-strong:#2d3542;
+    --gold:#e0a838; --gold-deep:#c08d2b;
+    --pos:#4cb47c; --pos-soft:#15271e; --pos-line:#204030;
+    --neg:#e07048; --neg-soft:#2a1a13; --neg-line:#43271c;
+    --accent:#5aa6cc; --accent-soft:#12222b;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold-deep);font-weight:750;margin:0 0 8px}
+  h1{font-size:clamp(27px,4.4vw,40px);line-height:1.03;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;color:var(--muted);max-width:66ch}
+  .game{background:var(--surface);border:1px solid var(--hair);border-radius:15px;padding:0;margin:18px 0;box-shadow:var(--shadow);overflow:hidden}
+  .ghead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 20px 12px}
+  .match{font-size:19px;font-weight:820;letter-spacing:-.01em}
+  .match .at{color:var(--faint);font-weight:600;margin:0 6px}
+  .ranks{font-size:12px;color:var(--faint);margin-top:2px;font-variant-numeric:tabular-nums}
+  .su{font-size:11px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:var(--accent);
+    background:var(--accent-soft);border:1px solid var(--accent);border-radius:999px;padding:4px 10px;white-space:nowrap}
+  .lines{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--hair)}
+  .lcell{padding:13px 16px;border-right:1px solid var(--hair)}
+  .lcell:last-child{border-right:none}
+  .lcell .k{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .lcell .v{font-size:19px;font-weight:820;margin-top:3px;font-variant-numeric:tabular-nums}
+  .lcell .ou{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .lcell.model{background:var(--surface-2)}
+  .lcell.model .v{color:var(--accent)}
+  .lean{display:flex;align-items:center;gap:10px;padding:13px 20px;border-top:1px solid var(--hair);background:var(--surface-2)}
+  .lean .tag{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .lean .pick{font-size:15px;font-weight:800}
+  .lean .edge{margin-left:auto;font-size:12px;font-weight:800;padding:3px 10px;border-radius:999px;
+    background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .lean .edge.big{background:var(--neg-soft);color:var(--neg);border-color:var(--neg-line)}
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);
+    border-radius:10px;padding:14px 16px;margin:22px 0 0;box-shadow:var(--shadow);color:var(--muted)}
+  .note b{color:var(--ink)}
+  footer{margin-top:26px;color:var(--faint);font-size:12px;line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; Sunday Slate</p>
+    <h1>Sunday, September&nbsp;6 &mdash; model vs. the board</h1>
+    <p class="sub">Three FBS games on the Sunday card. The model's line is its rating gap plus 2.5 for home field;
+      shown next to the real <b>Bovada</b> and <b>DraftKings</b> numbers. "Lean" is the side the model would take against
+      the consensus spread. (Caesars isn't offered in the free feeds; these are the books that are.)</p>
+  </header>
+  <div id="games"></div>
+  <div class="note" id="note"></div>
+  <footer id="foot"></footer>
+</div>
+<script>
+const G=[{"away": "Washington State", "home": "Washington", "awR": 80.1, "hoR": 87.9, "awRk": 52, "hoRk": 17, "margin": 10.3, "model_line": -10.5, "dk": -23.5, "bov": -23.0, "dk_ou": 51.5, "bov_ou": 51.0, "mkt": -23.25, "su": "Washington", "ats": "Washington State +23.2", "ats_side": "dog", "edge": 12.8}, {"away": "Wisconsin", "home": "Notre Dame", "awR": 82.9, "hoR": 90.8, "awRk": 40, "hoRk": 7, "margin": 10.4, "model_line": -10.5, "dk": -20.5, "bov": -20.5, "dk_ou": 46.5, "bov_ou": 46.5, "mkt": -20.5, "su": "Notre Dame", "ats": "Wisconsin +20.5", "ats_side": "dog", "edge": 10.0}, {"away": "Louisville", "home": "Ole Miss", "awR": 81.5, "hoR": 90.7, "awRk": 46, "hoRk": 8, "margin": 11.6, "model_line": -11.5, "dk": -6.5, "bov": -6.5, "dk_ou": 54.5, "bov_ou": 55.0, "mkt": -6.5, "su": "Ole Miss", "ats": "Ole Miss -6.5", "ats_side": "fav", "edge": 5.0}];
+const sp=n=>(n>0?'+':'')+n.toFixed(1);
+document.getElementById('games').innerHTML=G.map(g=>`
+  <div class="game">
+    <div class="ghead">
+      <div>
+        <div class="match">${g.away}<span class="at">@</span>${g.home}</div>
+        <div class="ranks">#${g.awRk} (${g.awR.toFixed(1)}) &nbsp;vs&nbsp; #${g.hoRk} (${g.hoR.toFixed(1)})</div>
+      </div>
+      <span class="su">Pick: ${g.su}</span>
+    </div>
+    <div class="lines">
+      <div class="lcell model"><div class="k">Model line</div><div class="v">${g.home} ${sp(g.model_line)}</div><div class="ou">proj margin ${g.margin.toFixed(1)}</div></div>
+      <div class="lcell"><div class="k">Bovada</div><div class="v">${sp(g.bov)}</div><div class="ou">O/U ${g.bov_ou}</div></div>
+      <div class="lcell"><div class="k">DraftKings</div><div class="v">${sp(g.dk)}</div><div class="ou">O/U ${g.dk_ou}</div></div>
+    </div>
+    <div class="lean">
+      <span class="tag">ATS lean</span>
+      <span class="pick">${g.ats}</span>
+      <span class="edge ${g.edge>=8?'big':''}">${g.edge.toFixed(1)} pt edge</span>
+    </div>
+  </div>`).join('');
+
+document.getElementById('note').innerHTML=`<b>The model is a big skeptic of the two heavy favorites.</b> It has Washington and Notre Dame winning by ~10 while the board says 20+, so it takes both underdogs against the number \u2014 double-digit disagreements that say more about the model than the market. It's the opposite on Ole Miss, laying the 6.5. Take the model's massive edges with salt: a #17-vs-#52 gap priced at 10 (vs Vegas' 23) shows the ratings still compress the very top of the favorite range.`;
+document.getElementById('foot').innerHTML=`Lines: Bovada &amp; DraftKings via CollegeFootballData, captured pre-kickoff Sept 6. Model line = rating gap + 2.5 home field. Straight-up pick is the model's outright winner; ATS lean is vs the consensus of the two books. Generated by <b>cfb_ranker</b>.`;
+</script>

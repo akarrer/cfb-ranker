@@ -1,0 +1,2 @@
+# cfb-ranker runs on the Python 3.10+ standard library only — no pip installs required.
+# Optional: set CFBD_API_KEY (free at collegefootballdata.com) to auto-load schedules for SOS.

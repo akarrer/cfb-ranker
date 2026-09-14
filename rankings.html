@@ -1,0 +1,639 @@
+<title>CFB Ranker &mdash; D1 Power Ratings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#f6f7f9; --surface:#ffffff; --surface-2:#fbfcfd;
+    --ink:#15171c; --muted:#5c6472; --faint:#8a92a1;
+    --hair:#e4e7ec; --hair-strong:#d3d8e0;
+    --gold:#c1892a; --gold-deep:#9c6c17; --gold-soft:#f2e6cf;
+    --pos:#2f8f5b; --pos-soft:#dcefe3;
+    --neg:#c2532f; --neg-soft:#f6e2d9;
+    --bar:#c4cdd9; --bar-track:#eef1f5; --bar-talent:#8ba3c7; --bar-exp:#9ab89f;
+    --p4:#c1892a; --g5:#9aa3b2;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 8px 24px rgba(20,23,28,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#0d1015; --surface:#151922; --surface-2:#111520;
+      --ink:#eef1f6; --muted:#9aa3b2; --faint:#6a7382;
+      --hair:#232936; --hair-strong:#2e3644;
+      --gold:#e0a838; --gold-deep:#b98421; --gold-soft:#2a2416;
+      --pos:#4bb47c; --pos-soft:#16281f;
+      --neg:#e07048; --neg-soft:#2a1a14;
+      --bar:#3a4353; --bar-track:#1d2330; --bar-talent:#5d7ea8; --bar-exp:#5f9079;
+      --p4:#e0a838; --g5:#5f6a7c;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#f6f7f9; --surface:#ffffff; --surface-2:#fbfcfd;
+    --ink:#15171c; --muted:#5c6472; --faint:#8a92a1;
+    --hair:#e4e7ec; --hair-strong:#d3d8e0;
+    --gold:#c1892a; --gold-deep:#9c6c17; --gold-soft:#f2e6cf;
+    --pos:#2f8f5b; --pos-soft:#dcefe3; --neg:#c2532f; --neg-soft:#f6e2d9;
+    --bar:#c4cdd9; --bar-track:#eef1f5; --bar-talent:#8ba3c7; --bar-exp:#9ab89f; --p4:#c1892a; --g5:#9aa3b2;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 8px 24px rgba(20,23,28,.05);
+  }
+  :root[data-theme="dark"]{
+    --ground:#0d1015; --surface:#151922; --surface-2:#111520;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#6a7382;
+    --hair:#232936; --hair-strong:#2e3644;
+    --gold:#e0a838; --gold-deep:#b98421; --gold-soft:#2a2416;
+    --pos:#4bb47c; --pos-soft:#16281f; --neg:#e07048; --neg-soft:#2a1a14;
+    --bar:#3a4353; --bar-track:#1d2330; --bar-talent:#5d7ea8; --bar-exp:#5f9079; --p4:#e0a838; --g5:#5f6a7c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--ground);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  /* ---- header ---- */
+  header{margin-bottom:26px}
+  .eyebrow{
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold-deep);font-weight:700;margin:0 0 8px
+  }
+  h1{
+    font-size:clamp(30px,5vw,46px);line-height:1.02;margin:0;font-weight:850;
+    letter-spacing:-.02em;text-wrap:balance;
+  }
+  h1 .thin{font-weight:400;color:var(--muted)}
+  .sub{margin:12px 0 0;color:var(--muted);max-width:64ch}
+  .sub code{background:var(--surface);border:1px solid var(--hair);border-radius:4px;padding:1px 5px;font-size:.85em}
+
+  /* ---- formula legend ---- */
+  .formula{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;align-items:center
+  }
+  .wchip{
+    display:inline-flex;align-items:baseline;gap:7px;background:var(--surface);
+    border:1px solid var(--hair);border-radius:999px;padding:6px 13px;font-size:12.5px;box-shadow:var(--shadow)
+  }
+  .wchip b{font-weight:750}
+  .wchip .w{color:var(--gold-deep);font-weight:750;font-variant-numeric:tabular-nums}
+  .wchip.muted{opacity:.55}
+
+  /* ---- stat tiles ---- */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+  .tile .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .tile .v{font-size:26px;font-weight:820;letter-spacing:-.01em;margin-top:4px}
+  .tile .v small{font-size:14px;font-weight:600;color:var(--muted)}
+  @media(max-width:680px){.tiles{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---- controls ---- */
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 14px}
+  .search{
+    flex:1 1 220px;min-width:180px;background:var(--surface);border:1px solid var(--hair-strong);
+    border-radius:9px;padding:9px 12px;color:var(--ink);font-size:14px
+  }
+  .search::placeholder{color:var(--faint)}
+  .search:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+  .confbar{display:flex;flex-wrap:wrap;gap:6px}
+  .cf{
+    background:var(--surface);border:1px solid var(--hair-strong);color:var(--muted);
+    border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:650;cursor:pointer;
+    transition:all .12s ease
+  }
+  .cf:hover{border-color:var(--gold);color:var(--ink)}
+  .cf[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+  /* ---- table ---- */
+  .tablecard{background:var(--surface);border:1px solid var(--hair);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:720px}
+  thead th{
+    position:sticky;top:0;z-index:2;background:var(--surface-2);
+    font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+    font-weight:750;text-align:right;padding:13px 14px;border-bottom:1.5px solid var(--hair-strong);
+    cursor:pointer;white-space:nowrap;user-select:none
+  }
+  thead th.l{text-align:left}
+  thead th:hover{color:var(--ink)}
+  thead th .arr{color:var(--gold-deep);font-size:10px;margin-left:3px}
+  thead th.pct{min-width:118px}
+  thead th .cap{display:block;font-size:9px;letter-spacing:.06em;color:var(--faint);font-weight:600;margin-top:2px}
+  tbody td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface-2)}
+  td.l{text-align:left}
+
+  .rank{font-weight:800;font-variant-numeric:tabular-nums;color:var(--muted);width:40px}
+  tr[data-top="1"] .rank{color:var(--gold-deep)}
+  .team{font-weight:700;letter-spacing:-.005em}
+  .tier{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:9px;vertical-align:middle;background:var(--g5)}
+  .tier.p4{background:var(--p4)}
+  .tier.fcs{background:transparent;border:1.5px solid var(--g5)}
+  .conf{color:var(--muted);font-size:12.5px}
+
+  .rating{font-weight:820;font-variant-numeric:tabular-nums;font-size:16px}
+  tr[data-top="1"] .rating{color:var(--gold-deep)}
+
+  .sos{font-variant-numeric:tabular-nums;font-weight:700}
+  .sos.pos{color:var(--pos)} .sos.neg{color:var(--neg)}
+
+  /* score bar cells */
+  .barcell{position:relative;min-width:96px}
+  .barwrap{display:flex;align-items:center;gap:9px;justify-content:flex-end}
+  .track{flex:0 0 54px;height:6px;background:var(--bar-track);border-radius:999px;overflow:hidden}
+  .fill{height:100%;border-radius:999px}
+  .fill.talent{background:var(--bar-talent)}
+  .fill.exp{background:var(--bar-exp)}
+  .bval{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px;width:26px;text-align:right}
+  .swatch{display:inline-block;width:22px;height:6px;border-radius:999px;vertical-align:middle;margin:0 2px}
+  .swatch.talent{background:var(--bar-talent)} .swatch.exp{background:var(--bar-exp)}
+
+  /* NIL cell */
+  .nilcell{min-width:104px}
+  .nilwrap{display:flex;align-items:baseline;gap:8px;justify-content:flex-end}
+  .nilval{font-weight:700;font-variant-numeric:tabular-nums}
+  .nildelta{font-size:11.5px;font-weight:700;color:var(--faint);min-width:38px;text-align:right}
+  .nildelta.pos{color:var(--pos)} .nildelta.neg{color:var(--neg)}
+  .nilna{color:var(--faint)}
+
+  footer{margin-top:22px;color:var(--faint);font-size:12.5px;line-height:1.6}
+  footer b{color:var(--muted)}
+  .empty{padding:40px;text-align:center;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Division I &middot; Power Ratings</p>
+    <h1>CFB Ranker <span class="thin">&mdash; all of Division I, one formula</span></h1>
+    <p class="sub">A Sagarin-style points model. FBS strength from <b>EA College Football 27</b> rosters;
+      FCS from recruiting, returning production &amp; the transfer portal. Adjusted for
+      <b>strength of schedule</b> (common opponents, 3 levels deep) and roster <b>experience</b>.
+      Ratings read like a spread &mdash; the gap between two teams is the projected neutral-field margin.
+      <b>Preseason:</b> strength of schedule is down-weighted (it's only projected) and ramps to full weight by week&nbsp;4,
+      so these are talent-driven. Use the FBS / FCS filter, or click any column to sort.</p>
+
+    <div class="formula" id="formula">
+      <span class="wchip"><b>Talent</b><span class="w">0.45</span></span>
+      <span class="wchip"><b>Schedule</b><span class="w">0.25</span></span>
+      <span class="wchip"><b>Experience</b><span class="w">0.15</span></span>
+      <span class="wchip muted"><b>PFF</b><span class="w">add data</span></span>
+    </div>
+  </header>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="controls">
+    <input class="search" id="search" type="search" placeholder="Search team&hellip;" aria-label="Search team">
+    <div class="confbar" id="divbar"></div>
+    <div class="confbar" id="confbar"></div>
+  </div>
+
+  <div class="tablecard">
+    <div class="scroll">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th class="l" data-k="rank">#</th>
+            <th class="l" data-k="team">Team</th>
+            <th class="l" data-k="conference">Conf</th>
+            <th data-k="rating">Rating</th>
+            <th data-k="sos">SOS</th>
+            <th data-k="talent" class="pct">Talent<span class="cap">0&ndash;100</span></th>
+            <th data-k="experience" class="pct">Experience<span class="cap">0&ndash;100</span></th>
+            <th data-k="nil" class="pct">NIL $M<span class="cap">vs conf</span></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <b>How to read it.</b> <b>Rating</b> is a Sagarin-like points number centered near 75 &mdash; the gap between two teams is the projected
+    neutral-field margin. <b>SOS</b> is the points adjustment for schedule strength (+ tougher, &minus; softer).
+    <b>Talent</b> <span class="swatch talent"></span> and <b>Experience</b> <span class="swatch exp"></span> are 0&ndash;100 percentile
+    scores across all teams (100 = best roster / most veteran), shown as bars. FCS teams have no EA roster or returning-production
+    data, so those cells are blank.<br>
+    <b>NIL $M</b> is 2026 priced roster value &mdash; the sum of each player's valuation, On3's deal-based methodology (via The NIL Standard;
+    estimates, not audited) &mdash; <b>display only, not part of the rating.</b>
+    Only the top ~25 spenders have published On3 values (others blank). The <span class="nildelta pos" style="min-width:0">+%</span> is
+    spend vs. the team's <b>full-conference</b> average (lower-tier teams filled from a rescaled model), so a big green number flags a
+    disproportionate spender &mdash; e.g. Texas Tech in the Big&nbsp;12.<br>
+    Squares mark tier: <span class="tier p4" style="margin:0 3px"></span> Power-conference / independent &middot;
+    <span class="tier" style="margin:0 3px"></span> Group of Five &middot;
+    <span class="tier fcs" style="margin:0 3px"></span> FCS.
+    Weights are adjustable and auto-calibrated.
+  </footer>
+</div>
+
+<script id="data" type="text/csv">rank,team,conference,division,rating,base_rating,sos,talent_score,experience_score,pff_score,nil_value,nil_baseline
+1,Texas,SEC,FBS,97.54,94.94,0.83,98.3,73.6,,49.3,49.3
+2,Ohio State,Big Ten,FBS,94.77,97.21,-5.7,100.0,79.6,,38.5,38.5
+3,Notre Dame,Independent,FBS,89.91,91.98,-1.89,97.9,54.5,,34.9,34.9
+4,UCLA,Big Ten,FBS,89.54,86.12,7.43,87.1,79.7,,,26.0
+5,Texas A&M,SEC,FBS,89.2,91.73,-2.19,94.7,73.3,,33.0,33.0
+6,Indiana,Big Ten,FBS,88.83,90.62,-0.73,96.9,51.4,,33.1,33.1
+7,LSU,SEC,FBS,88.36,90.25,-0.58,96.9,48.7,,40.7,40.7
+8,USC,Big Ten,FBS,88.3,87.7,3.57,93.5,51.3,,35.2,35.2
+9,Alabama,SEC,FBS,86.78,85.31,6.02,92.2,42.0,,32.1,32.1
+10,Ole Miss,SEC,FBS,86.78,92.08,-5.2,96.0,67.7,,35.1,35.1
+11,Mississippi State,SEC,FBS,86.37,81.96,11.16,85.7,58.7,,,24.8
+12,Michigan,Big Ten,FBS,86.17,88.25,0.54,91.0,70.7,,31.3,31.3
+13,Oregon,Big Ten,FBS,85.52,95.97,-12.9,99.9,71.0,,42.2,42.2
+14,Nebraska,Big Ten,FBS,85.37,85.72,3.93,88.9,65.6,,,28.7
+15,Oklahoma,SEC,FBS,85.17,91.13,-5.23,94.2,72.0,,30.6,30.6
+16,Georgia,SEC,FBS,85.01,90.18,-3.82,93.9,66.9,,30.4,30.4
+17,Missouri,SEC,FBS,84.83,85.77,3.32,89.6,61.3,,27.3,27.3
+18,BYU,Big 12,FBS,84.25,90.26,-4.7,90.9,86.2,,,23.1
+19,Penn State,Big Ten,FBS,83.8,82.78,7.23,89.1,43.2,,26.6,26.6
+20,Florida,SEC,FBS,83.72,86.38,1.18,88.6,72.1,,28.1,28.1
+21,Washington,Big Ten,FBS,83.39,84.34,4.24,88.7,56.8,,,26.3
+22,Northwestern,Big Ten,FBS,83.06,82.7,6.63,82.4,84.8,,,22.9
+23,Utah,Big 12,FBS,82.9,85.08,2.52,86.3,77.3,,,20.0
+24,Tennessee,SEC,FBS,82.89,85.21,2.3,90.9,49.3,,31.0,31.0
+25,South Carolina,SEC,FBS,82.51,86.49,-0.22,88.6,73.5,,,28.6
+26,Texas Tech,Big 12,FBS,82.45,91.62,-8.75,93.9,77.1,,35.0,35.0
+27,Michigan State,Big Ten,FBS,81.82,79.72,10.33,82.3,63.6,,,25.0
+28,Kansas State,Big 12,FBS,81.59,85.04,1.27,86.2,77.6,,,21.1
+29,Auburn,SEC,FBS,81.54,84.62,1.92,90.3,48.8,,29.0,29.0
+30,Miami,ACC,FBS,81.33,90.66,-8.3,97.1,50.1,,38.5,38.5
+31,Iowa,Big Ten,FBS,80.72,78.53,11.19,83.4,48.1,,,26.5
+32,Boise State,Pac-12,FBS,79.9,83.2,2.64,84.3,76.5,,,
+33,Houston,Big 12,FBS,79.46,87.1,-4.27,87.6,84.0,,27.0,27.0
+34,Maryland,Big Ten,FBS,79.45,81.23,5.44,84.7,59.5,,,22.7
+35,SMU,ACC,FBS,79.1,87.24,-4.85,89.4,73.9,,,24.2
+36,Oklahoma State,Big 12,FBS,77.76,82.45,1.73,87.3,51.6,,,24.0
+37,Colorado,Big 12,FBS,76.72,81.34,2.54,85.4,55.6,,,25.1
+38,Virginia,ACC,FBS,76.45,84.69,-3.28,87.9,64.3,,,26.8
+39,Minnesota,Big Ten,FBS,76.04,83.57,-1.85,85.3,72.9,,,24.5
+40,Arizona,Big 12,FBS,75.74,85.41,-5.19,87.1,75.0,,,23.0
+41,Vanderbilt,SEC,FBS,75.44,81.78,0.52,83.2,73.1,,25.5,25.5
+42,Wake Forest,ACC,FBS,74.8,76.46,8.69,81.9,42.3,,,21.8
+43,Duke,ACC,FBS,74.67,76.69,8.18,81.7,45.2,,,26.7
+44,Wisconsin,Big Ten,FBS,74.6,78.54,5.05,82.0,56.5,,,27.3
+45,San Diego State,Pac-12,FBS,74.56,82.4,-1.38,79.6,100.0,,,
+46,Louisville,ACC,FBS,74.2,84.97,-6.0,88.2,64.9,,,24.7
+47,Illinois,Big Ten,FBS,73.97,79.9,2.17,84.1,53.6,,,15.7
+48,Purdue,Big Ten,FBS,73.63,78.96,3.38,79.8,73.4,,,23.8
+49,Pittsburgh,ACC,FBS,73.38,81.71,-1.43,84.6,63.7,,,23.7
+50,Cincinnati,Big 12,FBS,72.93,77.68,4.81,82.1,50.0,,,22.1
+51,Baylor,Big 12,FBS,72.85,82.51,-3.28,83.3,77.7,,,22.6
+52,UTSA,The American,FBS,72.84,79.15,2.28,78.6,82.5,,,
+53,Fresno State,Pac-12,FBS,72.65,76.87,5.87,78.0,69.5,,,
+54,Kentucky,SEC,FBS,72.62,79.51,1.47,84.2,49.9,,24.4,24.4
+55,Rutgers,Big Ten,FBS,71.7,80.54,-1.16,81.6,74.0,,,25.1
+56,Tulsa,The American,FBS,71.52,77.82,3.17,78.3,74.6,,,
+57,Clemson,ACC,FBS,71.14,82.89,-5.61,87.4,54.6,,26.3,26.3
+58,Arkansas,SEC,FBS,70.95,79.56,-0.28,84.4,48.9,,24.0,24.0
+59,Western Michigan,MAC,FBS,70.82,77.59,2.85,75.5,90.5,,,
+60,Virginia Tech,ACC,FBS,70.74,80.8,-2.54,85.1,53.6,,,24.4
+61,Arizona State,Big 12,FBS,70.7,79.11,0.2,84.9,42.9,,,24.1
+62,Colorado State,Pac-12,FBS,70.02,73.82,8.3,76.3,58.0,,,
+63,Florida State,ACC,FBS,69.87,82.76,-6.66,86.4,59.6,,,25.0
+64,North Carolina,ACC,FBS,69.72,76.53,3.49,81.5,45.5,,,22.2
+65,Iowa State,Big 12,FBS,69.5,73.88,7.67,78.9,42.4,,,21.1
+66,UCF,Big 12,FBS,69.34,81.83,-5.66,84.6,64.1,,,21.5
+67,North Texas,The American,FBS,69.0,73.41,7.95,77.4,48.6,,,
+68,Boston College,ACC,FBS,68.8,74.43,6.06,79.5,42.2,,,23.7
+69,Washington State,Pac-12,FBS,68.63,76.88,1.84,75.3,86.9,,,
+70,West Virginia,Big 12,FBS,68.58,77.1,1.42,81.6,48.6,,,22.0
+71,Kansas,Big 12,FBS,68.05,75.78,3.08,80.1,48.5,,,26.0
+72,New Mexico,Mountain West,FBS,67.94,76.56,1.66,77.3,71.7,,,
+73,Oregon State,Pac-12,FBS,67.7,77.77,-0.56,78.1,75.8,,,
+74,USF,The American,FBS,67.02,79.78,-4.59,79.8,79.7,,,
+75,Montana State,Big Sky,FCS,66.91,66.86,3.56,66.9,,,,
+76,Texas State,Pac-12,FBS,66.81,78.35,-2.42,78.6,77.1,,,
+77,Syracuse,ACC,FBS,66.63,77.78,-1.67,81.6,53.5,,,21.3
+78,Memphis,The American,FBS,66.37,75.97,1.08,79.8,51.6,,,
+79,TCU,Big 12,FBS,65.73,78.51,-3.77,83.4,47.8,,,23.7
+80,FAU,The American,FBS,65.11,80.35,-7.43,78.4,92.6,,,
+81,Utah State,Pac-12,FBS,64.38,77.83,-3.99,77.5,80.2,,,
+82,Georgia Tech,ACC,FBS,64.24,76.24,-1.49,80.6,48.6,,,23.6
+83,Illinois State,MVFC,FCS,64.02,62.48,3.21,62.5,,,,
+84,North Dakota State,Mountain West,FBS,63.95,67.98,11.89,74.3,28.0,,,
+85,NC State,ACC,FBS,63.71,79.83,-7.99,82.7,61.7,,,23.2
+86,Stanford,ACC,FBS,63.7,74.93,0.14,77.9,55.9,,,27.6
+87,South Dakota State,MVFC,FCS,63.19,63.95,1.53,64.0,,,,
+88,San Jose State,Mountain West,FBS,63.17,68.43,10.37,68.4,68.9,,,
+89,Toledo,MAC,FBS,62.85,72.93,2.6,71.9,79.3,,,
+90,Tulane,The American,FBS,62.42,73.77,0.78,78.2,45.7,,,
+91,UAB,The American,FBS,62.29,75.04,-1.46,73.9,82.5,,,
+92,Temple,The American,FBS,61.88,74.23,-0.53,76.5,60.2,,,
+93,Louisiana,Sun Belt,FBS,61.23,71.34,3.6,70.5,76.5,,,
+94,Youngstown State,MVFC,FCS,60.98,55.19,4.43,55.2,,,,
+95,Delaware,Conference USA,FBS,60.76,76.43,-5.29,77.3,70.8,,,
+96,Marshall,Sun Belt,FBS,60.5,78.16,-8.42,75.8,92.9,,,
+97,North Dakota,MVFC,FCS,60.26,53.73,4.56,53.7,,,,
+98,Rice,The American,FBS,60.04,69.5,5.46,70.9,60.7,,,
+99,Hawaii,Mountain West,FBS,59.96,76.67,-6.48,76.2,79.7,,,
+100,Louisiana Tech,Sun Belt,FBS,59.48,73.17,-1.17,73.3,72.4,,,
+101,Akron,MAC,FBS,59.42,74.46,-3.36,72.4,87.2,,,
+102,UNLV,Mountain West,FBS,59.36,77.21,-7.98,80.6,55.8,,,
+103,UTEP,Mountain West,FBS,59.25,67.16,8.56,70.6,45.3,,,
+104,Nevada,Mountain West,FBS,59.23,70.85,2.43,72.3,61.6,,,
+105,Army,The American,FBS,59.18,78.99,-11.11,76.4,95.1,,,
+106,Montana,Big Sky,FCS,59.13,65.4,-3.37,65.4,,,,
+107,Georgia State,Sun Belt,FBS,59.11,71.28,1.58,73.3,58.6,,,
+108,Appalachian State,Sun Belt,FBS,58.95,71.07,1.78,72.1,64.6,,,
+109,Ohio,MAC,FBS,58.9,73.37,-2.08,73.3,73.8,,,
+110,James Madison,Sun Belt,FBS,58.82,69.41,4.39,76.6,24.1,,,
+111,Air Force,Mountain West,FBS,58.42,76.33,-7.47,76.1,77.8,,,
+112,Southern Miss,Sun Belt,FBS,58.38,73.85,-3.41,71.2,90.7,,,
+113,Eastern Michigan,MAC,FBS,58.32,75.25,-5.77,72.9,90.2,,,
+114,Troy,Sun Belt,FBS,58.3,72.8,-1.74,74.2,63.7,,,
+115,South Dakota,MVFC,FCS,58.14,50.82,4.15,50.8,,,,
+116,South Alabama,Sun Belt,FBS,57.81,72.04,-0.97,71.6,74.8,,,
+117,Missouri State,Conference USA,FBS,57.41,71.79,-0.95,74.0,58.1,,,
+118,Georgia Southern,Sun Belt,FBS,56.75,72.54,-2.86,75.9,51.7,,,
+119,Kent State,MAC,FBS,56.74,69.65,1.91,70.1,66.7,,,
+120,UC Davis,Big Sky,FCS,56.59,59.57,-2.52,59.6,,,,
+121,Stephen F. Austin,Southland,FCS,56.1,49.35,2.96,49.3,,,,
+122,Western Kentucky,Conference USA,FBS,56.04,75.26,-8.07,72.6,91.7,,,
+123,Arkansas State,Sun Belt,FBS,55.92,72.51,-3.63,74.7,58.9,,,
+124,Navy,The American,FBS,55.82,69.09,1.92,72.9,44.8,,,
+125,Ball State,MAC,FBS,55.65,67.71,4.04,71.3,45.1,,,
+126,Tarleton State,UAC,FCS,55.45,61.02,-4.5,61.0,,,,
+127,New Mexico State,Conference USA,FBS,55.23,71.58,-2.79,72.7,64.6,,,
+128,Sam Houston,Conference USA,FBS,54.93,71.74,-3.35,71.7,72.1,,,
+129,FIU,Conference USA,FBS,54.67,68.87,1.13,73.0,43.1,,,
+130,Northern Illinois,Mountain West,FBS,54.4,65.66,6.19,68.6,47.1,,,
+131,Wyoming,Mountain West,FBS,54.35,70.3,-1.55,72.3,57.5,,,
+132,Cal,ACC,FBS,54.31,82.21,-21.32,85.7,60.3,,,26.0
+133,Miami (Ohio),MAC,FBS,53.62,73.09,-6.91,74.4,64.6,,,
+134,Sacramento State,MAC,FBS,53.42,71.74,-4.87,72.2,68.9,,,
+135,Tennessee Tech,Southern,FCS,53.26,47.88,0.98,47.9,,,,
+136,East Carolina,The American,FBS,52.91,72.73,-7.01,75.6,54.9,,,
+137,Coastal Carolina,Sun Belt,FBS,52.82,69.43,-1.63,72.3,51.5,,,
+138,Old Dominion,Sun Belt,FBS,52.72,69.03,-1.08,73.6,40.5,,,
+139,UL Monroe,Sun Belt,FBS,52.0,65.21,4.53,68.8,42.4,,,
+140,Austin Peay,UAC,FCS,51.98,43.5,2.25,43.5,,,,
+141,Liberty,Conference USA,FBS,51.2,76.28,-14.61,77.9,65.9,,,
+142,Rhode Island,CAA,FCS,51.11,58.11,-7.14,58.1,,,,
+143,Jacksonville State,Conference USA,FBS,50.65,72.41,-8.75,75.7,51.5,,,
+144,Kennesaw State,Conference USA,FBS,50.31,70.59,-6.08,74.0,48.9,,,
+145,Connecticut,Independent,FBS,49.57,63.65,4.68,73.8,0.0,,,
+146,Lamar,Southland,FCS,49.37,39.13,2.2,39.1,,,,
+147,Charlotte,The American,FBS,49.34,69.69,-5.54,70.2,66.5,,,
+148,Northern Arizona,Big Sky,FCS,48.8,31.84,5.87,31.8,,,,
+149,Bowling Green,MAC,FBS,48.64,64.69,2.03,70.1,30.5,,,
+150,Lehigh,Patriot,FCS,48.47,52.26,-6.37,52.3,,,,
+151,Idaho State,Big Sky,FCS,48.32,11.63,17.18,11.6,,,,
+152,Central Michigan,MAC,FBS,48.14,70.63,-8.31,71.1,67.4,,,
+153,Southern Illinois,MVFC,FCS,47.23,44.97,-3.35,45.0,,,,
+154,Robert Morris,NEC,FCS,46.15,26.89,6.11,26.9,,,,
+155,UAlbany,CAA,FCS,45.92,27.46,5.55,27.5,,,,
+156,Buffalo,MAC,FBS,45.9,65.72,-2.42,71.2,31.1,,,
+157,Northern Iowa,MVFC,FCS,44.82,29.65,3.17,29.6,,,,
+158,Cal Poly,Big Sky,FCS,44.33,21.74,7.3,21.7,,,,
+159,Indiana State,MVFC,FCS,44.02,26.56,4.17,26.6,,,,
+160,West Florida,UAC,FCS,43.88,4.91,16.66,4.9,,,,
+161,Southern Utah,Big Sky,FCS,43.64,23.29,5.7,23.3,,,,
+162,Houston Christian,Southland,FCS,42.84,16.83,8.67,16.8,,,,
+163,Eastern Washington,Big Sky,FCS,42.7,18.11,7.78,18.1,,,,
+164,Middle Tennessee State,Conference USA,FBS,42.63,68.6,-10.46,70.6,56.0,,,
+165,UT Martin,Big South-OVC,FCS,42.13,34.75,-2.49,34.7,,,,
+166,South Carolina State,MEAC,FCS,41.93,33.3,-1.85,33.3,,,,
+167,Abilene Christian,UAC,FCS,41.57,46.44,-9.87,46.4,,,,
+168,Wofford,Southern,FCS,41.3,6.94,12.9,6.9,,,,
+169,Mercyhurst,NEC,FCS,41.14,29.65,-0.51,29.6,,,,
+170,Incarnate Word,Southland,FCS,41.03,29.65,-0.61,29.6,,,,
+171,Nicholls,Southland,FCS,40.91,9.83,10.83,9.8,,,,
+172,UMass,MAC,FBS,40.74,66.4,-8.7,68.4,53.8,,,
+173,SE Louisiana,Southland,FCS,40.73,40.59,-7.3,40.6,,,,
+174,Monmouth,CAA,FCS,40.49,36.21,-4.99,36.2,,,,
+175,Bryant,CAA,FCS,40.03,8.16,10.91,8.2,,,,
+176,Campbell,CAA,FCS,39.94,19.16,4.41,19.2,,,,
+177,Duquesne,NEC,FCS,39.15,18.22,4.17,18.2,,,,
+178,Furman,Southern,FCS,39.08,11.62,7.95,11.6,,,,
+179,Central Connecticut,NEC,FCS,38.67,21.94,1.52,21.9,,,,
+180,Southeast Missouri State,Big South-OVC,FCS,38.63,15.3,5.35,15.3,,,,
+181,Utah Tech,Big Sky,FCS,38.48,16.73,4.37,16.7,,,,
+182,Alcorn State,SWAC,FCS,38.47,23.52,0.4,23.5,,,,
+183,East Texas A&M,Southland,FCS,38.45,16.67,4.37,16.7,,,,
+184,UT Rio Grande Valley,Southland,FCS,38.36,27.46,-2.01,27.5,,,,
+185,Prairie View A&M,SWAC,FCS,38.33,13.45,6.13,13.4,,,,
+186,Mercer,Southern,FCS,38.24,37.68,-8.1,37.7,,,,
+187,Eastern Illinois,Big South-OVC,FCS,38.05,18.26,3.05,18.3,,,,
+188,Villanova,Patriot,FCS,37.96,56.64,-19.43,56.6,,,,
+189,Norfolk State,MEAC,FCS,37.93,24.78,-0.88,24.8,,,,
+190,St. Thomas (MN),Pioneer,FCS,37.81,27.46,-2.56,27.5,,,,
+191,Morgan State,MEAC,FCS,37.71,20.29,1.52,20.3,,,,
+192,Portland State,Big Sky,FCS,37.61,13.18,5.57,13.2,,,,
+193,Murray State,MVFC,FCS,37.46,12.95,5.55,13.0,,,,
+194,Idaho,Big Sky,FCS,37.36,23.76,-0.85,23.8,,,,
+195,Yale,Ivy,FCS,37.12,42.06,-11.77,42.1,,,,
+196,Charleston Southern,Big South-OVC,FCS,36.77,16.73,2.66,16.7,,,,
+197,Weber State,Big Sky,FCS,36.61,9.0,7.0,9.0,,,,
+198,McNeese,Southland,FCS,36.13,11.02,5.35,11.0,,,,
+199,Butler,Pioneer,FCS,35.88,25.21,-3.17,25.2,,,,
+200,Elon,CAA,FCS,35.43,7.02,6.98,7.0,,,,
+201,New Hampshire,CAA,FCS,35.22,19.29,-0.39,19.3,,,,
+202,Alabama State,SWAC,FCS,35.05,9.64,5.07,9.6,,,,
+203,Long Island University,NEC,FCS,34.93,27.46,-5.44,27.5,,,,
+204,North Alabama,UAC,FCS,34.89,8.13,5.79,8.1,,,,
+205,Wagner,NEC,FCS,34.56,28.22,-6.25,28.2,,,,
+206,Sacred Heart,CAA,FCS,34.51,24.97,-4.41,25.0,,,,
+207,Morehead State,Pioneer,FCS,34.38,27.46,-5.99,27.5,,,,
+208,Bethune-Cookman,SWAC,FCS,34.37,6.34,6.32,6.3,,,,
+209,Richmond,Patriot,FCS,34.17,4.64,7.11,4.6,,,,
+210,Stony Brook,CAA,FCS,34.0,28.16,-6.79,28.2,,,,
+211,Dayton,Pioneer,FCS,33.96,22.01,-3.24,22.0,,,,
+212,Colgate,Patriot,FCS,33.94,8.44,4.66,8.4,,,,
+213,Arkansas-Pine Bluff,SWAC,FCS,33.87,24.95,-5.04,25.0,,,,
+214,Stonehill,NEC,FCS,33.39,25.17,-5.65,25.2,,,,
+215,Gardner-Webb,Big South-OVC,FCS,33.32,7.44,4.63,7.4,,,,
+216,Northern Colorado,Big Sky,FCS,32.75,5.92,4.94,5.9,,,,
+217,Merrimack,FCS Independents,FCS,32.65,5.12,5.31,5.1,,,,
+218,New Haven,NEC,FCS,32.63,29.28,-8.8,29.3,,,,
+219,Valparaiso,Pioneer,FCS,32.6,23.5,-5.46,23.5,,,,
+220,Chicago State,FCS Independents,FCS,32.51,27.46,-7.86,27.5,,,,
+221,Western Carolina,Southern,FCS,32.48,4.57,5.46,4.6,,,,
+222,William & Mary,Patriot,FCS,32.13,4.27,5.29,4.3,,,,
+223,Central Arkansas,UAC,FCS,32.02,10.4,1.6,10.4,,,,
+224,Western Illinois,Big South-OVC,FCS,31.75,4.99,4.49,5.0,,,,
+225,Jackson State,SWAC,FCS,31.42,10.48,0.95,10.5,,,,
+226,The Citadel,Southern,FCS,31.39,26.44,-8.39,26.4,,,,
+227,Lindenwood,Big South-OVC,FCS,31.09,7.34,2.45,7.3,,,,
+228,Drake,Pioneer,FCS,30.54,20.25,-5.63,20.3,,,,
+229,North Carolina Central,MEAC,FCS,30.49,18.74,-4.8,18.7,,,,
+230,Bucknell,Patriot,FCS,29.88,19.96,-6.12,20.0,,,,
+231,Alabama A&M,SWAC,FCS,29.75,8.35,0.52,8.4,,,,
+232,East Tennessee State,Southern,FCS,29.74,15.92,-3.9,15.9,,,,
+233,Chattanooga,Southern,FCS,29.57,9.77,-0.48,9.8,,,,
+234,Samford,Southern,FCS,29.17,8.73,-0.28,8.7,,,,
+235,Eastern Kentucky,UAC,FCS,29.03,7.05,0.56,7.0,,,,
+236,Northwestern State,Southland,FCS,28.99,10.4,-1.42,10.4,,,,
+237,Maine,CAA,FCS,28.94,18.82,-6.4,18.8,,,,
+238,Delaware State,MEAC,FCS,28.93,5.08,1.61,5.1,,,,
+239,Grambling,SWAC,FCS,28.29,5.51,0.72,5.5,,,,
+240,Lafayette,Patriot,FCS,28.24,5.54,0.66,5.5,,,,
+241,Stetson,Pioneer,FCS,28.0,23.56,-10.1,23.6,,,,
+242,Marist,Pioneer,FCS,27.98,23.8,-10.25,23.8,,,,
+243,Southern,SWAC,FCS,27.97,16.63,-6.08,16.6,,,,
+244,West Georgia,UAC,FCS,27.85,14.68,-5.07,14.7,,,,
+245,Towson,CAA,FCS,27.79,8.03,-1.25,8.0,,,,
+246,Howard,MEAC,FCS,27.71,8.59,-1.66,8.6,,,,
+247,Texas Southern,SWAC,FCS,27.44,4.12,0.68,4.1,,,,
+248,Davidson,Pioneer,FCS,27.0,27.46,-13.37,27.5,,,,
+249,San Diego,Pioneer,FCS,26.25,4.91,-0.97,4.9,,,,
+250,Florida A&M,SWAC,FCS,26.22,6.09,-1.69,6.1,,,,
+251,Harvard,Ivy,FCS,25.21,16.91,-9.0,16.9,,,,
+252,Presbyterian,Pioneer,FCS,24.85,4.34,-2.04,4.3,,,,
+253,VMI,Southern,FCS,24.63,17.24,-9.78,17.2,,,,
+254,Mississippi Valley State,SWAC,FCS,23.97,5.14,-3.38,5.1,,,,
+255,Georgetown,Patriot,FCS,23.5,15.61,-9.96,15.6,,,,
+256,Brown,Ivy,FCS,23.25,9.81,-6.83,9.8,,,,
+257,North Carolina A&T,CAA,FCS,22.88,5.75,-4.83,5.7,,,,
+258,Hampton,CAA,FCS,22.7,2.59,-3.16,2.6,,,,
+259,Princeton,Ivy,FCS,22.68,7.98,-6.33,8.0,,,,
+260,Columbia,Ivy,FCS,22.23,11.06,-8.58,11.1,,,,
+261,Holy Cross,Patriot,FCS,21.5,17.16,-12.86,17.2,,,,
+262,Pennsylvania,Ivy,FCS,20.55,6.36,-7.51,6.4,,,,
+263,Fordham,Patriot,FCS,20.34,3.81,-6.23,3.8,,,,
+264,Tennessee State,Big South-OVC,FCS,19.39,3.11,-6.78,3.1,,,,
+265,Cornell,Ivy,FCS,19.03,5.22,-8.37,5.2,,,,
+266,Dartmouth,Ivy,FCS,17.99,0.0,-6.36,0.0,,,,</script>
+
+<script>
+(function(){
+  const P4 = new Set(["SEC","Big Ten","Big 12","ACC","Independent"]);
+  const raw = document.getElementById('data').textContent.trim().split('\n');
+  const cols = raw[0].split(',');
+  const rows = raw.slice(1).map(line=>{
+    // team names have no commas in this set; simple split is safe
+    const c = line.split(',');
+    const o = {};
+    cols.forEach((k,i)=>o[k]=c[i]);
+    return {
+      rank:+o.rank, team:o.team, conference:o.conference, division:o.division,
+      rating:+o.rating, sos:+o.sos, talent:+o.talent_score, experience:+o.experience_score,
+      nil:(o.nil_value===undefined||o.nil_value==='')?NaN:+o.nil_value,
+      nilBase:(o.nil_baseline===undefined||o.nil_baseline==='')?NaN:+o.nil_baseline
+    };
+  });
+
+  // ---- per-conference average NIL (full-conference baseline, to flag spenders) ----
+  const confAvgNil = {};
+  {
+    const acc = {};
+    rows.forEach(r=>{ if(!isNaN(r.nilBase)) (acc[r.conference]=acc[r.conference]||[]).push(r.nilBase); });
+    for(const c in acc) confAvgNil[c] = acc[c].reduce((a,b)=>a+b,0)/acc[c].length;
+  }
+
+  // ---- summary tiles ----
+  const confs = [...new Set(rows.map(r=>r.conference))];
+  const nFBS = rows.filter(r=>r.division==='FBS').length;
+  const nFCS = rows.filter(r=>r.division==='FCS').length;
+  const topSos = rows.filter(r=>r.division==='FBS').reduce((a,b)=>b.sos>a.sos?b:a);
+  const top = rows.find(r=>r.rank===1);
+  const over = rows.filter(r=>!isNaN(r.nil) && confAvgNil[r.conference])
+    .map(r=>({t:r.team, c:r.conference, ratio:r.nil/confAvgNil[r.conference]}))
+    .sort((a,b)=>b.ratio-a.ratio)[0];
+  const tiles = [
+    {k:'#1 overall', v:top.team, small:top.rating.toFixed(1)},
+    {k:'FBS &middot; FCS', v:`${nFBS} &middot; ${nFCS}`},
+    {k:'Toughest FBS slate', v:topSos.team, small:'+'+topSos.sos.toFixed(2)+' SOS'},
+    over ? {k:'Top NIL vs conf', v:over.t, small:`+${((over.ratio-1)*100).toFixed(0)}% ${over.c}`}
+         : {k:'Teams ranked', v:rows.length}
+  ];
+  document.getElementById('tiles').innerHTML = tiles.map(t=>
+    `<div class="tile"><div class="k">${t.k}</div><div class="v">${t.v}${t.small?` <small>${t.small}</small>`:''}</div></div>`
+  ).join('');
+
+  // ---- division filter ----
+  let activeDiv = 'All';
+  const db = document.getElementById('divbar');
+  ['All','FBS','FCS'].forEach(d=>{
+    const b=document.createElement('button');
+    b.className='cf'; b.textContent=d; b.setAttribute('aria-pressed', d==='All');
+    b.onclick=()=>{activeDiv=d; [...db.children].forEach(x=>x.setAttribute('aria-pressed', x.textContent===d)); render();};
+    db.appendChild(b);
+  });
+
+  // ---- conference filter ----
+  let activeConf = 'All';
+  const cb = document.getElementById('confbar');
+  ['All',...confs.sort()].forEach(c=>{
+    const b=document.createElement('button');
+    b.className='cf'; b.textContent=c; b.setAttribute('aria-pressed', c==='All');
+    b.onclick=()=>{activeConf=c; [...cb.children].forEach(x=>x.setAttribute('aria-pressed', x.textContent===c)); render();};
+    cb.appendChild(b);
+  });
+
+  // ---- sorting ----
+  let sortKey='rank', sortDir=1; // 1 asc, -1 desc
+  const tbody=document.getElementById('tbody');
+  const ths=[...document.querySelectorAll('th')];
+  ths.forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k;
+    if(k===sortKey){sortDir*=-1;}
+    else{sortKey=k; sortDir=(k==='team'||k==='rank'||k==='conference')?1:-1;}
+    render();
+  });
+
+  const search=document.getElementById('search');
+  search.oninput=render;
+
+  function bar(v,kind){
+    return `<div class="barwrap"><span class="bval num">${Math.round(v)}</span>`+
+           `<span class="track"><span class="fill ${kind}" style="width:${Math.max(2,v)}%"></span></span></div>`;
+  }
+
+  function nilCell(r){
+    if(isNaN(r.nil)) return '<span class="nilna">&mdash;</span>';
+    const avg=confAvgNil[r.conference];
+    let delta='';
+    if(avg){
+      const d=(r.nil/avg-1)*100;
+      const cls=d>=10?'pos':(d<=-10?'neg':'');
+      delta=`<span class="nildelta ${cls} num">${d>=0?'+':''}${d.toFixed(0)}%</span>`;
+    }
+    return `<div class="nilwrap"><span class="nilval num">$${r.nil.toFixed(1)}M</span>${delta}</div>`;
+  }
+
+  function render(){
+    const q=search.value.trim().toLowerCase();
+    let data=rows.filter(r=>
+      (activeDiv==='All'||r.division===activeDiv) &&
+      (activeConf==='All'||r.conference===activeConf) &&
+      (!q||r.team.toLowerCase().includes(q))
+    );
+    data.sort((a,b)=>{
+      let x=a[sortKey],y=b[sortKey];
+      if(typeof x==='string'){x=x.toLowerCase();y=y.toLowerCase();}
+      if(typeof x==='number'&&isNaN(x)) x=-Infinity;   // blanks (e.g. NIL) sort last
+      if(typeof y==='number'&&isNaN(y)) y=-Infinity;
+      return x<y?-1*sortDir : x>y?1*sortDir : 0;
+    });
+
+    ths.forEach(th=>{
+      const old=th.querySelector('.arr'); if(old) old.remove();
+      if(th.dataset.k===sortKey){
+        const s=document.createElement('span'); s.className='arr';
+        s.innerHTML = sortDir===1 ? '&#9650;' : '&#9660;';  // ▲ / ▼
+        th.appendChild(s);
+      }
+    });
+
+    tbody.innerHTML = data.length? data.map(r=>{
+      const tierCls = r.division==='FCS' ? 'fcs' : (P4.has(r.conference) ? 'p4' : '');
+      const sosCls=r.sos>=0?'pos':'neg';
+      const sosTxt=(r.sos>=0?'+':'')+r.sos.toFixed(2);
+      return `<tr data-top="${r.rank===1?1:0}">
+        <td class="l rank num">${r.rank}</td>
+        <td class="l"><span class="tier ${tierCls}"></span><span class="team">${r.team}</span></td>
+        <td class="l conf">${r.conference}</td>
+        <td class="rating">${r.rating.toFixed(2)}</td>
+        <td><span class="sos ${sosCls} num">${sosTxt}</span></td>
+        <td class="barcell">${bar(r.talent,'talent')}</td>
+        <td class="barcell">${bar(r.experience,'exp')}</td>
+        <td class="nilcell">${nilCell(r)}</td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="8" class="empty">No teams match.</td></tr>`;
+  }
+
+  render();
+})();
+</script>

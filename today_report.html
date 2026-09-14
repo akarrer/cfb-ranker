@@ -1,0 +1,93 @@
+<title>Sept 6 Game Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--ground:#f5f6f8;--surface:#fff;--surface-2:#fafbfc;--ink:#14171d;--muted:#5b6270;--faint:#8b93a1;
+    --hair:#e5e8ed;--hair-strong:#d5dae1;--gold:#b9822a;--gold-deep:#8f6415;
+    --pos:#2f8f5b;--pos-soft:#e4f2ea;--pos-line:#bfe0cd;--neg:#c2532f;--neg-soft:#f9e7df;--neg-line:#eecbbc;
+    --accent:#2f6d8f;--accent-soft:#e4eef4;--shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.06);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;
+    --ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;--hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;
+    --pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;--neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;
+    --accent:#5aa6cc;--accent-soft:#12222b;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}}
+  :root[data-theme="dark"]{--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;--ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;
+    --hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;--pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;
+    --neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;--accent:#5aa6cc;--accent-soft:#12222b;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold-deep);font-weight:750;margin:0 0 8px}
+  h1{font-size:clamp(27px,4.4vw,40px);line-height:1.03;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;color:var(--muted);max-width:66ch}
+  h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin:30px 0 12px;display:flex;gap:9px;align-items:center}
+  h2 .n{color:var(--faint);font-weight:700;font-size:13px}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:20px 0}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:13px 15px;box-shadow:var(--shadow)}
+  .tile .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .tile .v{font-size:23px;font-weight:850;letter-spacing:-.02em;margin-top:4px}
+  .tile .v small{font-size:12px;font-weight:650;color:var(--muted)}
+  @media(max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:13px;box-shadow:var(--shadow);overflow:hidden}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:520px}
+  th{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:750;text-align:right;padding:10px 13px;border-bottom:1.5px solid var(--hair-strong);white-space:nowrap;background:var(--surface-2)}
+  th.l{text-align:left}
+  td{padding:10px 13px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.l{text-align:left} tr:last-child td{border-bottom:none}
+  .gm{font-weight:650} .win{font-weight:750}
+  .chip{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px}
+  .chip.ok{background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line)}
+  .chip.miss{background:var(--neg-soft);color:var(--neg);border:1px solid var(--neg-line)}
+  .slate .u{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--hair)}
+  .slate .u:last-child{border-bottom:none}
+  .slate .mt{font-weight:750;flex:1;min-width:0}
+  .slate .mt small{display:block;color:var(--muted);font-weight:600;font-size:12px;margin-top:2px}
+  .res{font-size:11px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap}
+  .res.w{background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line)}
+  .res.l{background:var(--neg-soft);color:var(--neg);border:1px solid var(--neg-line)}
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:10px;padding:13px 16px;margin:14px 0;box-shadow:var(--shadow);color:var(--muted)}
+  .note b{color:var(--ink)}
+  footer{margin-top:26px;color:var(--faint);font-size:12px;line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; Game Report</p>
+    <h1>Sunday, September&nbsp;6 &mdash; results &amp; grades</h1>
+    <p class="sub">Every completed game today, graded against the model's pre-game rating &mdash; plus how the three
+      published Sunday-Slate spread picks actually landed against Bovada / DraftKings.</p>
+  </header>
+  <div class="tiles" id="tiles"></div>
+
+  <h2>The Slate picks, graded <span class="n">straight-up &amp; ATS</span></h2>
+  <div class="card slate" id="slate"></div>
+  <div class="note" id="slatenote"></div>
+
+  <h2>Every FBS game <span class="n" id="fbsn"></span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">Away @ Home</th><th>Final</th><th class="l">Model pick</th><th>Pred</th><th>Act</th><th></th></tr></thead>
+    <tbody id="fbs"></tbody>
+  </table></div>
+  <div class="note" id="marg"></div>
+  <footer id="foot"></footer>
+</div>
+<script>
+const D={"stats": {"games": 25, "all_c": 24, "all_pct": 96, "fbs_c": 6, "fbs_n": 7, "fbs_pct": 86, "ats_w": 1, "ats_l": 2}, "fbs": [{"away": "Louisville", "home": "Ole Miss", "score": "38-41", "pick": "Ole Miss", "pm": 8.2, "am": 3, "ok": true, "err": 5.159999999999997}, {"away": "Washington State", "home": "Washington", "score": "10-24", "pick": "Washington", "pm": 10.2, "am": 14, "ok": true, "err": 3.799999999999997}, {"away": "UNLV", "home": "Hawaii", "score": "21-6", "pick": "Hawaii", "pm": 2.4, "am": -15, "ok": false, "err": 17.439999999999998}, {"away": "Wisconsin", "home": "Notre Dame", "score": "13-41", "pick": "Notre Dame", "pm": 8.0, "am": 28, "ok": true, "err": 19.959999999999994}, {"away": "Central Michigan", "home": "New Mexico", "score": "7-38", "pick": "New Mexico", "pm": 9.7, "am": 31, "ok": true, "err": 21.25999999999999}, {"away": "Western Kentucky", "home": "Nevada", "score": "14-49", "pick": "Nevada", "pm": 0.2, "am": 35, "ok": true, "err": 34.849999999999994}, {"away": "Clemson", "home": "LSU", "score": "10-51", "pick": "LSU", "pm": 10.5, "am": 41, "ok": true, "err": 30.450000000000003}], "slate": [{"away": "Washington State", "home": "Washington", "score": "10-24", "winner": "Washington", "su_ok": true, "lean": "Washington State +23.5", "mkt": -23.25, "margin": 10.2, "actual": 14, "lean_win": true}, {"away": "Wisconsin", "home": "Notre Dame", "score": "13-41", "winner": "Notre Dame", "su_ok": true, "lean": "Wisconsin +20.5", "mkt": -20.5, "margin": 8.0, "actual": 28, "lean_win": false}, {"away": "Louisville", "home": "Ole Miss", "score": "38-41", "winner": "Ole Miss", "su_ok": true, "lean": "Ole Miss -6.5", "mkt": -6.5, "margin": 8.2, "actual": 3, "lean_win": false}], "miss": [{"away": "UNLV", "home": "Hawaii", "score": "21-6", "pick": "Hawaii"}]},s=D.stats,sgn=n=>(n>0?'+':'')+n;
+document.getElementById('tiles').innerHTML=[
+ ['Games graded',s.games,''],['All SU',s.all_pct+'%',`${s.all_c}/${s.games}`],
+ ['FBS vs FBS',s.fbs_pct+'%',`${s.fbs_c}/${s.fbs_n}`],['Slate ATS',`${s.ats_w}-${s.ats_l}`,'vs the number']
+].map(t=>`<div class="tile"><div class="k">${t[0]}</div><div class="v">${t[1]}${t[2]?` <small>${t[2]}</small>`:''}</div></div>`).join('');
+
+document.getElementById('slate').innerHTML=D.slate.map(g=>`
+  <div class="u">
+    <div class="mt">${g.away} @ ${g.home} &middot; <span class="win">${g.winner} ${g.score.split('-').sort((a,b)=>b-a).join('-')}</span>
+      <small>model ${g.home} ${sgn(g.margin)} &middot; pick ${g.winner} won &middot; lean: ${g.lean}</small></div>
+    <span class="res w">SU \u2713</span>
+    <span class="res ${g.lean_win?'w':'l'}">ATS ${g.lean_win?'\u2713':'\u2717'}</span>
+  </div>`).join('');
+document.getElementById('slatenote').innerHTML=`<b>Slate scorecard: 3&ndash;0 straight up, ${s.ats_w}&ndash;${s.ats_l} against the spread.</b> The model nailed all three winners. Its one ATS hit was fading Washington (won by 14, not the 23.5 laid); it lost fading Notre Dame (won by 28) and laying Ole&nbsp;Miss (won by only 3).`;
+
+document.getElementById('fbsn').textContent=`${D.fbs.length} games, closest finals first`;
+document.getElementById('fbs').innerHTML=D.fbs.map(r=>`<tr><td class="l gm">${r.away} @ ${r.home}</td><td>${r.score}</td><td class="l win">${r.pick}</td><td class="num">${sgn(r.pm)}</td><td class="num">${sgn(r.am)}</td><td><span class="chip ${r.ok?'ok':'miss'}">${r.ok?'\u2713':'\u2717'}</span></td></tr>`).join('');
+document.getElementById('marg').innerHTML=`<b>Same pattern as Saturday:</b> winners are sharp (${s.fbs_c}/${s.fbs_n} FBS) but the model still under-prices routs \u2014 it had Notre Dame by 8 (won by 28) and LSU by 10 (beat Clemson by 41). The lone miss was ${D.miss.length?D.miss[0].away+' beating '+D.miss[0].home:'\u2014'}, a home pick that flipped.`;
+document.getElementById('foot').innerHTML=`Results via ESPN (completed only); ${s.games} clean matchups after removing D-II/NAIA and name-collision games. Lines: Bovada &amp; DraftKings via CollegeFootballData. Ratings built from games through Sat 9/5. Generated by <b>cfb_ranker</b>.`;
+</script>

@@ -1,0 +1,9 @@
+date,away,home,score,neutral,pred_winner,pred_margin,actual_margin,abs_error,correct
+2026-08-29,San Jose State,USC,26-42,False,USC,7.8,16,8.2,True
+2026-08-29,North Carolina,TCU,15-10,True,TCU,0.7,-5,5.7,False
+2026-08-29,NC State,Virginia,8-34,False,Virginia,3.0,26,23.0,True
+2026-08-29,Jacksonville State,North Dakota State,7-33,False,North Dakota State,1.4,26,24.6,True
+2026-08-29,Sacramento State,Eastern Michigan,17-28,False,Eastern Michigan,3.4,11,7.6,True
+2026-08-29,Hawaii,Stanford,27-37,False,Stanford,2.0,10,8.0,True
+2026-08-29,New Mexico State,Florida State,17-34,False,Florida State,5.1,17,11.9,True
+2026-08-30,Memphis,UNLV,27-21,False,UNLV,3.0,-6,9.0,False

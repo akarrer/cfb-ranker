@@ -1,0 +1,153 @@
+<title>Sept 10-13 Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--ground:#f5f6f8;--surface:#fff;--surface-2:#fafbfc;--ink:#14171d;--muted:#5b6270;--faint:#8b93a1;
+    --hair:#e5e8ed;--hair-strong:#d5dae1;--gold:#b9822a;--gold-deep:#8f6415;
+    --pos:#2f8f5b;--pos-soft:#e4f2ea;--pos-line:#bfe0cd;--neg:#c2532f;--neg-soft:#f9e7df;--neg-line:#eecbbc;
+    --accent:#2f6d8f;--accent-soft:#e4eef4;--accent-line:#bcd6e4;--shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.06);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;
+    --ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;--hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;
+    --pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;--neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;
+    --accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}}
+  :root[data-theme="dark"]{--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;--ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;
+    --hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;--pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;
+    --neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;--accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold-deep);font-weight:750;margin:0 0 8px}
+  h1{font-size:clamp(26px,4.2vw,38px);line-height:1.04;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;color:var(--muted);max-width:68ch}
+  h2{font-size:16px;font-weight:800;margin:32px 0 12px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  h2 .n{color:var(--faint);font-weight:650;font-size:12.5px}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:20px 0}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:13px 15px;box-shadow:var(--shadow)}
+  .tile .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .tile .v{font-size:22px;font-weight:850;letter-spacing:-.02em;margin-top:4px}
+  .tile .v small{font-size:12px;font-weight:650;color:var(--muted)}
+  .tile.ok .v{color:var(--pos)}
+  @media(max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .callout{border-radius:12px;padding:15px 17px;margin:10px 0;box-shadow:var(--shadow);color:var(--muted)}
+  .callout b{color:var(--ink)}
+  .callout.warn{background:var(--neg-soft);border:1px solid var(--neg-line)}
+  .callout.fix{background:var(--accent-soft);border:1px solid var(--accent-line)}
+  .callout h3{margin:0 0 6px;font-size:14px;font-weight:800;color:var(--ink)}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:10px}
+  @media(max-width:640px){.split{grid-template-columns:1fr}}
+  .mini{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:11px 13px}
+  .mini .k{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .mini .v{font-size:20px;font-weight:850;margin-top:2px;font-variant-numeric:tabular-nums}
+  .mini .v.bad{color:var(--neg)} .mini .v.good{color:var(--pos)}
+  .mini .s{font-size:12px;color:var(--muted)}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:13px;box-shadow:var(--shadow);overflow:hidden}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:560px}
+  th{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:750;text-align:right;padding:9px 13px;border-bottom:1.5px solid var(--hair-strong);white-space:nowrap;background:var(--surface-2)}
+  th.l{text-align:left}
+  td{padding:9px 13px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.l{text-align:left} tr:last-child td{border-bottom:none}
+  .tm{font-weight:700} .rk{font-weight:800;color:var(--faint);width:34px}
+  .up{color:var(--pos);font-weight:800} .dn{color:var(--neg);font-weight:800} .eq{color:var(--faint)}
+  .gm{color:var(--muted);font-size:12.5px}
+  .chip{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px}
+  .chip.ok{background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line)}
+  .chip.miss{background:var(--neg-soft);color:var(--neg);border:1px solid var(--neg-line)}
+  footer{margin-top:28px;color:var(--faint);font-size:12px;line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; Weekly Report</p>
+    <h1>Sept 10&ndash;13: a winning week on spreads, a wrong lesson, two bugs fixed &mdash; and losses now hurt</h1>
+    <p class="sub">Every completed FBS game of the weekend, graded against the model <b>as it stood going in</b> and the
+      Bovada/DraftKings closing line. Then the corrections the results exposed, and the re-ranked board.</p>
+  </header>
+
+  <div class="tiles" id="tiles"></div>
+
+  <h2>The lesson I gave you last week was wrong</h2>
+  <div class="callout warn">
+    <h3>Big disagreements with Vegas lost. Small ones won.</h3>
+    After SMU&ndash;Florida State I suggested only treating model-vs-market gaps of a touchdown or more as signal. This week
+    says the opposite: FBS games where the model disagreed with the closing line by <b>7+ points</b> went <b id="bigrec"></b>;
+    games within 7 went <b id="smallrec"></b>. Large gaps are where the model is <i>missing</i> something the market knows.
+    Sample sizes are small, so read this as "big edges are not reliable," not as a proven reverse strategy.
+    <div class="split" id="edgesplit"></div>
+  </div>
+
+  <h2>Outright upsets <span class="n">market underdog won &mdash; the model missed all of them</span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">Game</th><th>Final</th><th class="l">Underdog</th><th>Closing line</th></tr></thead>
+    <tbody id="upsets"></tbody>
+  </table></div>
+
+  <h2>Two bugs the results exposed <span class="n">both fixed before re-ranking</span></h2>
+  <div class="callout fix" id="bug1"></div>
+  <div class="callout fix" id="bug2"></div>
+
+  <h2>Losses now cost rating on their own <span class="n">new this week</span></h2>
+  <div class="callout fix" id="wl"></div>
+
+  <h2>Re-ranked FBS top 25 <span class="n">movement vs. the pre-week board</span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">#</th><th class="l">Team</th><th>Rating</th><th>Move</th><th class="l">This week</th></tr></thead>
+    <tbody id="top25"></tbody>
+  </table></div>
+
+  <h2>Biggest movers</h2>
+  <div class="split">
+    <div class="card scroll"><table>
+      <thead><tr><th class="l">Rising</th><th>Rank</th></tr></thead><tbody id="risers"></tbody></table></div>
+    <div class="card scroll"><table>
+      <thead><tr><th class="l">Falling</th><th>Rank</th></tr></thead><tbody id="fallers"></tbody></table></div>
+  </div>
+
+  <footer id="foot"></footer>
+</div>
+<script>
+const D={"s": {"games": 83, "fbsfbs": 47, "su_all": [70, 83], "su_fbs": [34, 47], "ats": [24, 42], "ats_big": [5, 13], "ats_small": [19, 29], "pushes": 0, "mae": 11.3, "mkt_mae": 11.1, "upsets": 7}, "fbsfcs_ats": [14, 35], "upsets": [{"away": "Oregon", "home": "Oklahoma State", "score": "31-39", "mkt": 24.0}, {"away": "Oklahoma", "home": "Michigan", "score": "10-17", "mkt": 5.2}, {"away": "Mississippi State", "home": "Minnesota", "score": "38-13", "mkt": -0.3}, {"away": "Duke", "home": "Illinois", "score": "31-27", "mkt": -6.3}, {"away": "UTSA", "home": "Texas State", "score": "31-26", "mkt": -1.8}, {"away": "UNLV", "home": "North Texas", "score": "6-44", "mkt": 2.8}, {"away": "Georgia State", "home": "Kennesaw State", "score": "31-17", "mkt": -7.3}], "big": [{"away": "Wake Forest", "home": "Purdue", "score": "38-36", "model": -13.1, "mkt": 2.7, "side": "Purdue", "res": "win"}, {"away": "Texas Tech", "home": "Oregon State", "score": "35-24", "model": 10.1, "mkt": 25.5, "side": "Oregon State", "res": "win"}, {"away": "Rutgers", "home": "Boston College", "score": "21-28", "model": 11.3, "mkt": -3.0, "side": "Rutgers", "res": "loss"}, {"away": "Western Kentucky", "home": "Georgia", "score": "20-70", "model": -26.4, "mkt": -40.3, "side": "Western Kentucky", "res": "loss"}, {"away": "Rice", "home": "Notre Dame", "score": "0-52", "model": -31.4, "mkt": -44.7, "side": "Rice", "res": "loss"}, {"away": "North Dakota State", "home": "Air Force", "score": "38-32", "model": -10.5, "mkt": 1.7, "side": "Air Force", "res": "loss"}, {"away": "Southern Miss", "home": "Auburn", "score": "8-43", "model": -21.2, "mkt": -32.7, "side": "Southern Miss", "res": "loss"}, {"away": "Charlotte", "home": "Ole Miss", "score": "9-41", "model": -33.6, "mkt": -44.5, "side": "Charlotte", "res": "win"}, {"away": "Washington State", "home": "Kansas State", "score": "7-34", "model": -7.5, "mkt": -17.7, "side": "Washington State", "res": "loss"}, {"away": "Alabama", "home": "Kentucky", "score": "45-17", "model": -1.2, "mkt": 8.7, "side": "Kentucky", "res": "loss"}, {"away": "Duke", "home": "Illinois", "score": "31-27", "model": -14.8, "mkt": -6.3, "side": "Illinois", "res": "loss"}, {"away": "Utah State", "home": "Washington", "score": "14-16", "model": -20.8, "mkt": -28.5, "side": "Utah State", "res": "win"}, {"away": "Penn State", "home": "Temple", "score": "27-9", "model": 16.8, "mkt": 24.3, "side": "Temple", "res": "win"}], "top25": [{"rank": 1, "team": "Texas", "conf": "SEC", "rating": 97.5, "was": 2, "game": "Ohio State 23 @ Texas 24"}, {"rank": 2, "team": "Ohio State", "conf": "Big Ten", "rating": 94.8, "was": 1, "game": "Ohio State 23 @ Texas 24"}, {"rank": 3, "team": "Notre Dame", "conf": "Independent", "rating": 89.9, "was": 5, "game": "Rice 0 @ Notre Dame 52"}, {"rank": 4, "team": "UCLA", "conf": "Big Ten", "rating": 89.5, "was": 9, "game": "San Diego State 10 @ UCLA 28"}, {"rank": 5, "team": "Texas A&M", "conf": "SEC", "rating": 89.2, "was": 10, "game": "Arizona State 20 @ Texas A&M 48"}, {"rank": 6, "team": "Indiana", "conf": "Big Ten", "rating": 88.8, "was": 6, "game": "Howard 0 @ Indiana 55"}, {"rank": 7, "team": "LSU", "conf": "SEC", "rating": 88.4, "was": 7, "game": "Louisiana Tech 14 @ LSU 45"}, {"rank": 8, "team": "USC", "conf": "Big Ten", "rating": 88.3, "was": 8, "game": "Louisiana 30 @ USC 49"}, {"rank": 9, "team": "Alabama", "conf": "SEC", "rating": 86.8, "was": 25, "game": "Alabama 45 @ Kentucky 17"}, {"rank": 10, "team": "Ole Miss", "conf": "SEC", "rating": 86.8, "was": 11, "game": "Charlotte 9 @ Ole Miss 41"}, {"rank": 11, "team": "Mississippi State", "conf": "SEC", "rating": 86.4, "was": 35, "game": "Mississippi State 38 @ Minnesota 13"}, {"rank": 12, "team": "Michigan", "conf": "Big Ten", "rating": 86.2, "was": 12, "game": "Oklahoma 10 @ Michigan 17"}, {"rank": 13, "team": "Oregon", "conf": "Big Ten", "rating": 85.5, "was": 3, "game": "Oregon 31 @ Oklahoma State 39"}, {"rank": 14, "team": "Nebraska", "conf": "Big Ten", "rating": 85.4, "was": 14, "game": "Bowling Green 7 @ Nebraska 56"}, {"rank": 15, "team": "Oklahoma", "conf": "SEC", "rating": 85.2, "was": 4, "game": "Oklahoma 10 @ Michigan 17"}, {"rank": 16, "team": "Georgia", "conf": "SEC", "rating": 85.0, "was": 17, "game": "Western Kentucky 20 @ Georgia 70"}, {"rank": 17, "team": "Missouri", "conf": "SEC", "rating": 84.8, "was": 22, "game": "Missouri 38 @ Kansas 21"}, {"rank": 18, "team": "BYU", "conf": "Big 12", "rating": 84.2, "was": 21, "game": "Arizona 17 @ BYU 28"}, {"rank": 19, "team": "Penn State", "conf": "Big Ten", "rating": 83.8, "was": 19, "game": "Penn State 27 @ Temple 9"}, {"rank": 20, "team": "Florida", "conf": "SEC", "rating": 83.7, "was": 15, "game": "Campbell 3 @ Florida 52"}, {"rank": 21, "team": "Washington", "conf": "Big Ten", "rating": 83.4, "was": 13, "game": "Utah State 14 @ Washington 16"}, {"rank": 22, "team": "Northwestern", "conf": "Big Ten", "rating": 83.1, "was": 16, "game": ""}, {"rank": 23, "team": "Utah", "conf": "Big 12", "rating": 82.9, "was": 37, "game": "Arkansas 10 @ Utah 43"}, {"rank": 24, "team": "Tennessee", "conf": "SEC", "rating": 82.9, "was": 31, "game": "Tennessee 45 @ Georgia Tech 24"}, {"rank": 25, "team": "South Carolina", "conf": "SEC", "rating": 82.5, "was": 20, "game": "Towson 9 @ South Carolina 45"}], "risers": [{"team": "North Dakota State", "was": 113, "now": 82, "game": "North Dakota State 38 @ Air Force 32"}, {"team": "Duke", "was": 71, "now": 43, "game": "Duke 31 @ Illinois 27"}, {"team": "Mississippi State", "was": 35, "now": 11, "game": "Mississippi State 38 @ Minnesota 13"}, {"team": "Wake Forest", "was": 66, "now": 42, "game": "Wake Forest 38 @ Purdue 36"}, {"team": "James Madison", "was": 127, "now": 104, "game": "Wagner 3 @ James Madison 87"}, {"team": "Georgia State", "was": 123, "now": 101, "game": "Georgia State 31 @ Kennesaw State 17"}], "fallers": [{"team": "UNLV", "was": 70, "now": 97, "game": "UNLV 6 @ North Texas 44"}, {"team": "Kentucky", "was": 27, "now": 54, "game": "Alabama 45 @ Kentucky 17"}, {"team": "Air Force", "was": 80, "now": 105, "game": "North Dakota State 38 @ Air Force 32"}, {"team": "Illinois", "was": 26, "now": 47, "game": "Duke 31 @ Illinois 27"}, {"team": "Liberty", "was": 109, "now": 129, "game": "Gardner-Webb 23 @ Liberty 24"}, {"team": "New Mexico State", "was": 98, "now": 117, "game": "New Mexico State 19 @ Hawaii 29"}], "miami": {"pre_sos": -8.0, "post_sos": -9.8, "resonly": 26, "now": 30}, "wl": {"osu": 2, "tex": 1, "ore": 13, "okl": 15}}, s=D.s, pct=(c,n)=>n?Math.round(100*c/n):0, sp=n=>(n>0?'+':'')+n.toFixed(1);
+document.getElementById('tiles').innerHTML=[
+  ['Straight up',`${pct(...s.su_all)}%`,`${s.su_all[0]}/${s.su_all[1]}`,''],
+  ['FBS vs FBS SU',`${pct(...s.su_fbs)}%`,`${s.su_fbs[0]}/${s.su_fbs[1]}`,''],
+  ['ATS (FBS v FBS)',`${pct(...s.ats)}%`,`${s.ats[0]}-${s.ats[1]-s.ats[0]}`,'ok'],
+  ['Margin error',s.mae,`vs market ${s.mkt_mae}`,'']
+].map(t=>`<div class="tile ${t[3]}"><div class="k">${t[0]}</div><div class="v">${t[1]} <small>${t[2]}</small></div></div>`).join('');
+const rec=r=>`${r[0]}\u2013${r[1]-r[0]}`;
+document.getElementById('bigrec').textContent=rec(s.ats_big)+` (${pct(...s.ats_big)}%)`;
+document.getElementById('smallrec').textContent=rec(s.ats_small)+` (${pct(...s.ats_small)}%)`;
+document.getElementById('edgesplit').innerHTML=
+  `<div class="mini"><div class="k">Disagreement 7+ pts</div><div class="v bad">${rec(s.ats_big)}</div><div class="s">${s.ats_big[1]} games</div></div>`+
+  `<div class="mini"><div class="k">Disagreement under 7</div><div class="v good">${rec(s.ats_small)}</div><div class="s">${s.ats_small[1]} games</div></div>`;
+document.getElementById('upsets').innerHTML=D.upsets.map(u=>{
+  const dog=u.mkt<0?u.away:u.home;
+  return `<tr><td class="l tm">${u.away} @ ${u.home}</td><td>${u.score}</td><td class="l">${dog}</td><td>${u.home} ${sp(u.mkt)}</td></tr>`;}).join('');
+document.getElementById('bug1').innerHTML=`<h3>1 &middot; The model undersold the FBS/FCS gap by ~11 points</h3>
+  Across <b>80 FBS-vs-FCS games</b> with lines, the model had the FBS team by <b>20.6</b> on average; the market said
+  <b>32.8</b> and the actual margin was <b>37.4</b>. The model went just <b>${rec(D.fbsfcs_ats)}</b> ATS in those games this week.
+  Worse, the results engine read every routine FBS blowout of an FCS team as a big surprise and boosted the winner &mdash;
+  rewarding cupcake scheduling. <b>Fix:</b> FCS ratings shifted down 11 points (fit to those 80 lines), cutting
+  model-vs-market error on these games from 12.8 to 7.0 points.`;
+document.getElementById('bug2').innerHTML=`<h3>2 &middot; Heavy favorites were penalized for winning big</h3>
+  The results engine capped the actual margin at 28 but not the expected margin. So when Miami, expected to beat Florida A&amp;M
+  by ~46, won 77&ndash;7, it registered as an 18-point <i>underperformance</i>. <b>Fix:</b> both sides are now capped. Miami's
+  remaining slide (#24 \u2192 #${D.miami.now}) is legitimate: its schedule-strength penalty deepened as SOS reached full
+  weight &mdash; Stanford and Florida A&amp;M is the thinnest r&eacute;sum&eacute; among contenders.`;
+document.getElementById('wl').innerHTML=`<h3>A loss used to cost only what the scoreboard margin said</h3>
+  Oregon lost to Oklahoma State as a <b>24-point favorite</b> and stayed #3; Oklahoma lost at Michigan and stayed #4.
+  Now every result also carries a <b>win/loss penalty</b> scaled by how likely you were to win &mdash; so an upset loss hurts
+  most &mdash; and the loser pays <b>1.5&times;</b> what the winner gains.
+  <div class="split">
+    <div class="mini"><div class="k">Upset losses</div><div class="v bad">Oregon #3 \u2192 #${D.wl.ore}</div><div class="s">Oklahoma #4 \u2192 #${D.wl.okl}</div></div>
+    <div class="mini"><div class="k">Close loss to a peer</div><div class="v">Ohio State #${D.wl.osu}</div><div class="s">down one spot after a 23\u201324 loss at #${D.wl.tex} Texas</div></div>
+  </div>
+  <p style="margin:10px 0 0">In a test on this week's games (ratings built from earlier results), stronger loss penalties didn't
+  predict better or worse &mdash; every setting landed within two games of the others. This is a choice about what the rankings
+  should reward, not an accuracy upgrade.</p>`;
+const mv=(was,now)=>{if(was==null)return '<span class="eq">new</span>';const m=was-now;return m>0?`<span class="up">\u25B2${m}</span>`:(m<0?`<span class="dn">\u25BC${-m}</span>`:'<span class="eq">\u2014</span>');};
+document.getElementById('top25').innerHTML=D.top25.map(t=>`<tr><td class="l rk">${t.rank}</td><td class="l tm">${t.team}</td>
+  <td>${t.rating.toFixed(1)}</td><td>${mv(t.was,t.rank)}</td><td class="l gm">${t.game||'\u2014'}</td></tr>`).join('');
+const mrow=m=>`<tr><td class="l"><span class="tm">${m.team}</span><div class="gm">${m.game||'idle'}</div></td><td>#${m.was} \u2192 #${m.now}</td></tr>`;
+document.getElementById('risers').innerHTML=D.risers.map(mrow).join('');
+document.getElementById('fallers').innerHTML=D.fallers.map(mrow).join('');
+document.getElementById('foot').innerHTML=`Results via ESPN; closing lines = Bovada/DraftKings consensus (CollegeFootballData). Grades use the model as published before kickoff (results through Sept 7). The re-ranked board applies both fixes and the new loss penalty, all results through Sept 13 (incl. the Michigan/Western Michigan override), and strength of schedule at full weight (week 4). FBS-vs-FCS calibration uses results-free ratings so the fit isn't contaminated by the bias it corrects. Generated by <b>cfb_ranker</b>.`;
+</script>

@@ -1,0 +1,109 @@
+<title>Opening Weekend Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--ground:#f5f6f8;--surface:#fff;--surface-2:#fafbfc;--ink:#14171d;--muted:#5b6270;--faint:#8b93a1;
+    --hair:#e5e8ed;--hair-strong:#d5dae1;--gold:#b9822a;--gold-deep:#8f6415;
+    --pos:#2f8f5b;--pos-soft:#e4f2ea;--pos-line:#bfe0cd;--neg:#c2532f;--neg-soft:#f9e7df;--neg-line:#eecbbc;
+    --accent:#2f6d8f;--accent-soft:#e4eef4;--accent-line:#bcd6e4;--shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.06);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;
+    --ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;--hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;
+    --pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;--neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;
+    --accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}}
+  :root[data-theme="dark"]{--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;--ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;
+    --hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;--pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;
+    --neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;--accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold-deep);font-weight:750;margin:0 0 8px}
+  h1{font-size:clamp(27px,4.4vw,40px);line-height:1.03;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;color:var(--muted);max-width:66ch}
+  h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin:30px 0 12px;display:flex;gap:9px;align-items:center}
+  h2 .n{color:var(--faint);font-weight:700;font-size:13px}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:20px 0}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:13px 15px;box-shadow:var(--shadow)}
+  .tile .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .tile .v{font-size:23px;font-weight:850;letter-spacing:-.02em;margin-top:4px}
+  .tile .v small{font-size:12px;font-weight:650;color:var(--muted)}
+  .tile.good .v{color:var(--pos)} .tile.bad .v{color:var(--neg)}
+  @media(max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .cal{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:13px;padding:16px 18px;margin:8px 0;box-shadow:var(--shadow)}
+  .cal h3{margin:0 0 4px;font-size:14px;font-weight:800;color:var(--accent)}
+  .cal p{margin:0 0 12px;color:var(--muted);font-size:13px}
+  .cal .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .cal .b{background:var(--surface);border:1px solid var(--hair);border-radius:9px;padding:10px 12px}
+  .cal .b .k{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .cal .b .v{font-size:15px;font-weight:800;margin-top:3px;font-variant-numeric:tabular-nums}
+  .cal .b .v .ar{color:var(--accent);margin:0 5px} .cal .b .v .old{color:var(--faint);font-weight:700}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:13px;box-shadow:var(--shadow);overflow:hidden}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:600px}
+  th{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:750;text-align:right;padding:10px 12px;border-bottom:1.5px solid var(--hair-strong);white-space:nowrap;background:var(--surface-2)}
+  th.l{text-align:left}
+  td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.l{text-align:left} tr:last-child td{border-bottom:none}
+  .gm{font-weight:650}
+  .chip{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px}
+  .chip.ok{background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line)}
+  .chip.miss{background:var(--neg-soft);color:var(--neg);border:1px solid var(--neg-line)}
+  .chip.push{background:var(--surface-2);color:var(--muted);border:1px solid var(--hair-strong)}
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);border-radius:10px;padding:13px 16px;margin:14px 0;box-shadow:var(--shadow);color:var(--muted)}
+  .note b{color:var(--ink)}
+  footer{margin-top:26px;color:var(--faint);font-size:12px;line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; Weekend Report Card</p>
+    <h1>Opening weekend &mdash; straight up vs. the spread</h1>
+    <p class="sub">Every FBS-vs-FBS game of the weekend (Sept 4&ndash;6), graded against the model's pre-weekend rating
+      and the Bovada / DraftKings consensus line. The gap between the two records is the story &mdash; and what I fixed.</p>
+  </header>
+  <div class="tiles" id="tiles"></div>
+
+  <h2>The fix <span class="n">recalibrating margins to the market</span></h2>
+  <div class="cal" id="cal"></div>
+
+  <h2>Every game <span class="n" id="gn"></span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">Away @ Home</th><th>Final</th><th class="l">Model line</th><th>Market</th><th>SU</th><th>ATS</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <div class="note" id="note"></div>
+  <footer id="foot"></footer>
+</div>
+<script>
+const D={"stats": {"su_c": 34, "su_n": 39, "su_pct": 87, "ats_c": 15, "ats_n": 35, "ats_pct": 43, "push": 1, "mae": 14.0}, "cal": {"before_margin": 11.4, "after_margin": 17.2, "market": 19.5, "before_mae": 17.0, "after_mae": 14.0, "before_ats": 40, "after_ats": 43, "mult": 1.6}, "rows": [{"away": "Ball State", "home": "Ohio State", "score": "3-56", "ml": -48.5, "su_ok": true, "pick": "Ohio State", "mm": 48.6, "actual": 53, "mkt": -50.3, "ats": "loss", "ats_side": "Ball State +50.3"}, {"away": "Boise State", "home": "Oregon", "score": "27-34", "ml": -23.0, "su_ok": true, "pick": "Oregon", "mm": 22.9, "actual": 7, "mkt": -24.7, "ats": "win", "ats_side": "Boise State +24.7"}, {"away": "Texas State", "home": "Texas", "score": "7-59", "ml": -27.5, "su_ok": true, "pick": "Texas", "mm": 27.7, "actual": 52, "mkt": -29.5, "ats": "loss", "ats_side": "Texas State +29.5"}, {"away": "UTEP", "home": "Oklahoma", "score": "0-51", "ml": -38.0, "su_ok": true, "pick": "Oklahoma", "mm": 37.9, "actual": 51, "mkt": -40.7, "ats": "loss", "ats_side": "UTEP +40.7"}, {"away": "Western Michigan", "home": "Michigan", "score": "12-13", "ml": -28.5, "su_ok": true, "pick": "Michigan", "mm": 28.3, "actual": 1, "mkt": -27.5, "ats": "loss", "ats_side": "Michigan -27.5"}, {"away": "Louisville", "home": "Ole Miss", "score": "38-41", "ml": -13.0, "su_ok": true, "pick": "Ole Miss", "mm": 13.1, "actual": 3, "mkt": -6.5, "ats": "loss", "ats_side": "Ole Miss -6.5"}, {"away": "Missouri State", "home": "Texas A&M", "score": "0-50", "ml": -34.0, "su_ok": true, "pick": "Texas A&M", "mm": 33.8, "actual": 50, "mkt": -39.2, "ats": "loss", "ats_side": "Missouri State +39.2"}, {"away": "Wisconsin", "home": "Notre Dame", "score": "13-41", "ml": -13.0, "su_ok": true, "pick": "Notre Dame", "mm": 12.8, "actual": 28, "mkt": -20.8, "ats": "loss", "ats_side": "Wisconsin +20.8"}, {"away": "North Texas", "home": "Indiana", "score": "16-52", "ml": -28.0, "su_ok": true, "pick": "Indiana", "mm": 28.0, "actual": 36, "mkt": -39.8, "ats": "win", "ats_side": "North Texas +39.8"}, {"away": "Clemson", "home": "LSU", "score": "10-51", "ml": -15.5, "su_ok": true, "pick": "LSU", "mm": 15.4, "actual": 41, "mkt": -10.0, "ats": "win", "ats_side": "LSU -10.0"}, {"away": "Fresno State", "home": "USC", "score": "0-39", "ml": -18.0, "su_ok": true, "pick": "USC", "mm": 18.1, "actual": 39, "mkt": -21.8, "ats": "loss", "ats_side": "Fresno State +21.8"}, {"away": "Ohio", "home": "Nebraska", "score": "21-49", "ml": -26.5, "su_ok": true, "pick": "Nebraska", "mm": 26.7, "actual": 28, "mkt": -23.7, "ats": "win", "ats_side": "Nebraska -23.7"}, {"away": "Washington State", "home": "Washington", "score": "10-24", "ml": -15.0, "su_ok": true, "pick": "Washington", "mm": 14.8, "actual": 14, "mkt": -23.3, "ats": "win", "ats_side": "Washington State +23.3"}, {"away": "Kent State", "home": "South Carolina", "score": "0-57", "ml": -29.0, "su_ok": true, "pick": "South Carolina", "mm": 28.8, "actual": 57, "mkt": -35.8, "ats": "loss", "ats_side": "Kent State +35.8"}, {"away": "FAU", "home": "Florida", "score": "21-66", "ml": -16.5, "su_ok": true, "pick": "Florida", "mm": 16.7, "actual": 45}, {"away": "Miami", "home": "Stanford", "score": "45-6", "ml": 13.5, "su_ok": true, "pick": "Miami", "mm": -13.3, "actual": -39, "mkt": 24.5, "ats": "loss", "ats_side": "Stanford +24.5"}, {"away": "Marshall", "home": "Penn State", "score": "0-45", "ml": -19.5, "su_ok": true, "pick": "Penn State", "mm": 19.7, "actual": 45, "mkt": -23.3, "ats": "loss", "ats_side": "Marshall +23.3"}, {"away": "East Carolina", "home": "Alabama", "score": "10-48", "ml": -24.0, "su_ok": true, "pick": "Alabama", "mm": 24.2, "actual": 38, "mkt": -28.0, "ats": "loss", "ats_side": "East Carolina +28.0"}, {"away": "Baylor", "home": "Auburn", "score": "16-17", "ml": -5.5, "su_ok": true, "pick": "Auburn", "mm": 5.5, "actual": 1, "mkt": -6.5, "ats": "win", "ats_side": "Baylor +6.5"}, {"away": "Toledo", "home": "Michigan State", "score": "20-30", "ml": -22.5, "su_ok": true, "pick": "Michigan State", "mm": 22.3, "actual": 10, "mkt": -10.0, "ats": "push"}, {"away": "Oregon State", "home": "Houston", "score": "20-33", "ml": -12.5, "su_ok": true, "pick": "Houston", "mm": 12.3, "actual": 13, "mkt": -20.8, "ats": "win", "ats_side": "Oregon State +20.8"}, {"away": "UAB", "home": "Illinois", "score": "23-42", "ml": -18.0, "su_ok": true, "pick": "Illinois", "mm": 17.8, "actual": 19, "mkt": -25.8, "ats": "win", "ats_side": "UAB +25.8"}, {"away": "UL Monroe", "home": "Mississippi State", "score": "13-62", "ml": -30.0, "su_ok": true, "pick": "Mississippi State", "mm": 29.8, "actual": 49, "mkt": -28.5, "ats": "win", "ats_side": "Mississippi State -28.5"}, {"away": "Northern Illinois", "home": "Iowa", "score": "0-40", "ml": -25.0, "su_ok": true, "pick": "Iowa", "mm": 25.2, "actual": 40, "mkt": -31.7, "ats": "loss", "ats_side": "Northern Illinois +31.7"}, {"away": "Oklahoma State", "home": "Tulsa", "score": "10-24", "ml": 7.5, "su_ok": false, "pick": "Oklahoma State", "mm": -7.3, "actual": 14, "mkt": 13.3, "ats": "win", "ats_side": "Tulsa +13.3"}, {"away": "Colorado", "home": "Georgia Tech", "score": "14-13", "ml": 5.0, "su_ok": true, "pick": "Colorado", "mm": -5.0, "actual": -1, "mkt": -6.5, "ats": "win", "ats_side": "Colorado +6.5"}, {"away": "Miami (Ohio)", "home": "Pittsburgh", "score": "14-59", "ml": -16.5, "su_ok": true, "pick": "Pittsburgh", "mm": 16.7, "actual": 45}, {"away": "Boston College", "home": "Cincinnati", "score": "15-34", "ml": -6.0, "su_ok": true, "pick": "Cincinnati", "mm": 6.1, "actual": 19, "mkt": -7.0, "ats": "loss", "ats_side": "Boston College +7.0"}, {"away": "Coastal Carolina", "home": "West Virginia", "score": "24-31", "ml": -18.5, "su_ok": true, "pick": "West Virginia", "mm": 18.5, "actual": 7, "mkt": -21.0, "ats": "win", "ats_side": "Coastal Carolina +21.0"}, {"away": "UNLV", "home": "Hawaii", "score": "21-6", "ml": -2.5, "su_ok": false, "pick": "Hawaii", "mm": 2.4, "actual": -15, "mkt": 2.8, "ats": "loss", "ats_side": "Hawaii +2.8"}, {"away": "Tulane", "home": "Duke", "score": "3-17", "ml": -5.0, "su_ok": true, "pick": "Duke", "mm": 5.1, "actual": 14, "mkt": -9.0, "ats": "loss", "ats_side": "Tulane +9.0"}, {"away": "FIU", "home": "USF", "score": "9-19", "ml": -15.5, "su_ok": true, "pick": "USF", "mm": 15.7, "actual": 10}, {"away": "Central Michigan", "home": "New Mexico", "score": "7-38", "ml": -14.0, "su_ok": true, "pick": "New Mexico", "mm": 14.1, "actual": 31, "mkt": -11.0, "ats": "win", "ats_side": "New Mexico -11.0"}, {"away": "Wyoming", "home": "Colorado State", "score": "13-35", "ml": -10.0, "su_ok": true, "pick": "Colorado State", "mm": 10.1, "actual": 22, "mkt": -2.7, "ats": "win", "ats_side": "Colorado State -2.7"}, {"away": "Arkansas State", "home": "Memphis", "score": "24-42", "ml": -8.5, "su_ok": true, "pick": "Memphis", "mm": 8.6, "actual": 18, "mkt": -10.5, "ats": "loss", "ats_side": "Arkansas State +10.5"}, {"away": "Western Kentucky", "home": "Nevada", "score": "14-49", "ml": 1.5, "su_ok": false, "pick": "Western Kentucky", "mm": -1.3, "actual": 35, "mkt": 0.7, "ats": "loss", "ats_side": "Western Kentucky +0.7"}, {"away": "San Jose State", "home": "Eastern Michigan", "score": "27-21", "ml": -7.0, "su_ok": false, "pick": "Eastern Michigan", "mm": 7.0, "actual": -6, "mkt": -1.5, "ats": "loss", "ats_side": "Eastern Michigan -1.5"}, {"away": "Liberty", "home": "James Madison", "score": "13-20", "ml": 4.5, "su_ok": false, "pick": "Liberty", "mm": -4.4, "actual": 7, "mkt": -6.0, "ats": "loss", "ats_side": "Liberty +6.0"}, {"away": "Sam Houston", "home": "Troy", "score": "21-24", "ml": -4.0, "su_ok": true, "pick": "Troy", "mm": 3.9, "actual": 3, "mkt": -16.2, "ats": "win", "ats_side": "Sam Houston +16.2"}]},s=D.stats,c=D.cal,sp=n=>(n>0?'+':'')+n.toFixed(1);
+document.getElementById('tiles').innerHTML=[
+ ['Games',s.su_n,''],
+ ['Straight up',s.su_pct+'%',`${s.su_c}/${s.su_n}`,'good'],
+ ['Against spread',s.ats_pct+'%',`${s.ats_c}/${s.ats_n}`,'bad'],
+ ['Margin error',s.mae,'pts avg','']
+].map(t=>`<div class="tile ${t[3]||''}"><div class="k">${t[0]}</div><div class="v">${t[1]}${t[2]?` <small>${t[2]}</small>`:''}</div></div>`).join('');
+
+document.getElementById('cal').innerHTML=
+ `<h3>Model margins were ~1.6&times; too small &mdash; now widened to match Vegas</h3>`+
+ `<p>Great at picking winners, poor against the number: the model's average projected margin was just ${c.before_margin} points while the books averaged ${c.market}. I stretched the per-division rating scale by ~${c.mult}&times; so a rating gap reads as a real point spread.</p>`+
+ `<div class="grid">`+
+ `<div class="b"><div class="k">Avg model margin</div><div class="v"><span class="old">${c.before_margin}</span><span class="ar">&rarr;</span>${c.after_margin}<small style="color:var(--faint);font-weight:700"> (mkt ${c.market})</small></div></div>`+
+ `<div class="b"><div class="k">Margin error (MAE)</div><div class="v"><span class="old">${c.before_mae}</span><span class="ar">&rarr;</span>${c.after_mae}</div></div>`+
+ `<div class="b"><div class="k">ATS record</div><div class="v"><span class="old">${c.before_ats}%</span><span class="ar">&rarr;</span>${c.after_ats}%</div></div>`+
+ `</div>`;
+
+document.getElementById('gn').textContent=`${D.rows.length} FBS matchups, marquee first`;
+document.getElementById('rows').innerHTML=D.rows.map(r=>{
+  const atsc = r.ats==='win'?'ok':(r.ats==='loss'?'miss':'push');
+  const atst = r.ats==='win'?'\u2713':(r.ats==='loss'?'\u2717':'P');
+  const mkt = ('mkt' in r)? `${r.home.split(' ')[0]==r.home?r.home:r.home} ${sp(r.mkt)}`.replace(/.* /,'') : '\u2014';
+  return `<tr>
+    <td class="l gm">${r.away} @ ${r.home}</td>
+    <td>${r.score}</td>
+    <td class="l">${r.home} ${sp(r.ml)}</td>
+    <td>${('mkt' in r)?sp(r.mkt):'\u2014'}</td>
+    <td><span class="chip ${r.su_ok?'ok':'miss'}">${r.su_ok?'\u2713':'\u2717'}</span></td>
+    <td><span class="chip ${atsc}">${atst}</span></td></tr>`;
+}).join('');
+
+document.getElementById('note').innerHTML=`<b>Still under break-even ATS (${s.ats_pct}%, need ~52.4%).</b> Matching the market's scale fixes the sizing, but you don't beat Vegas by copying it \u2014 edges have to come from spots where the model genuinely disagrees. The recalibration makes the model a fair spread estimator; turning that into ATS profit is the next problem.`;
+document.getElementById('foot').innerHTML=`Sept 4\u20136, FBS-vs-FBS only. Lines = Bovada/DraftKings consensus (CollegeFootballData). Model line = recalibrated rating gap + 2.5 home field, graded on pre-weekend ratings. Generated by <b>cfb_ranker</b>.`;
+</script>

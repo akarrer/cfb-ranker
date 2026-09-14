@@ -1,0 +1,373 @@
+<title>CFB Ranker &mdash; D1 Power Ratings</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#f6f7f9; --surface:#ffffff; --surface-2:#fbfcfd;
+    --ink:#15171c; --muted:#5c6472; --faint:#8a92a1;
+    --hair:#e4e7ec; --hair-strong:#d3d8e0;
+    --gold:#c1892a; --gold-deep:#9c6c17; --gold-soft:#f2e6cf;
+    --pos:#2f8f5b; --pos-soft:#dcefe3;
+    --neg:#c2532f; --neg-soft:#f6e2d9;
+    --bar:#c4cdd9; --bar-track:#eef1f5; --bar-talent:#8ba3c7; --bar-exp:#9ab89f;
+    --p4:#c1892a; --g5:#9aa3b2;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 8px 24px rgba(20,23,28,.05);
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --ground:#0d1015; --surface:#151922; --surface-2:#111520;
+      --ink:#eef1f6; --muted:#9aa3b2; --faint:#6a7382;
+      --hair:#232936; --hair-strong:#2e3644;
+      --gold:#e0a838; --gold-deep:#b98421; --gold-soft:#2a2416;
+      --pos:#4bb47c; --pos-soft:#16281f;
+      --neg:#e07048; --neg-soft:#2a1a14;
+      --bar:#3a4353; --bar-track:#1d2330; --bar-talent:#5d7ea8; --bar-exp:#5f9079;
+      --p4:#e0a838; --g5:#5f6a7c;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#f6f7f9; --surface:#ffffff; --surface-2:#fbfcfd;
+    --ink:#15171c; --muted:#5c6472; --faint:#8a92a1;
+    --hair:#e4e7ec; --hair-strong:#d3d8e0;
+    --gold:#c1892a; --gold-deep:#9c6c17; --gold-soft:#f2e6cf;
+    --pos:#2f8f5b; --pos-soft:#dcefe3; --neg:#c2532f; --neg-soft:#f6e2d9;
+    --bar:#c4cdd9; --bar-track:#eef1f5; --bar-talent:#8ba3c7; --bar-exp:#9ab89f; --p4:#c1892a; --g5:#9aa3b2;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 8px 24px rgba(20,23,28,.05);
+  }
+  :root[data-theme="dark"]{
+    --ground:#0d1015; --surface:#151922; --surface-2:#111520;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#6a7382;
+    --hair:#232936; --hair-strong:#2e3644;
+    --gold:#e0a838; --gold-deep:#b98421; --gold-soft:#2a2416;
+    --pos:#4bb47c; --pos-soft:#16281f; --neg:#e07048; --neg-soft:#2a1a14;
+    --bar:#3a4353; --bar-track:#1d2330; --bar-talent:#5d7ea8; --bar-exp:#5f9079; --p4:#e0a838; --g5:#5f6a7c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--ground);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  /* ---- header ---- */
+  header{margin-bottom:26px}
+  .eyebrow{
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold-deep);font-weight:700;margin:0 0 8px
+  }
+  h1{
+    font-size:clamp(30px,5vw,46px);line-height:1.02;margin:0;font-weight:850;
+    letter-spacing:-.02em;text-wrap:balance;
+  }
+  h1 .thin{font-weight:400;color:var(--muted)}
+  .sub{margin:12px 0 0;color:var(--muted);max-width:64ch}
+  .sub code{background:var(--surface);border:1px solid var(--hair);border-radius:4px;padding:1px 5px;font-size:.85em}
+
+  /* ---- formula legend ---- */
+  .formula{
+    display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;align-items:center
+  }
+  .wchip{
+    display:inline-flex;align-items:baseline;gap:7px;background:var(--surface);
+    border:1px solid var(--hair);border-radius:999px;padding:6px 13px;font-size:12.5px;box-shadow:var(--shadow)
+  }
+  .wchip b{font-weight:750}
+  .wchip .w{color:var(--gold-deep);font-weight:750;font-variant-numeric:tabular-nums}
+  .wchip.muted{opacity:.55}
+
+  /* ---- stat tiles ---- */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+  .tile .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .tile .v{font-size:26px;font-weight:820;letter-spacing:-.01em;margin-top:4px}
+  .tile .v small{font-size:14px;font-weight:600;color:var(--muted)}
+  @media(max-width:680px){.tiles{grid-template-columns:repeat(2,1fr)}}
+
+  /* ---- controls ---- */
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 14px}
+  .search{
+    flex:1 1 220px;min-width:180px;background:var(--surface);border:1px solid var(--hair-strong);
+    border-radius:9px;padding:9px 12px;color:var(--ink);font-size:14px
+  }
+  .search::placeholder{color:var(--faint)}
+  .search:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:transparent}
+  .confbar{display:flex;flex-wrap:wrap;gap:6px}
+  .cf{
+    background:var(--surface);border:1px solid var(--hair-strong);color:var(--muted);
+    border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:650;cursor:pointer;
+    transition:all .12s ease
+  }
+  .cf:hover{border-color:var(--gold);color:var(--ink)}
+  .cf[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+  /* ---- table ---- */
+  .tablecard{background:var(--surface);border:1px solid var(--hair);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:720px}
+  thead th{
+    position:sticky;top:0;z-index:2;background:var(--surface-2);
+    font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);
+    font-weight:750;text-align:right;padding:13px 14px;border-bottom:1.5px solid var(--hair-strong);
+    cursor:pointer;white-space:nowrap;user-select:none
+  }
+  thead th.l{text-align:left}
+  thead th:hover{color:var(--ink)}
+  thead th .arr{color:var(--gold-deep);font-size:10px;margin-left:3px}
+  thead th.pct{min-width:118px}
+  thead th .cap{display:block;font-size:9px;letter-spacing:.06em;color:var(--faint);font-weight:600;margin-top:2px}
+  tbody td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface-2)}
+  td.l{text-align:left}
+
+  .rank{font-weight:800;font-variant-numeric:tabular-nums;color:var(--muted);width:40px}
+  tr[data-top="1"] .rank{color:var(--gold-deep)}
+  .team{font-weight:700;letter-spacing:-.005em}
+  .tier{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:9px;vertical-align:middle;background:var(--g5)}
+  .tier.p4{background:var(--p4)}
+  .tier.fcs{background:transparent;border:1.5px solid var(--g5)}
+  .conf{color:var(--muted);font-size:12.5px}
+
+  .rating{font-weight:820;font-variant-numeric:tabular-nums;font-size:16px}
+  tr[data-top="1"] .rating{color:var(--gold-deep)}
+
+  .sos{font-variant-numeric:tabular-nums;font-weight:700}
+  .sos.pos{color:var(--pos)} .sos.neg{color:var(--neg)}
+
+  /* score bar cells */
+  .barcell{position:relative;min-width:96px}
+  .barwrap{display:flex;align-items:center;gap:9px;justify-content:flex-end}
+  .track{flex:0 0 54px;height:6px;background:var(--bar-track);border-radius:999px;overflow:hidden}
+  .fill{height:100%;border-radius:999px}
+  .fill.talent{background:var(--bar-talent)}
+  .fill.exp{background:var(--bar-exp)}
+  .bval{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px;width:26px;text-align:right}
+  .swatch{display:inline-block;width:22px;height:6px;border-radius:999px;vertical-align:middle;margin:0 2px}
+  .swatch.talent{background:var(--bar-talent)} .swatch.exp{background:var(--bar-exp)}
+
+  /* NIL cell */
+  .nilcell{min-width:104px}
+  .nilwrap{display:flex;align-items:baseline;gap:8px;justify-content:flex-end}
+  .nilval{font-weight:700;font-variant-numeric:tabular-nums}
+  .nildelta{font-size:11.5px;font-weight:700;color:var(--faint);min-width:38px;text-align:right}
+  .nildelta.pos{color:var(--pos)} .nildelta.neg{color:var(--neg)}
+  .nilna{color:var(--faint)}
+
+  footer{margin-top:22px;color:var(--faint);font-size:12.5px;line-height:1.6}
+  footer b{color:var(--muted)}
+  .empty{padding:40px;text-align:center;color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Division I &middot; Power Ratings</p>
+    <h1>CFB Ranker <span class="thin">&mdash; all of Division I, one formula</span></h1>
+    <p class="sub">A Sagarin-style points model. FBS strength from <b>EA College Football 27</b> rosters;
+      FCS from recruiting, returning production &amp; the transfer portal. Adjusted for
+      <b>strength of schedule</b> (common opponents, 3 levels deep) and roster <b>experience</b>.
+      Ratings read like a spread &mdash; the gap between two teams is the projected neutral-field margin.
+      <b>Preseason:</b> strength of schedule is down-weighted (it's only projected) and ramps to full weight by week&nbsp;4,
+      so these are talent-driven. Use the FBS / FCS filter, or click any column to sort.</p>
+
+    <div class="formula" id="formula">
+      <span class="wchip"><b>Talent</b><span class="w">0.45</span></span>
+      <span class="wchip"><b>Schedule</b><span class="w">0.25</span></span>
+      <span class="wchip"><b>Experience</b><span class="w">0.15</span></span>
+      <span class="wchip muted"><b>PFF</b><span class="w">add data</span></span>
+    </div>
+  </header>
+
+  <div class="tiles" id="tiles"></div>
+
+  <div class="controls">
+    <input class="search" id="search" type="search" placeholder="Search team&hellip;" aria-label="Search team">
+    <div class="confbar" id="divbar"></div>
+    <div class="confbar" id="confbar"></div>
+  </div>
+
+  <div class="tablecard">
+    <div class="scroll">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th class="l" data-k="rank">#</th>
+            <th class="l" data-k="team">Team</th>
+            <th class="l" data-k="conference">Conf</th>
+            <th data-k="rating">Rating</th>
+            <th data-k="sos">SOS</th>
+            <th data-k="talent" class="pct">Talent<span class="cap">0&ndash;100</span></th>
+            <th data-k="experience" class="pct">Experience<span class="cap">0&ndash;100</span></th>
+            <th data-k="nil" class="pct">NIL $M<span class="cap">vs conf</span></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <b>How to read it.</b> <b>Rating</b> is a Sagarin-like points number centered near 75 &mdash; the gap between two teams is the projected
+    neutral-field margin. <b>SOS</b> is the points adjustment for schedule strength (+ tougher, &minus; softer).
+    <b>Talent</b> <span class="swatch talent"></span> and <b>Experience</b> <span class="swatch exp"></span> are 0&ndash;100 percentile
+    scores across all teams (100 = best roster / most veteran), shown as bars. FCS teams have no EA roster or returning-production
+    data, so those cells are blank.<br>
+    <b>NIL $M</b> is 2026 priced roster value &mdash; the sum of each player's valuation, On3's deal-based methodology (via The NIL Standard;
+    estimates, not audited) &mdash; <b>display only, not part of the rating.</b>
+    Only the top ~25 spenders have published On3 values (others blank). The <span class="nildelta pos" style="min-width:0">+%</span> is
+    spend vs. the team's <b>full-conference</b> average (lower-tier teams filled from a rescaled model), so a big green number flags a
+    disproportionate spender &mdash; e.g. Texas Tech in the Big&nbsp;12.<br>
+    Squares mark tier: <span class="tier p4" style="margin:0 3px"></span> Power-conference / independent &middot;
+    <span class="tier" style="margin:0 3px"></span> Group of Five &middot;
+    <span class="tier fcs" style="margin:0 3px"></span> FCS.
+    Weights are adjustable and auto-calibrated.
+  </footer>
+</div>
+
+<script id="data" type="text/csv">__RANKINGS_CSV__</script>
+
+<script>
+(function(){
+  const P4 = new Set(["SEC","Big Ten","Big 12","ACC","Independent"]);
+  const raw = document.getElementById('data').textContent.trim().split('\n');
+  const cols = raw[0].split(',');
+  const rows = raw.slice(1).map(line=>{
+    // team names have no commas in this set; simple split is safe
+    const c = line.split(',');
+    const o = {};
+    cols.forEach((k,i)=>o[k]=c[i]);
+    return {
+      rank:+o.rank, team:o.team, conference:o.conference, division:o.division,
+      rating:+o.rating, sos:+o.sos, talent:+o.talent_score, experience:+o.experience_score,
+      nil:(o.nil_value===undefined||o.nil_value==='')?NaN:+o.nil_value,
+      nilBase:(o.nil_baseline===undefined||o.nil_baseline==='')?NaN:+o.nil_baseline
+    };
+  });
+
+  // ---- per-conference average NIL (full-conference baseline, to flag spenders) ----
+  const confAvgNil = {};
+  {
+    const acc = {};
+    rows.forEach(r=>{ if(!isNaN(r.nilBase)) (acc[r.conference]=acc[r.conference]||[]).push(r.nilBase); });
+    for(const c in acc) confAvgNil[c] = acc[c].reduce((a,b)=>a+b,0)/acc[c].length;
+  }
+
+  // ---- summary tiles ----
+  const confs = [...new Set(rows.map(r=>r.conference))];
+  const nFBS = rows.filter(r=>r.division==='FBS').length;
+  const nFCS = rows.filter(r=>r.division==='FCS').length;
+  const topSos = rows.filter(r=>r.division==='FBS').reduce((a,b)=>b.sos>a.sos?b:a);
+  const top = rows.find(r=>r.rank===1);
+  const over = rows.filter(r=>!isNaN(r.nil) && confAvgNil[r.conference])
+    .map(r=>({t:r.team, c:r.conference, ratio:r.nil/confAvgNil[r.conference]}))
+    .sort((a,b)=>b.ratio-a.ratio)[0];
+  const tiles = [
+    {k:'#1 overall', v:top.team, small:top.rating.toFixed(1)},
+    {k:'FBS &middot; FCS', v:`${nFBS} &middot; ${nFCS}`},
+    {k:'Toughest FBS slate', v:topSos.team, small:'+'+topSos.sos.toFixed(2)+' SOS'},
+    over ? {k:'Top NIL vs conf', v:over.t, small:`+${((over.ratio-1)*100).toFixed(0)}% ${over.c}`}
+         : {k:'Teams ranked', v:rows.length}
+  ];
+  document.getElementById('tiles').innerHTML = tiles.map(t=>
+    `<div class="tile"><div class="k">${t.k}</div><div class="v">${t.v}${t.small?` <small>${t.small}</small>`:''}</div></div>`
+  ).join('');
+
+  // ---- division filter ----
+  let activeDiv = 'All';
+  const db = document.getElementById('divbar');
+  ['All','FBS','FCS'].forEach(d=>{
+    const b=document.createElement('button');
+    b.className='cf'; b.textContent=d; b.setAttribute('aria-pressed', d==='All');
+    b.onclick=()=>{activeDiv=d; [...db.children].forEach(x=>x.setAttribute('aria-pressed', x.textContent===d)); render();};
+    db.appendChild(b);
+  });
+
+  // ---- conference filter ----
+  let activeConf = 'All';
+  const cb = document.getElementById('confbar');
+  ['All',...confs.sort()].forEach(c=>{
+    const b=document.createElement('button');
+    b.className='cf'; b.textContent=c; b.setAttribute('aria-pressed', c==='All');
+    b.onclick=()=>{activeConf=c; [...cb.children].forEach(x=>x.setAttribute('aria-pressed', x.textContent===c)); render();};
+    cb.appendChild(b);
+  });
+
+  // ---- sorting ----
+  let sortKey='rank', sortDir=1; // 1 asc, -1 desc
+  const tbody=document.getElementById('tbody');
+  const ths=[...document.querySelectorAll('th')];
+  ths.forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k;
+    if(k===sortKey){sortDir*=-1;}
+    else{sortKey=k; sortDir=(k==='team'||k==='rank'||k==='conference')?1:-1;}
+    render();
+  });
+
+  const search=document.getElementById('search');
+  search.oninput=render;
+
+  function bar(v,kind){
+    return `<div class="barwrap"><span class="bval num">${Math.round(v)}</span>`+
+           `<span class="track"><span class="fill ${kind}" style="width:${Math.max(2,v)}%"></span></span></div>`;
+  }
+
+  function nilCell(r){
+    if(isNaN(r.nil)) return '<span class="nilna">&mdash;</span>';
+    const avg=confAvgNil[r.conference];
+    let delta='';
+    if(avg){
+      const d=(r.nil/avg-1)*100;
+      const cls=d>=10?'pos':(d<=-10?'neg':'');
+      delta=`<span class="nildelta ${cls} num">${d>=0?'+':''}${d.toFixed(0)}%</span>`;
+    }
+    return `<div class="nilwrap"><span class="nilval num">$${r.nil.toFixed(1)}M</span>${delta}</div>`;
+  }
+
+  function render(){
+    const q=search.value.trim().toLowerCase();
+    let data=rows.filter(r=>
+      (activeDiv==='All'||r.division===activeDiv) &&
+      (activeConf==='All'||r.conference===activeConf) &&
+      (!q||r.team.toLowerCase().includes(q))
+    );
+    data.sort((a,b)=>{
+      let x=a[sortKey],y=b[sortKey];
+      if(typeof x==='string'){x=x.toLowerCase();y=y.toLowerCase();}
+      if(typeof x==='number'&&isNaN(x)) x=-Infinity;   // blanks (e.g. NIL) sort last
+      if(typeof y==='number'&&isNaN(y)) y=-Infinity;
+      return x<y?-1*sortDir : x>y?1*sortDir : 0;
+    });
+
+    ths.forEach(th=>{
+      const old=th.querySelector('.arr'); if(old) old.remove();
+      if(th.dataset.k===sortKey){
+        const s=document.createElement('span'); s.className='arr';
+        s.innerHTML = sortDir===1 ? '&#9650;' : '&#9660;';  // ▲ / ▼
+        th.appendChild(s);
+      }
+    });
+
+    tbody.innerHTML = data.length? data.map(r=>{
+      const tierCls = r.division==='FCS' ? 'fcs' : (P4.has(r.conference) ? 'p4' : '');
+      const sosCls=r.sos>=0?'pos':'neg';
+      const sosTxt=(r.sos>=0?'+':'')+r.sos.toFixed(2);
+      return `<tr data-top="${r.rank===1?1:0}">
+        <td class="l rank num">${r.rank}</td>
+        <td class="l"><span class="tier ${tierCls}"></span><span class="team">${r.team}</span></td>
+        <td class="l conf">${r.conference}</td>
+        <td class="rating">${r.rating.toFixed(2)}</td>
+        <td><span class="sos ${sosCls} num">${sosTxt}</span></td>
+        <td class="barcell">${bar(r.talent,'talent')}</td>
+        <td class="barcell">${bar(r.experience,'exp')}</td>
+        <td class="nilcell">${nilCell(r)}</td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="8" class="empty">No teams match.</td></tr>`;
+  }
+
+  render();
+})();
+</script>

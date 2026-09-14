@@ -1,0 +1,128 @@
+<title>SMU at Florida State</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--ground:#f5f6f8;--surface:#fff;--surface-2:#fafbfc;--ink:#14171d;--muted:#5b6270;--faint:#8b93a1;
+    --hair:#e5e8ed;--hair-strong:#d5dae1;--gold:#b9822a;--gold-deep:#8f6415;
+    --pos:#2f8f5b;--pos-soft:#e4f2ea;--pos-line:#bfe0cd;--neg:#c2532f;--neg-soft:#f9e7df;--neg-line:#eecbbc;
+    --push:#6b7280;--push-soft:#eef0f3;--push-line:#d8dce2;
+    --accent:#2f6d8f;--accent-soft:#e4eef4;--accent-line:#bcd6e4;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.06);}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;
+    --ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;--hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;
+    --pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;--neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;
+    --push:#8b93a1;--push-soft:#191e27;--push-line:#2c333e;
+    --accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}}
+  :root[data-theme="dark"]{--ground:#0c0f14;--surface:#141922;--surface-2:#10151d;--ink:#eef1f6;--muted:#9aa3b2;--faint:#69727f;
+    --hair:#222834;--hair-strong:#2d3542;--gold:#e0a838;--gold-deep:#c08d2b;--pos:#4cb47c;--pos-soft:#15271e;--pos-line:#204030;
+    --neg:#e07048;--neg-soft:#2a1a13;--neg-line:#43271c;--push:#8b93a1;--push-soft:#191e27;--push-line:#2c333e;
+    --accent:#5aa6cc;--accent-soft:#12222b;--accent-line:#244050;--shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold-deep);font-weight:750;margin:0 0 8px}
+  h1{font-size:clamp(26px,4.2vw,38px);line-height:1.04;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;color:var(--muted);max-width:66ch}
+  h2{font-size:16px;font-weight:800;margin:30px 0 12px}
+  /* scoreboard */
+  .board{background:var(--surface);border:1px solid var(--hair);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;margin:22px 0 6px}
+  .brow{display:flex;align-items:center;gap:14px;padding:14px 20px}
+  .brow+.brow{border-top:1px solid var(--hair)}
+  .brow .nm{font-size:19px;font-weight:820;flat:1;min-width:150px}
+  .brow .q{display:flex;gap:14px;margin-left:auto;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+  .brow .q span{width:20px;text-align:center}
+  .brow .tot{font-size:26px;font-weight:850;width:52px;text-align:right;font-variant-numeric:tabular-nums}
+  .brow.win .nm,.brow.win .tot{color:var(--pos)}
+  .bhead{display:flex;padding:9px 20px;background:var(--surface-2);border-bottom:1px solid var(--hair);
+    font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .bhead .q{display:flex;gap:14px;margin-left:auto}.bhead .q span{width:20px;text-align:center}
+  .bhead .tot{width:52px;text-align:right}
+  /* grade tiles */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:18px 0}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:13px 15px;box-shadow:var(--shadow)}
+  .tile .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .tile .v{font-size:21px;font-weight:850;letter-spacing:-.02em;margin-top:4px}
+  .tile .v small{font-size:12px;font-weight:650;color:var(--muted)}
+  .tile.ok .v{color:var(--pos)} .tile.push .v{color:var(--push)}
+  @media(max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:13px;box-shadow:var(--shadow);overflow:hidden}
+  table{width:100%;border-collapse:collapse}
+  th{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:750;text-align:right;padding:10px 14px;border-bottom:1.5px solid var(--hair-strong);background:var(--surface-2)}
+  th.l{text-align:left}
+  td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--hair);font-variant-numeric:tabular-nums}
+  td.l{text-align:left;font-weight:650} tr:last-child td{border-bottom:none}
+  .hl{font-weight:800}
+  .chip{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px}
+  .chip.ok{background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line)}
+  .chip.push{background:var(--push-soft);color:var(--push);border:1px solid var(--push-line)}
+  ul{margin:10px 0;padding-left:22px} li{margin:9px 0;color:var(--muted)} li b{color:var(--ink)}
+  .note{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:11px;padding:14px 16px;margin:16px 0;color:var(--muted)}
+  .note b{color:var(--ink)}
+  footer{margin-top:26px;color:var(--faint);font-size:12px;line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; Game Report</p>
+    <h1>SMU 27, Florida State 24 &mdash; the model's best case, and why it still paid nothing</h1>
+    <p class="sub">Labor Day nightcap, Sept&nbsp;7. The model called this a near pick'em while the market laid three.
+      It finished on the number exactly &mdash; a clean test of the recalibrated spreads.</p>
+  </header>
+
+  <div class="board">
+    <div class="bhead"><span style="min-width:150px">Final</span>
+      <span class="q"><span>1</span><span>2</span><span>3</span><span>4</span></span><span class="tot">T</span></div>
+    <div class="brow win"><span class="nm">SMU</span>
+      <span class="q"><span>7</span><span>10</span><span>0</span><span>7</span></span><span class="tot">27</span></div>
+    <div class="brow"><span class="nm">Florida State</span>
+      <span class="q"><span>7</span><span>3</span><span>7</span><span>7</span></span><span class="tot">24</span></div>
+  </div>
+
+  <div class="tiles">
+    <div class="tile ok"><div class="k">Straight up</div><div class="v">✓ <small>SMU</small></div></div>
+    <div class="tile push"><div class="k">Against spread</div><div class="v">PUSH <small>FSU +3</small></div></div>
+    <div class="tile"><div class="k">Model error</div><div class="v">1.5 <small>pts</small></div></div>
+    <div class="tile"><div class="k">Market error</div><div class="v">0.0 <small>pts</small></div></div>
+  </div>
+
+  <h2>The numbers</h2>
+  <div class="card"><table>
+    <thead><tr><th class="l">Line</th><th>Favorite</th><th>Margin</th><th>Error</th></tr></thead>
+    <tbody>
+      <tr><td class="l">Model (recalibrated)</td><td>SMU &minus;1.5</td><td>1.5</td><td class="hl">1.5</td></tr>
+      <tr><td class="l">Market (DraftKings)</td><td>SMU &minus;3.0</td><td>3.0</td><td class="hl">0.0</td></tr>
+      <tr><td class="l">Actual result</td><td>SMU by 3</td><td>3</td><td>&mdash;</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Rating impact</h2>
+  <div class="card"><table>
+    <thead><tr><th class="l">Team</th><th>Before</th><th>After</th><th>Δ</th><th>Rank</th></tr></thead>
+    <tbody>
+      <tr><td class="l">SMU</td><td>77.44</td><td>77.64</td><td class="hl" style="color:var(--pos)">+0.20</td><td>#39 → #39</td></tr>
+      <tr><td class="l">Florida State</td><td>73.45</td><td>73.27</td><td class="hl" style="color:var(--neg)">&minus;0.18</td><td>#51 → #51</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Technical reflection</h2>
+  <ul>
+    <li><b>Absolute accuracy was excellent.</b> A 1.5-point margin error against a season MAE of ~14 points is the model
+      operating at its ceiling. The recalibrated scale produced a genuinely tight line for a genuinely tight game &mdash;
+      important evidence the 1.6&times; widening didn't over-spread close matchups, only mismatches.</li>
+    <li><b>The "edge" was an illusion.</b> The model claimed 1.5 points of value on Florida State +3. The game landed
+      <i>exactly</i> on 3 &mdash; a push. A 1.5-point edge sits well inside both the model's own error bar and the market's
+      precision; it was never a real signal.</li>
+    <li><b>The market was perfect and the model was merely close.</b> Market error 0.0 vs model 1.5. This is the same
+      lesson as the weekend's 43% ATS: matching Vegas' scale is not beating Vegas. Sub-3-point disagreements should be
+      treated as noise, not plays.</li>
+    <li><b>The results engine behaved correctly by barely moving.</b> A 3-point road win by a slight favorite is almost
+      exactly "as expected," so a ±0.2 nudge and zero rank movement is the right response &mdash; not a failure to react.
+      Contrast the Michigan case: the engine only moves teams when reality genuinely diverges from expectation.</li>
+  </ul>
+
+  <div class="note"><b>Practical takeaway:</b> raise the actionable threshold. Given a ~14-point margin MAE, only
+    disagreements north of roughly a touchdown carry information &mdash; and even those have been coin flips so far.
+    The model's value right now is ranking and winner-picking (90% SU on the weekend), not spread betting.</div>
+
+  <footer>Final via ESPN. Model line = recalibrated rating gap + 2.5 home field, from ratings through Sept&nbsp;6
+    (incl. the Michigan/Western Michigan override, results weight 0.25). Market line: DraftKings pre-kick. Generated by <b>cfb_ranker</b>.</footer>
+</div>

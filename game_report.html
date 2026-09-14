@@ -1,0 +1,138 @@
+<title>Sept 5 Game Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --ground:#f5f6f8; --surface:#ffffff; --surface-2:#fafbfc;
+    --ink:#14171d; --muted:#5b6270; --faint:#8b93a1;
+    --hair:#e5e8ed; --hair-strong:#d5dae1;
+    --gold:#b9822a; --gold-deep:#8f6415;
+    --pos:#2f8f5b; --pos-soft:#e4f2ea; --pos-line:#bfe0cd;
+    --neg:#c2532f; --neg-soft:#f9e7df; --neg-line:#eecbbc;
+    --shadow:0 1px 2px rgba(20,23,28,.05),0 10px 26px rgba(20,23,28,.06);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0c0f14; --surface:#141922; --surface-2:#10151d;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#69727f;
+    --hair:#222834; --hair-strong:#2d3542;
+    --gold:#e0a838; --gold-deep:#c08d2b;
+    --pos:#4cb47c; --pos-soft:#15271e; --pos-line:#204030;
+    --neg:#e07048; --neg-soft:#2a1a13; --neg-line:#43271c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);
+  }}
+  :root[data-theme="dark"]{
+    --ground:#0c0f14; --surface:#141922; --surface-2:#10151d;
+    --ink:#eef1f6; --muted:#9aa3b2; --faint:#69727f;
+    --hair:#222834; --hair-strong:#2d3542;
+    --gold:#e0a838; --gold-deep:#c08d2b;
+    --pos:#4cb47c; --pos-soft:#15271e; --pos-line:#204030;
+    --neg:#e07048; --neg-soft:#2a1a13; --neg-line:#43271c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 34px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px}
+  .num{font-variant-numeric:tabular-nums}
+  .eyebrow{font-size:11px;letter-spacing:.19em;text-transform:uppercase;color:var(--gold-deep);font-weight:750;margin:0 0 8px}
+  h1{font-size:clamp(28px,4.6vw,42px);line-height:1.02;margin:0;font-weight:850;letter-spacing:-.02em;text-wrap:balance}
+  .sub{margin:11px 0 0;color:var(--muted);max-width:64ch}
+  h2{font-size:17px;font-weight:800;letter-spacing:-.01em;margin:32px 0 12px;display:flex;align-items:center;gap:9px}
+  h2 .n{color:var(--faint);font-weight:700;font-size:13px}
+  .hero{display:flex;gap:16px;align-items:center;background:var(--surface);border:1px solid var(--hair);
+    border-radius:14px;padding:18px 20px;margin:22px 0 4px;box-shadow:var(--shadow)}
+  .hero .big{font-size:44px;font-weight:850;letter-spacing:-.03em;color:var(--pos);line-height:1;font-variant-numeric:tabular-nums}
+  .hero .lbl{font-size:13px;color:var(--muted)} .hero .lbl b{color:var(--ink)}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:18px 0}
+  .tile{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:13px 15px;box-shadow:var(--shadow)}
+  .tile .k{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:750}
+  .tile .v{font-size:23px;font-weight:850;letter-spacing:-.02em;margin-top:4px}
+  .tile .v small{font-size:12px;font-weight:650;color:var(--muted)}
+  @media(max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .upset{background:var(--neg-soft);border:1px solid var(--neg-line);border-radius:13px;padding:16px 18px;margin:8px 0 4px;box-shadow:var(--shadow)}
+  .upset h3{margin:0 0 4px;font-size:14px;font-weight:800;color:var(--neg)}
+  .upset p{margin:0 0 12px;color:var(--muted);font-size:13px}
+  .upset .u{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid var(--neg-line)}
+  .upset .u b{color:var(--ink)} .upset .u .r{color:var(--neg);font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:13px;box-shadow:var(--shadow);overflow:hidden}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:540px}
+  th{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:750;
+    text-align:right;padding:10px 13px;border-bottom:1.5px solid var(--hair-strong);white-space:nowrap;background:var(--surface-2)}
+  th.l{text-align:left}
+  td{padding:10px 13px;text-align:right;border-bottom:1px solid var(--hair);white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.l{text-align:left} tr:last-child td{border-bottom:none}
+  .gm{font-weight:650} .win{font-weight:750}
+  .chip{display:inline-block;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px}
+  .chip.ok{background:var(--pos-soft);color:var(--pos);border:1px solid var(--pos-line)}
+  .chip.miss{background:var(--neg-soft);color:var(--neg);border:1px solid var(--neg-line)}
+  .fcs{font-size:10px;color:var(--faint);font-weight:700;margin-left:6px}
+  .err0{color:var(--pos);font-weight:800}
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--gold);
+    border-radius:10px;padding:13px 16px;margin:14px 0;box-shadow:var(--shadow);color:var(--muted)}
+  .note b{color:var(--ink)}
+  footer{margin-top:28px;color:var(--faint);font-size:12px;line-height:1.6}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">CFB Ranker &middot; Game Report</p>
+    <h1>Saturday, September&nbsp;5 &mdash; how the model did</h1>
+    <p class="sub">Every completed game today, scored against the model's pre-game rating. Straight-up = did it pick the
+      winner; margin = points off the final. (Ratings rebuilt after fixing a scale bug that had compressed the FBS field.)</p>
+  </header>
+  <div class="hero">
+    <div class="big" id="heroBig">&mdash;</div>
+    <div class="lbl"><b>FBS vs FBS, straight up.</b> <span id="heroSub"></span></div>
+  </div>
+  <div class="tiles" id="tiles"></div>
+
+  <h2>The upsets it missed <span class="n">FBS teams beaten by FCS</span></h2>
+  <div class="upset" id="upset"></div>
+
+  <h2>Sharpest calls <span class="n">margin nailed</span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">Game</th><th>Final</th><th>Predicted</th><th>Actual</th></tr></thead>
+    <tbody id="best"></tbody>
+  </table></div>
+
+  <h2>Every FBS game <span class="n" id="fbsn"></span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">Away @ Home</th><th>Final</th><th class="l">Model pick</th><th>Pred</th><th></th></tr></thead>
+    <tbody id="fbs"></tbody>
+  </table></div>
+
+  <div class="note" id="marginNote"></div>
+
+  <h2>All misses <span class="n" id="missn"></span></h2>
+  <div class="card scroll"><table>
+    <thead><tr><th class="l">Away @ Home</th><th>Final</th><th class="l">Model wrongly liked</th></tr></thead>
+    <tbody id="misses"></tbody>
+  </table></div>
+  <footer id="foot"></footer>
+</div>
+<script>
+const D={"stats": {"games": 75, "fbsf_c": 26, "fbsf_n": 28, "fbsf_pct": 93, "fbsf_mae": 18.9, "fbsa_c": 53, "fbsa_n": 57, "fbsa_pct": 93, "fbsa_mae": 20.8, "all_c": 65, "all_n": 75, "all_pct": 87, "mae": 20.2}, "upsets": [{"fbs": "Utah State", "fcs": "Idaho State", "score": "29-17", "by": 23}, {"fbs": "Charlotte", "fcs": "The Citadel", "score": "43-41", "by": 12}, {"fbs": "Bowling Green", "fcs": "Tarleton State", "score": "20-13", "by": 4}], "best": [{"away": "Abilene Christian", "home": "Texas Tech", "score": "10-33", "pm": 23, "am": 23}, {"away": "Sam Houston", "home": "Troy", "score": "21-24", "pm": 2, "am": 3}, {"away": "FIU", "home": "USF", "score": "9-19", "pm": 11, "am": 10}, {"away": "Baylor", "home": "Auburn", "score": "16-17", "pm": 2, "am": 1}, {"away": "Tarleton State", "home": "Bowling Green", "score": "20-13", "pm": -4, "am": -7}, {"away": "Austin Peay", "home": "Vanderbilt", "score": "9-28", "pm": 16, "am": 19}], "fbs": [{"away": "Western Michigan", "home": "Michigan", "score": "12-13", "pick": "Michigan", "pm": 19, "ok": true}, {"away": "Baylor", "home": "Auburn", "score": "16-17", "pick": "Auburn", "pm": 2, "ok": true}, {"away": "The Citadel", "home": "Charlotte", "score": "43-41", "pick": "Charlotte", "pm": 12, "ok": false}, {"away": "Sam Houston", "home": "Troy", "score": "21-24", "pick": "Troy", "pm": 2, "ok": true}, {"away": "Boise State", "home": "Oregon", "score": "27-34", "pick": "Oregon", "pm": 16, "ok": true}, {"away": "Tarleton State", "home": "Bowling Green", "score": "20-13", "pick": "Tarleton State", "pm": -4, "ok": true}, {"away": "Liberty", "home": "James Madison", "score": "13-20", "pick": "Liberty", "pm": -2, "ok": false}, {"away": "Toledo", "home": "Michigan State", "score": "20-30", "pick": "Michigan State", "pm": 15, "ok": true}, {"away": "FIU", "home": "USF", "score": "9-19", "pick": "USF", "pm": 11, "ok": true}, {"away": "Idaho State", "home": "Utah State", "score": "29-17", "pick": "Utah State", "pm": 23, "ok": false}, {"away": "Oregon State", "home": "Houston", "score": "20-33", "pick": "Houston", "pm": 8, "ok": true}, {"away": "Tulane", "home": "Duke", "score": "3-17", "pick": "Duke", "pm": 3, "ok": true}, {"away": "Oklahoma State", "home": "Tulsa", "score": "10-24", "pick": "Oklahoma State", "pm": -4, "ok": false}, {"away": "North Alabama", "home": "Arkansas", "score": "14-31", "pick": "Arkansas", "pm": 24, "ok": true}, {"away": "Arkansas State", "home": "Memphis", "score": "24-42", "pick": "Memphis", "pm": 7, "ok": true}, {"away": "Boston College", "home": "Cincinnati", "score": "15-34", "pick": "Cincinnati", "pm": 6, "ok": true}, {"away": "Austin Peay", "home": "Vanderbilt", "score": "9-28", "pick": "Vanderbilt", "pm": 16, "ok": true}, {"away": "Norfolk State", "home": "Old Dominion", "score": "10-31", "pick": "Old Dominion", "pm": 8, "ok": true}, {"away": "Wyoming", "home": "Colorado State", "score": "13-35", "pick": "Colorado State", "pm": 8, "ok": true}, {"away": "Abilene Christian", "home": "Texas Tech", "score": "10-33", "pick": "Texas Tech", "pm": 23, "ok": true}, {"away": "Rhode Island", "home": "Temple", "score": "14-38", "pick": "Temple", "pm": 4, "ok": true}, {"away": "SE Louisiana", "home": "South Alabama", "score": "14-39", "pick": "South Alabama", "pm": 6, "ok": true}, {"away": "Towson", "home": "Navy", "score": "15-42", "pick": "Navy", "pm": 17, "ok": true}, {"away": "Ohio", "home": "Nebraska", "score": "21-49", "pick": "Nebraska", "pm": 18, "ok": true}, {"away": "Southeast Missouri State", "home": "Iowa State", "score": "10-38", "pick": "Iowa State", "pm": 19, "ok": true}, {"away": "Houston Christian", "home": "Rice", "score": "3-31", "pick": "Rice", "pm": 12, "ok": true}, {"away": "UT Rio Grande Valley", "home": "UTSA", "score": "16-45", "pick": "UTSA", "pm": 18, "ok": true}, {"away": "Charleston Southern", "home": "Georgia Southern", "score": "0-31", "pick": "Georgia Southern", "pm": 14, "ok": true}, {"away": "Youngstown State", "home": "Kentucky", "score": "13-45", "pick": "Kentucky", "pm": 3, "ok": true}, {"away": "Duquesne", "home": "Air Force", "score": "0-34", "pick": "Air Force", "pm": 17, "ok": true}, {"away": "North Texas", "home": "Indiana", "score": "16-52", "pick": "Indiana", "pm": 19, "ok": true}, {"away": "East Carolina", "home": "Alabama", "score": "10-48", "pick": "Alabama", "pm": 15, "ok": true}, {"away": "Fordham", "home": "North Dakota State", "score": "0-38", "pick": "North Dakota State", "pm": 21, "ok": true}, {"away": "Miami", "home": "Stanford", "score": "45-6", "pick": "Miami", "pm": -8, "ok": true}, {"away": "Fresno State", "home": "USC", "score": "0-39", "pick": "USC", "pm": 12, "ok": true}, {"away": "Northern Illinois", "home": "Iowa", "score": "0-40", "pick": "Iowa", "pm": 17, "ok": true}, {"away": "Eastern Kentucky", "home": "Jacksonville State", "score": "7-49", "pick": "Jacksonville State", "pm": 18, "ok": true}, {"away": "Long Island University", "home": "Kansas", "score": "6-51", "pick": "Kansas", "pm": 18, "ok": true}, {"away": "Marshall", "home": "Penn State", "score": "0-45", "pick": "Penn State", "pm": 14, "ok": true}, {"away": "Miami (Ohio)", "home": "Pittsburgh", "score": "14-59", "pick": "Pittsburgh", "pm": 11, "ok": true}, {"away": "FAU", "home": "Florida", "score": "21-66", "pick": "Florida", "pm": 10, "ok": true}, {"away": "Alcorn State", "home": "Southern Miss", "score": "3-49", "pick": "Southern Miss", "pm": 13, "ok": true}, {"away": "Furman", "home": "Tennessee", "score": "9-56", "pick": "Tennessee", "pm": 30, "ok": true}, {"away": "Lafayette", "home": "Connecticut", "score": "7-56", "pick": "Connecticut", "pm": 14, "ok": true}, {"away": "UL Monroe", "home": "Mississippi State", "score": "13-62", "pick": "Mississippi State", "pm": 20, "ok": true}, {"away": "Missouri State", "home": "Texas A&M", "score": "0-50", "pick": "Texas A&M", "pm": 21, "ok": true}, {"away": "UTEP", "home": "Oklahoma", "score": "0-51", "pick": "Oklahoma", "pm": 21, "ok": true}, {"away": "Texas State", "home": "Texas", "score": "7-59", "pick": "Texas", "pm": 18, "ok": true}, {"away": "Maine", "home": "Appalachian State", "score": "3-55", "pick": "Appalachian State", "pm": 13, "ok": true}, {"away": "Ball State", "home": "Ohio State", "score": "3-56", "pick": "Ohio State", "pm": 32, "ok": true}, {"away": "Bryant", "home": "Army", "score": "3-59", "pick": "Army", "pm": 23, "ok": true}, {"away": "Kent State", "home": "South Carolina", "score": "0-57", "pick": "South Carolina", "pm": 18, "ok": true}, {"away": "Tennessee State", "home": "Georgia", "score": "3-63", "pick": "Georgia", "pm": 37, "ok": true}, {"away": "New Hampshire", "home": "Syracuse", "score": "3-66", "pick": "Syracuse", "pm": 20, "ok": true}, {"away": "Nicholls", "home": "Kansas State", "score": "3-71", "pick": "Kansas State", "pm": 28, "ok": true}, {"away": "VMI", "home": "Virginia Tech", "score": "3-73", "pick": "Virginia Tech", "pm": 24, "ok": true}, {"away": "Northwestern State", "home": "Louisiana Tech", "score": "6-80", "pick": "Louisiana Tech", "pm": 16, "ok": true}], "misses": [{"away": "Idaho State", "home": "Utah State", "score": "29-17", "pick": "Utah State", "pm": 23, "fcs": true}, {"away": "Oklahoma State", "home": "Tulsa", "score": "10-24", "pick": "Oklahoma State", "pm": 4, "fcs": false}, {"away": "The Citadel", "home": "Charlotte", "score": "43-41", "pick": "Charlotte", "pm": 12, "fcs": true}, {"away": "Liberty", "home": "James Madison", "score": "13-20", "pick": "Liberty", "pm": 2, "fcs": false}]}; const s=D.stats;
+const sign=n=>(n>0?'+':'')+n;
+document.getElementById('heroBig').textContent=`${s.fbsf_c}/${s.fbsf_n}`;
+document.getElementById('heroSub').innerHTML=`${s.fbsf_pct}% of head-to-head FBS games &middot; but the model backed ${D.upsets.length} FBS teams that lost to FCS opponents (below).`;
+const tiles=[['Games graded',s.all_n,''],['FBS vs FBS',s.fbsf_pct+'%',`${s.fbsf_c}/${s.fbsf_n}`],
+  ['FBS incl. FCS foes',s.fbsa_pct+'%',`${s.fbsa_c}/${s.fbsa_n}`],['Margin error',s.mae,'pts avg']];
+document.getElementById('tiles').innerHTML=tiles.map(t=>`<div class="tile"><div class="k">${t[0]}</div><div class="v">${t[1]}${t[2]?` <small>${t[2]}</small>`:''}</div></div>`).join('');
+
+document.getElementById('upset').innerHTML=
+  `<h3>${D.upsets.length} FBS teams fell to FCS opponents</h3>`+
+  `<p>The model favored all of them &mdash; exactly the games a talent-and-schedule model is blind to.</p>`+
+  D.upsets.map(u=>`<div class="u"><span><b>${u.fbs}</b> <span class="fcs">FBS</span> lost to ${u.fcs} <span class="fcs">FCS</span>, ${u.score}</span><span class="r">model had ${u.fbs} by ${u.by}</span></div>`).join('');
+
+document.getElementById('best').innerHTML=D.best.map(r=>`<tr><td class="l gm">${r.away} @ ${r.home}</td><td>${r.score}</td><td class="num">${sign(r.pm)}</td><td class="num err0">${sign(r.am)}</td></tr>`).join('');
+
+document.getElementById('fbsn').textContent=`${D.fbs.length} games (incl. vs FCS), closest finals first`;
+document.getElementById('fbs').innerHTML=D.fbs.map(r=>`<tr><td class="l gm">${r.away} @ ${r.home}</td><td>${r.score}</td><td class="l win">${r.pick}</td><td class="num">${sign(r.pm)}</td><td><span class="chip ${r.ok?'ok':'miss'}">${r.ok?'\u2713':'\u2717'}</span></td></tr>`).join('');
+
+document.getElementById('marginNote').innerHTML=`<b>Winners solid, margins now realistic.</b> Fixing the compressed scale widened the FBS spread from ~13 to ~39 points, cutting average margin error to ${s.mae}. The model still can't see FCS upsets &mdash; and rightly flipped Oklahoma State (it rates them well above Tulsa) from a lucky pick'em to a genuine miss.`;
+
+document.getElementById('missn').textContent=`${D.misses.length} of ${s.all_n} graded`;
+document.getElementById('misses').innerHTML=D.misses.map(r=>`<tr><td class="l gm">${r.away} @ ${r.home}${r.fcs?'<span class="fcs">FCS in</span>':''}</td><td>${r.score}</td><td class="l">${r.pick} by ${r.pm}</td></tr>`).join('');
+
+document.getElementById('foot').innerHTML=`Results via ESPN (completed games only), ${s.games} clean matchups after removing name-collision duplicates. Predictions use ratings built from games through the prior week (home field +2.5, neutral 0). Generated by <b>cfb_ranker</b>.`;
+</script>
