@@ -1,0 +1,188 @@
+<title>Friday Night Recap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+  :root{
+    --ground:#eceeec; --surface:#ffffff; --surface-2:#f5f7f5; --rail:#e2e6e3;
+    --ink:#111614; --muted:#586460; --faint:#8a948f;
+    --hair:#dde2df; --hair-hard:#c8d0cb;
+    --turf:#1f5d43; --turf-soft:#e3efe8; --turf-line:#b9d8c8;
+    --chalk:#9a6b12; --chalk-soft:#f6eeda; --chalk-line:#e6d3a6;
+    --clay:#a8432a; --clay-soft:#f7e6e0; --clay-line:#e8c7bb;
+    --shadow:0 1px 1px rgba(17,22,20,.04), 0 8px 22px rgba(17,22,20,.07);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0d1210; --surface:#151b18; --surface-2:#111714; --rail:#1c2320;
+    --ink:#e8ede9; --muted:#96a39d; --faint:#6a7772;
+    --hair:#232b27; --hair-hard:#323c37;
+    --turf:#59b189; --turf-soft:#12251c; --turf-line:#1f4433;
+    --chalk:#d6a74a; --chalk-soft:#241d10; --chalk-line:#413318;
+    --clay:#dd7d5f; --clay-soft:#27150f; --clay-line:#452219;
+    --shadow:0 1px 1px rgba(0,0,0,.35), 0 12px 30px rgba(0,0,0,.45);
+  }}
+  :root[data-theme="dark"]{
+    --ground:#0d1210; --surface:#151b18; --surface-2:#111714; --rail:#1c2320;
+    --ink:#e8ede9; --muted:#96a39d; --faint:#6a7772;
+    --hair:#232b27; --hair-hard:#323c37;
+    --turf:#59b189; --turf-soft:#12251c; --turf-line:#1f4433;
+    --chalk:#d6a74a; --chalk-soft:#241d10; --chalk-line:#413318;
+    --clay:#dd7d5f; --clay-soft:#27150f; --clay-line:#452219;
+    --shadow:0 1px 1px rgba(0,0,0,.35), 0 12px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"Source Sans 3",ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding-block:30px 72px;padding-left:18px;padding-right:18px}
+  h1,h2,.cond{font-family:"Barlow Condensed","Source Sans 3",sans-serif;font-weight:700;letter-spacing:.01em}
+  .eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--turf);font-weight:700;margin:0 0 6px}
+  h1{font-size:clamp(34px,6vw,50px);line-height:.98;margin:0;text-transform:uppercase;text-wrap:balance}
+  .sub{margin:12px 0 0;color:var(--muted);max-width:64ch}
+  .sub b{color:var(--ink)}
+  h2{font-size:23px;text-transform:uppercase;margin:36px 0 12px;letter-spacing:.02em}
+
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+  .stat{flex:1 1 140px;background:var(--surface);border:1px solid var(--hair);border-radius:4px;padding:11px 13px}
+  .stat .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .stat .v{font-family:"Barlow Condensed",sans-serif;font-size:29px;line-height:1.08;margin-top:1px;font-variant-numeric:tabular-nums}
+  .stat .s{font-size:12px;color:var(--muted)}
+  .stat.good .v{color:var(--turf)}
+
+  .games{display:flex;flex-direction:column;gap:14px}
+  .g{background:var(--surface);border:1px solid var(--hair);border-radius:4px;box-shadow:var(--shadow);overflow:hidden}
+  .g-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 14px;padding:14px 16px 10px}
+  .score{font-family:"Barlow Condensed",sans-serif;font-size:27px;line-height:1.05;font-variant-numeric:tabular-nums}
+  .score .w{font-weight:700} .score .l{font-weight:500;color:var(--muted)}
+  .score .at{color:var(--faint);font-weight:500;margin:0 6px;font-size:20px}
+  .when{font-size:12.5px;color:var(--faint)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--hair)}
+  .cell{padding:10px 14px;border-right:1px solid var(--hair)}
+  .cell:last-child{border-right:none}
+  .cell .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .cell .v{font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+  .cell .s{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .hit{color:var(--turf)} .miss{color:var(--clay)}
+  .badge{display:inline-block;font:700 10px/1 "Source Sans 3",sans-serif;letter-spacing:.07em;text-transform:uppercase;
+    padding:3px 6px;border-radius:2px;border:1px solid;margin-left:6px;vertical-align:1px}
+  .b-play{color:var(--turf);background:var(--turf-soft);border-color:var(--turf-line)}
+  .b-fade{color:var(--clay);background:var(--clay-soft);border-color:var(--clay-line)}
+  .b-pass{color:var(--muted);background:var(--surface-2);border-color:var(--hair-hard)}
+  .story{padding:11px 16px 14px;border-top:1px solid var(--hair);background:var(--surface-2);color:var(--muted);font-size:14.5px}
+  .story b{color:var(--ink)}
+  @media (max-width:620px){ .grid{grid-template-columns:repeat(2,1fr)} .cell:nth-child(2){border-right:none}
+    .cell:nth-child(-n+2){border-bottom:1px solid var(--hair)} }
+
+  .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--hair);border-radius:4px;box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:520px}
+  th{background:var(--surface-2);text-align:left;font:700 10.5px/1.5 "Source Sans 3",sans-serif;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--faint);padding:9px 12px;border-bottom:1px solid var(--hair-hard);white-space:nowrap}
+  td{padding:9px 12px;border-bottom:1px solid var(--hair);font-variant-numeric:tabular-nums;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  td.up{color:var(--turf);font-weight:700} td.dn{color:var(--clay);font-weight:700} td.flat{color:var(--faint)}
+  .why{white-space:normal;color:var(--muted);font-size:13.5px;min-width:220px}
+
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--chalk);border-radius:3px;
+    padding:14px 16px;margin:14px 0 0;color:var(--muted);box-shadow:var(--shadow)}
+  .note b{color:var(--ink)}
+  .note p{margin:0 0 8px} .note p:last-child{margin:0}
+  footer{margin-top:24px;color:var(--faint);font-size:12.5px;line-height:1.65}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">cfb ranker &middot; results</p>
+    <h1>Friday, September&nbsp;18</h1>
+    <p class="sub">Three games on the Friday card, graded against the <b>Week&nbsp;3 picks</b> made Wednesday.
+      Straight-up picks are the model's outright winner; ATS picks were made against the DraftKings number of Sept&nbsp;16
+      and are graded here against the closing line (none of the three moved across the result).</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat good"><div class="k">Straight up</div><div class="v">3&ndash;0</div><div class="s">every winner right</div></div>
+    <div class="stat good"><div class="k">Against the spread</div><div class="v">2&ndash;1</div><div class="s">the miss was a no-play</div></div>
+    <div class="stat"><div class="k">Avg miss &middot; model</div><div class="v">16.0</div><div class="s">6.7 without Oregon</div></div>
+    <div class="stat"><div class="k">Avg miss &middot; market</div><div class="v">12.8</div><div class="s">6.5 without Oregon</div></div>
+    <div class="stat good"><div class="k">Week to date</div><div class="v">4&ndash;0 / 3&ndash;1</div><div class="s">SU / ATS, incl. Thursday</div></div>
+  </div>
+
+  <h2>The games</h2>
+  <div class="games">
+
+    <div class="g">
+      <div class="g-head">
+        <div class="score"><span class="w">Miami 33</span><span class="at">at</span><span class="l">Wake Forest 20</span></div>
+        <div class="when">7:30 pm ET &middot; Miami by 13</div>
+      </div>
+      <div class="grid">
+        <div class="cell"><div class="k">Model</div><div class="v">Miami by 2.7</div><div class="s">missed by 10.3</div></div>
+        <div class="cell"><div class="k">Close (DK)</div><div class="v">Miami &minus;20.5</div><div class="s">missed by 7.5</div></div>
+        <div class="cell"><div class="k">Straight up</div><div class="v hit">Miami &#10003;</div></div>
+        <div class="cell"><div class="k">ATS</div><div class="v hit">Wake +21 &#10003;<span class="badge b-fade">Fade 18.5</span></div></div>
+      </div>
+      <div class="story"><b>The model's loudest call cashed &mdash; for the wrong reason.</b> It had this nearly a coin flip; Miami
+        was clearly better but not 3-touchdowns better. Wake threw for 312 but ran for 22 yards, and Miami played turnover-free.
+        We listed Wake +21 as a pick but told you to stay off it, and the result backs neither side of that argument: the
+        market was closer on the margin, the model was on the right side of the number.</div>
+    </div>
+
+    <div class="g">
+      <div class="g-head">
+        <div class="score"><span class="l">Houston 26</span><span class="at">at</span><span class="w">Texas Tech 28</span></div>
+        <div class="when">8:00 pm ET &middot; Texas Tech by 2</div>
+      </div>
+      <div class="grid">
+        <div class="cell"><div class="k">Model</div><div class="v">Texas Tech by 5.1</div><div class="s">missed by 3.1</div></div>
+        <div class="cell"><div class="k">Close (DK)</div><div class="v">Texas Tech &minus;7.5</div><div class="s">missed by 5.5 &middot; opened &minus;12.5</div></div>
+        <div class="cell"><div class="k">Straight up</div><div class="v hit">Texas Tech &#10003;</div></div>
+        <div class="cell"><div class="k">ATS</div><div class="v hit">Houston +7.5 &#10003;<span class="badge b-play">Play 2.5</span></div></div>
+      </div>
+      <div class="story"><b>The cleanest win of the night.</b> A playable-tier edge, and the model beat the market on the margin.
+        The line had already moved five points toward the model before Wednesday (&minus;12.5 &rarr; &minus;7.5), and Houston
+        backed it up: outgained Tech 458&ndash;425, won the turnover battle 2&ndash;1, and still came up two points short.</div>
+    </div>
+
+    <div class="g">
+      <div class="g-head">
+        <div class="score"><span class="l">Portland State 0</span><span class="at">at</span><span class="w">Oregon 84</span></div>
+        <div class="when">10:30 pm ET &middot; Oregon by 84</div>
+      </div>
+      <div class="grid">
+        <div class="cell"><div class="k">Model</div><div class="v">Oregon by 49.5</div><div class="s">missed by 34.5</div></div>
+        <div class="cell"><div class="k">Close (DK)</div><div class="v">Oregon &minus;58.5</div><div class="s">missed by 25.5</div></div>
+        <div class="cell"><div class="k">Straight up</div><div class="v hit">Oregon &#10003;</div></div>
+        <div class="cell"><div class="k">ATS</div><div class="v miss">Portland St +57.5 &#10007;<span class="badge b-fade">Fade 8.0</span></div></div>
+      </div>
+      <div class="story"><b>Exactly the miss the fade tier warns about.</b> The model always undersells FBS blowouts of
+        FCS teams, and this one went past everyone's number: 726 yards to 103, 43 first downs to 5, four Portland State
+        turnovers. Nobody should have been on the dog here.</div>
+    </div>
+  </div>
+
+  <h2>How the ratings moved</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Team</th><th>Before</th><th>After</th><th>Rating</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><b>Miami</b></td><td>#28</td><td>#15</td><td class="up">+2.99</td><td class="why">Won by 13 on the road where the model expected about 3.</td></tr>
+        <tr><td><b>Wake Forest</b></td><td>#40</td><td>#52</td><td class="dn">&minus;3.83</td><td class="why">Home loss by 13 and the extra loss penalty on top.</td></tr>
+        <tr><td><b>Texas Tech</b></td><td>#30</td><td>#29</td><td class="up">+1.05</td><td class="why">Won, but by 3 less than expected.</td></tr>
+        <tr><td><b>Houston</b></td><td>#35</td><td>#39</td><td class="dn">&minus;1.77</td><td class="why">Beat the model's number by 3 but still lost; the loss penalty outweighs the margin credit.</td></tr>
+        <tr><td><b>Oregon</b></td><td>#14</td><td>#14</td><td class="flat">0.00</td><td class="why">Both the result and the expectation are past the 28-point cap, so an 84-point win earns nothing extra.</td></tr>
+        <tr><td><b>Portland State</b></td><td>#184</td><td>#184</td><td class="flat">0.00</td><td class="why">Same cap &mdash; losing by 84 costs nothing more than losing by 50.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note">
+    <p><b>Houston is the one to think about.</b> It covered by 5.5 and lost rating anyway, because the losses-hurt-more
+      setting (1.5&times; penalty on the loser) is bigger than the credit for playing a better team close on the road. That is
+      the setting doing what you asked for, but it means a gutsy road loss moves a team down about as much as a lopsided one.</p>
+    <p><b>Oregon and Miami are the other lessons.</b> The 28-point cap is working as intended on Oregon (no reward for
+      running up the score on an FCS team), and Miami's jump to #15 is the model catching up to a team whose roster talent (97)
+      has been well ahead of its rating all season.</p>
+  </div>
+
+  <footer>Thursday for completeness: Pittsburgh 27, Syracuse 13 &mdash; model had Pitt by 11.3, closed &minus;10.5; right straight up
+    and ATS (a pass-tier pick). Ratings re-run with week&nbsp;4 settings after these four results; ranks shift slightly for teams
+    that didn't play because schedule strength updates across the whole graph. Scores and box stats via ESPN.
+    This is a model's output, not betting advice.</footer>
+</div>
