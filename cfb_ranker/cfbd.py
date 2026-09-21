@@ -33,20 +33,23 @@ class CFBDUnavailable(RuntimeError):
     pass
 
 
+_NO_KEY = (
+    "CFBD_API_KEY not set. Get a free key at collegefootballdata.com, then "
+    "on Windows: setx CFBD_API_KEY <key>  (reopen the shell)."
+)
+
+
 def _key(explicit: Optional[str]) -> str:
-    k = explicit or os.environ.get("CFBD_API_KEY")
-    if not k:
-        raise CFBDUnavailable(
-            "CFBD_API_KEY not set. Get a free key at collegefootballdata.com, then "
-            "on Windows: setx CFBD_API_KEY <key>  (reopen the shell)."
-        )
-    return k
+    """The key if we have one, else '' — a cached response needs no key."""
+    return explicit or os.environ.get("CFBD_API_KEY") or ""
 
 
 def _get(path: str, params: dict, key: str, cache_dir: Path, cache_name: str) -> list:
     cache = Path(cache_dir) / cache_name
     if cache.exists():
         return json.loads(cache.read_text(encoding="utf-8"))
+    if not key:
+        raise CFBDUnavailable(_NO_KEY)
     url = f"{BASE}{path}?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(
         url, headers={"Authorization": f"Bearer {key}", "Accept": "application/json"}

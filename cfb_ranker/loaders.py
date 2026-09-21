@@ -173,7 +173,7 @@ def _http_get(url: str, timeout: int = 30) -> str:
 _EA_ALIASES = {
     "connecticut": "UConn",
     "miami": "Miami",
-    "miami (oh)": "Miami (OH)",
+    "miami (oh)": "Miami (Ohio)",
     "louisiana": "Louisiana",
     "louisiana monroe": "UL Monroe",
     "sam houston": "Sam Houston",
@@ -185,10 +185,13 @@ _EA_ALIASES = {
     "florida atlantic": "FAU",
     "florida international": "FIU",
     "south florida": "USF",
-    "miami (oh)": "Miami (Ohio)",
-    "louisiana monroe": "UL Monroe",
     "ul monroe": "UL Monroe",
     "sam houston state": "Sam Houston",
+    "california": "Cal",
+    "massachusetts": "UMass",
+    "middle tennessee": "Middle Tennessee State",
+    "st. thomas": "St. Thomas (MN)",
+    "saint thomas": "St. Thomas (MN)",
 }
 
 
