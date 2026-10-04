@@ -1,0 +1,283 @@
+<title>2026 Season Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+  :root{
+    --ground:#eceeec; --surface:#ffffff; --surface-2:#f5f7f5; --rail:#e2e6e3;
+    --ink:#111614; --muted:#586460; --faint:#8a948f;
+    --hair:#dde2df; --hair-hard:#c8d0cb;
+    --turf:#1f5d43; --turf-soft:#e3efe8; --turf-line:#b9d8c8;
+    --chalk:#9a6b12; --chalk-soft:#f6eeda; --chalk-line:#e6d3a6;
+    --clay:#a8432a; --clay-soft:#f7e6e0; --clay-line:#e8c7bb;
+    --shadow:0 1px 1px rgba(17,22,20,.04), 0 8px 22px rgba(17,22,20,.07);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0d1210; --surface:#151b18; --surface-2:#111714; --rail:#1c2320;
+    --ink:#e8ede9; --muted:#96a39d; --faint:#6a7772;
+    --hair:#232b27; --hair-hard:#323c37;
+    --turf:#59b189; --turf-soft:#12251c; --turf-line:#1f4433;
+    --chalk:#d6a74a; --chalk-soft:#241d10; --chalk-line:#413318;
+    --clay:#dd7d5f; --clay-soft:#27150f; --clay-line:#452219;
+    --shadow:0 1px 1px rgba(0,0,0,.35), 0 12px 30px rgba(0,0,0,.45);
+  }}
+  :root[data-theme="dark"]{
+    --ground:#0d1210; --surface:#151b18; --surface-2:#111714; --rail:#1c2320;
+    --ink:#e8ede9; --muted:#96a39d; --faint:#6a7772;
+    --hair:#232b27; --hair-hard:#323c37;
+    --turf:#59b189; --turf-soft:#12251c; --turf-line:#1f4433;
+    --chalk:#d6a74a; --chalk-soft:#241d10; --chalk-line:#413318;
+    --clay:#dd7d5f; --clay-soft:#27150f; --clay-line:#452219;
+    --shadow:0 1px 1px rgba(0,0,0,.35), 0 12px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"Source Sans 3",ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding-block:30px 72px;padding-left:18px;padding-right:18px}
+  .num{font-variant-numeric:tabular-nums}
+  h1,h2,h3,.cond{font-family:"Barlow Condensed","Source Sans 3",sans-serif;font-weight:700;letter-spacing:.01em}
+  .eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--turf);font-weight:700;margin:0 0 6px;
+    font-family:"Source Sans 3",sans-serif}
+  h1{font-size:clamp(34px,6vw,52px);line-height:.98;margin:0;text-transform:uppercase}
+  .sub{margin:12px 0 0;color:var(--muted);max-width:64ch}
+  .sub b{color:var(--ink)}
+
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}
+  .stat{flex:1 1 130px;background:var(--surface);border:1px solid var(--hair);border-radius:4px;padding:11px 13px}
+  .stat .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .stat .v{font-family:"Barlow Condensed",sans-serif;font-size:29px;line-height:1.08;margin-top:1px;font-variant-numeric:tabular-nums}
+  .stat.play .v{color:var(--turf)} .stat.fade .v{color:var(--clay)} .stat.up .v{color:var(--chalk)}
+
+  h2{font-size:23px;text-transform:uppercase;margin:38px 0 3px;letter-spacing:.02em}
+  .lede{color:var(--muted);margin:0 0 16px;max-width:66ch;font-size:14.5px}
+
+  .bets{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+  .bet{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--turf);border-radius:3px;
+    padding:12px 14px;box-shadow:var(--shadow)}
+  .bet .pick{font-family:"Barlow Condensed",sans-serif;font-size:24px;line-height:1.1;font-variant-numeric:tabular-nums}
+  .bet .vs{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .bet .why{font-size:12.5px;color:var(--faint);margin-top:7px;border-top:1px dashed var(--hair);padding-top:6px;font-variant-numeric:tabular-nums}
+
+  .controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:0 0 12px}
+  .controls button{font:600 12.5px/1 "Source Sans 3",sans-serif;color:var(--muted);background:var(--surface);
+    border:1px solid var(--hair-hard);border-radius:3px;padding:7px 11px;cursor:pointer}
+  .controls button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+  .controls button:focus-visible{outline:2px solid var(--turf);outline-offset:2px}
+
+  .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--hair);border-radius:4px;box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:760px}
+  thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font:700 10.5px/1.5 "Source Sans 3",sans-serif;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--faint);padding:9px 10px;border-bottom:1px solid var(--hair-hard);white-space:nowrap}
+  tbody td{padding:9px 10px;border-bottom:1px solid var(--hair);vertical-align:middle;font-variant-numeric:tabular-nums}
+  tbody tr:last-child td{border-bottom:none}
+  tr.daybreak td{background:var(--rail);font:700 11px/1.4 "Source Sans 3",sans-serif;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);padding:6px 10px}
+  .game{font-weight:600;white-space:nowrap}
+  .game .at{color:var(--faint);font-weight:400;margin:0 5px}
+  .rk{color:var(--faint);font-size:11.5px;font-weight:400}
+  .t-time{color:var(--faint);font-size:12px;white-space:nowrap}
+  .lines{white-space:nowrap;color:var(--muted);font-size:13.5px}
+  .lines b{color:var(--ink);font-weight:600}
+  .pickcell{white-space:nowrap;font-weight:600}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--faint)}
+  .dot.up{background:var(--chalk)}
+  .badge{display:inline-block;font:700 10.5px/1 "Source Sans 3",sans-serif;letter-spacing:.07em;text-transform:uppercase;
+    padding:4px 7px;border-radius:2px;border:1px solid;white-space:nowrap}
+  .b-play{color:var(--turf);background:var(--turf-soft);border-color:var(--turf-line)}
+  .b-fade{color:var(--clay);background:var(--clay-soft);border-color:var(--clay-line)}
+  .b-pass{color:var(--muted);background:var(--surface-2);border-color:var(--hair-hard)}
+  .b-noline{color:var(--faint);background:transparent;border-color:var(--hair)}
+  tr.isbest td{background:var(--turf-soft)}
+
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin:14px 0 0;font-size:13px;color:var(--muted)}
+  .legend span b{color:var(--ink)}
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--chalk);border-radius:3px;
+    padding:14px 16px;margin:26px 0 0;color:var(--muted);box-shadow:var(--shadow)}
+  .note b{color:var(--ink)}
+  footer{margin-top:24px;color:var(--faint);font-size:12.5px;line-height:1.65}
+  @media (max-width:520px){ .stat{flex-basis:calc(50% - 5px)} }
+
+  .res-w{color:var(--turf);font-weight:700} .res-l{color:var(--clay);font-weight:700} .res-p{color:var(--muted);font-weight:700}
+  .split{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .card{background:var(--surface);border:1px solid var(--hair);border-radius:4px;padding:14px 16px;box-shadow:var(--shadow)}
+  .card h3{font-family:"Barlow Condensed",sans-serif;font-size:18px;text-transform:uppercase;margin:0 0 2px;letter-spacing:.02em}
+  .card .big{font-family:"Barlow Condensed",sans-serif;font-size:34px;line-height:1.05;font-variant-numeric:tabular-nums}
+  .card p{margin:4px 0 0;color:var(--muted);font-size:14px}
+  .card.good .big{color:var(--turf)} .card.bad .big{color:var(--clay)}
+  .final{white-space:nowrap;font-weight:600}
+  .final .w{font-weight:700;color:var(--ink)} .final .l{color:var(--muted);font-weight:400}
+  .mv-up{color:var(--turf);font-weight:700} .mv-dn{color:var(--clay);font-weight:700} .mv-0{color:var(--faint)}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:12px}
+  .mini td{padding:7px 10px}
+  table.mini{min-width:0}
+  .rankwrap table{min-width:520px}
+
+  .b-blowout{color:var(--chalk);background:var(--chalk-soft);border-color:var(--chalk-line)}
+  .season{margin-top:12px}
+  .season td:first-child{white-space:nowrap}
+
+  .wpc{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}
+  .calib td{text-align:right} .calib td:first-child,.calib th:first-child{text-align:left}
+  .calib th{text-align:right}
+  .bigfig{font-family:"Barlow Condensed",sans-serif;font-size:44px;line-height:1;font-variant-numeric:tabular-nums}
+  .compress{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end;margin:8px 0 4px}
+  .compress div{min-width:120px}
+  .compress .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+
+  .num td{text-align:right;font-variant-numeric:tabular-nums}
+  .num td:first-child,.num th:first-child{text-align:left}
+  .num th{text-align:right}
+  tr.total td{font-weight:700;border-top:1.5px solid var(--hair-hard)}
+  .meter{display:inline-block;width:70px;height:6px;border-radius:3px;background:var(--hair);vertical-align:middle;margin-left:8px;position:relative;overflow:visible}
+  .meter i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--turf)}
+  .meter b{position:absolute;left:50%;top:-3px;bottom:-3px;width:1.5px;background:var(--ink);opacity:.45}
+  .cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+  .rk2{color:var(--faint);font-size:12.5px}
+  .up{color:var(--turf);font-weight:700} .dn{color:var(--clay);font-weight:700}
+  .fix{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--clay);border-radius:3px;padding:14px 16px;margin:12px 0 0;color:var(--muted);box-shadow:var(--shadow)}
+  .fix b{color:var(--ink)}
+  ol.next{margin:8px 0 0;padding-left:20px;color:var(--muted)} ol.next li{margin:6px 0} ol.next b{color:var(--ink)}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">cfb ranker &middot; season to date</p>
+    <h1>2026 season report</h1>
+    <p class="sub">Six slates, Week&nbsp;0 through Week&nbsp;5 (Aug&nbsp;27 &ndash; Oct&nbsp;4): 646 Division&nbsp;I games.
+      To judge the whole season on one footing, every slate is <b>replayed with today's model</b>: ratings built only from
+      results before that slate, then every game predicted and graded against the final score and the closing line. The weekly
+      cards were made with earlier versions of the model, so their records differ &mdash; they're summarized near the end.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Straight up</div><div class="v">491&ndash;153</div></div>
+    <div class="stat"><div class="k">FBS vs FBS</div><div class="v">210&ndash;61</div></div>
+    <div class="stat"><div class="k">Against the close</div><div class="v">327&ndash;296&ndash;5</div></div>
+    <div class="stat"><div class="k">Avg miss, model / market</div><div class="v">13.5 / 11.9</div></div>
+    <div class="stat"><div class="k">Win % calibration</div><div class="v">Good</div></div>
+  </div>
+
+  <h2>The verdict</h2>
+  <div class="split">
+    <div class="card good"><h3>Picks winners</h3><div class="big">76%</div>
+      <p>Right about three times in four. The market's favorite was right 82% of the time on the same games, so the
+        market is better &mdash; but the model is a legitimate power rating.</p></div>
+    <div class="card"><h3>Against the spread</h3><div class="big">52.5%</div>
+      <p>Right at the 52.4% a bettor needs to break even at standard odds. No edge, but no leak either.</p></div>
+    <div class="card"><h3>Margin of victory</h3><div class="big">1.6</div>
+      <p>Points per game the model misses by, beyond the market's miss (13.5 vs 11.9). That gap is the honest measure
+        of how far it is from the betting line.</p></div>
+    <div class="card good"><h3>Win probabilities</h3><div class="big">95%</div>
+      <p>How often its 90%+ picks won (it predicted 97%). Every probability range lands within about five points.</p></div>
+  </div>
+
+  <h2>Week by week</h2>
+  <div class="tablewrap">
+    <table class="num">
+      <thead><tr><th>Slate</th><th>Games</th><th>Straight up</th><th>FBS vs FBS</th><th>vs close</th><th>Avg miss</th><th>Market miss</th></tr></thead>
+      <tbody id="weeks"></tbody>
+    </table>
+  </div>
+  <p class="lede" style="margin-top:10px">Week&nbsp;0 is mostly FCS games with no results to learn from, and Week&nbsp;1's 89%
+    reflects a slate full of FBS-vs-FCS mismatches. From Week&nbsp;2 on, the model settles at 68&ndash;78% straight up. Week&nbsp;5
+    was the hardest for everyone: the market missed by more too.</p>
+
+  <h2>Two things I got wrong in the weekly reports</h2>
+  <div class="fix"><b>&ldquo;The model's ratings are bunched together.&rdquo;</b> In the Week&nbsp;5 report I compared the
+    model's average predicted margin (9.3) with the average actual margin (17.7) and called it compression. That comparison is
+    misleading: final scores always swing wider than any prediction, because games add noise on top. The right test is whether
+    actual margins scale with predicted ones. Over 271 FBS games they do: <b>actual &asymp; 1.07 &times; predicted</b>, versus
+    1.04 for the market. There's no bunching problem to fix.</div>
+  <div class="fix"><b>&ldquo;Stay away when the model disagrees with the market by 7+.&rdquo;</b> That rule came from the
+    early cards, which used older versions of the model and the line at pick time. Replayed with today's model against closing
+    lines, the big disagreements are no worse than the small ones &mdash; every edge size lands within noise of 50%:</div>
+  <div class="cols2" style="margin-top:12px">
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Model vs line</th><th>Record</th><th>Win %</th></tr></thead><tbody id="edge"></tbody></table></div>
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Closing spread</th><th>Record</th><th>Win %</th></tr></thead><tbody id="spread"></tbody></table></div>
+  </div>
+  <p class="lede" style="margin-top:10px">FBS-vs-FBS games only. The 10+ group (21&ndash;11) and the 21+ spreads (28&ndash;36) are
+    the only cells far from 50%. With 33 and 64 games, and ten groups checked, that's the kind of gap chance
+    produces on its own &mdash; worth watching, not betting on. The weekly tier rules were
+    pattern-matching on small samples.</p>
+
+  <h2>Are the win probabilities honest?</h2>
+  <div class="tablewrap" style="max-width:600px">
+    <table class="num" style="min-width:0">
+      <thead><tr><th>Model said</th><th>Games</th><th>Predicted</th><th>Pick won</th></tr></thead>
+      <tbody id="calib"></tbody>
+    </table>
+  </div>
+
+  <h2>Preseason vs now</h2>
+  <div class="cols2">
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Preseason top 10</th><th>Now</th></tr></thead><tbody id="toppre"></tbody></table></div>
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Top 10 now</th><th>Preseason</th></tr></thead><tbody id="topnow"></tbody></table></div>
+  </div>
+  <div class="cols2" style="margin-top:12px">
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Biggest climbers</th><th>Preseason</th><th>Now</th></tr></thead><tbody id="up"></tbody></table></div>
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Biggest fallers</th><th>Preseason</th><th>Now</th></tr></thead><tbody id="down"></tbody></table></div>
+  </div>
+
+  <h2>Teams the model kept misjudging</h2>
+  <p class="lede">Average points per game each FBS team beat (or fell short of) the model's projection, FBS games only.
+    One caution: a team's misses in the first three weeks barely predict its misses afterward (correlation about 0.1) &mdash;
+    so these are mostly a record of surprises, not a bias the model is failing to learn.</p>
+  <div class="cols2">
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Beat projections</th><th>Per game</th><th>Rank</th></tr></thead><tbody id="under"></tbody></table></div>
+    <div class="tablewrap"><table class="num" style="min-width:0"><thead><tr><th>Fell short</th><th>Per game</th><th>Rank</th></tr></thead><tbody id="over"></tbody></table></div>
+  </div>
+
+  <h2>The weekly cards, as published</h2>
+  <div class="tablewrap season">
+    <table class="num">
+      <thead><tr><th></th><th>Week 3</th><th>Week 4</th><th>Week 5</th><th>Combined</th></tr></thead>
+      <tbody>
+        <tr><td><b>Straight up</b></td><td>93&ndash;26</td><td>91&ndash;29</td><td>78&ndash;36</td><td><b>262&ndash;91</b></td></tr>
+        <tr><td><b>Against the spread</b></td><td>34&ndash;39&ndash;1</td><td>29&ndash;28&ndash;1</td><td>18&ndash;16</td><td><b>81&ndash;83&ndash;2</b></td></tr>
+        <tr><td><b>Best bets / leans</b></td><td>5&ndash;2&ndash;1</td><td>3&ndash;5</td><td>4&ndash;1</td><td><b>12&ndash;8&ndash;1</b></td></tr>
+        <tr><td><b>Upset picks</b></td><td>2&ndash;7</td><td>3&ndash;5</td><td>4&ndash;3</td><td><b>9&ndash;15</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="lede" style="margin-top:10px">Best bets and leans are 12&ndash;8&ndash;1 &mdash; encouraging, but 21 picks is far too
+    few to separate skill from luck, and the full replay shows no spread-size or edge-size group that reliably wins.</p>
+
+  <h2>What would actually make it better</h2>
+  <ol class="next">
+    <li><b>Better inputs, not more tuning.</b> The structure is sound &mdash; margins are scaled right, results move teams by
+      about the right amount, and probabilities are calibrated. The gap to the market is information: injuries, quarterback
+      changes, and the PFF grades the model was designed for but has never had.</li>
+    <li><b>Grade on closing lines from the start.</b> The early cards' spread records were measured against lines from days
+      before kickoff, which made them noisier and led to rules that didn't hold up.</li>
+    <li><b>Lead with winners and probabilities.</b> That's what it does well. Spread picks are break-even and should be
+      presented that way.</li>
+  </ol>
+
+  <footer>Replay: cfb_ranker as of Oct&nbsp;4 (talent .63 / schedule .27 / experience .10; schedule weight ramps to full by
+    Week&nbsp;4), ratings rebuilt before each slate from prior results only. Two caveats: EA roster ratings are the Sept&nbsp;19
+    version throughout, so early slates benefit slightly from hindsight; and the FCS poll anchor is the current poll. Closing
+    lines from ESPN's feed (mostly DraftKings), 645 of 646 games. Scores: ESPN. Not betting advice.</footer>
+</div>
+<script>
+const D={"weeks": [{"lab": "Week 0", "dates": "Aug 27–30", "n": 54, "su": {"w": 31, "l": 22, "p": 0, "pct": 58.5}, "fsu": {"w": 6, "l": 2, "p": 0, "pct": 75.0}, "ats": {"w": 28, "l": 26, "p": 0, "pct": 51.9}, "mae": 14.3, "mmae": 11.6, "msu": {"w": 36, "l": 17, "p": 0, "pct": 67.9}}, {"lab": "Week 1", "dates": "Sep 3–7", "n": 119, "su": {"w": 105, "l": 13, "p": 0, "pct": 89.0}, "fsu": {"w": 38, "l": 5, "p": 0, "pct": 88.4}, "ats": {"w": 57, "l": 56, "p": 3, "pct": 50.4}, "mae": 14.3, "mmae": 13.0, "msu": {"w": 105, "l": 10, "p": 0, "pct": 91.3}}, {"lab": "Week 2", "dates": "Sep 11–13", "n": 120, "su": {"w": 93, "l": 27, "p": 0, "pct": 77.5}, "fsu": {"w": 36, "l": 13, "p": 0, "pct": 73.5}, "ats": {"w": 60, "l": 55, "p": 0, "pct": 52.2}, "mae": 13.0, "mmae": 11.5, "msu": {"w": 98, "l": 17, "p": 0, "pct": 85.2}}, {"lab": "Week 3", "dates": "Sep 17–20", "n": 119, "su": {"w": 93, "l": 26, "p": 0, "pct": 78.2}, "fsu": {"w": 45, "l": 12, "p": 0, "pct": 78.9}, "ats": {"w": 59, "l": 56, "p": 1, "pct": 51.3}, "mae": 12.8, "mmae": 10.5, "msu": {"w": 99, "l": 17, "p": 0, "pct": 85.3}}, {"lab": "Week 4", "dates": "Sep 24–27", "n": 120, "su": {"w": 91, "l": 29, "p": 0, "pct": 75.8}, "fsu": {"w": 45, "l": 13, "p": 0, "pct": 77.6}, "ats": {"w": 68, "l": 50, "p": 1, "pct": 57.6}, "mae": 12.6, "mmae": 11.6, "msu": {"w": 97, "l": 22, "p": 0, "pct": 81.5}}, {"lab": "Week 5", "dates": "Oct 2–4", "n": 114, "su": {"w": 78, "l": 36, "p": 0, "pct": 68.4}, "fsu": {"w": 40, "l": 16, "p": 0, "pct": 71.4}, "ats": {"w": 55, "l": 53, "p": 0, "pct": 50.9}, "mae": 14.2, "mmae": 13.4, "msu": {"w": 75, "l": 33, "p": 0, "pct": 69.4}}, {"lab": "Season", "dates": "Aug 27 – Oct 4", "n": 646, "su": {"w": 491, "l": 153, "p": 0, "pct": 76.2}, "fsu": {"w": 210, "l": 61, "p": 0, "pct": 77.5}, "ats": {"w": 327, "l": 296, "p": 5, "pct": 52.5}, "mae": 13.5, "mmae": 11.9, "msu": {"w": 510, "l": 116, "p": 0, "pct": 81.5}}], "edge": [{"b": "Under 2", "w": 27, "l": 28, "p": 1, "pct": 49.1}, {"b": "2–4", "w": 29, "l": 30, "p": 0, "pct": 49.2}, {"b": "4–7", "w": 34, "l": 34, "p": 1, "pct": 50.0}, {"b": "7–10", "w": 21, "l": 21, "p": 1, "pct": 50.0}, {"b": "10+", "w": 21, "l": 11, "p": 1, "pct": 65.6}], "spread": [{"b": "Under 3.5", "w": 26, "l": 21, "p": 1, "pct": 55.3}, {"b": "3.5–7", "w": 27, "l": 28, "p": 2, "pct": 49.1}, {"b": "7.5–14", "w": 31, "l": 22, "p": 1, "pct": 58.5}, {"b": "14–21", "w": 20, "l": 17, "p": 0, "pct": 54.1}, {"b": "21+", "w": 28, "l": 36, "p": 0, "pct": 43.8}], "calib": [{"b": "50–60%", "n": 116, "pred": 55, "act": 50}, {"b": "60–70%", "n": 107, "pred": 65, "act": 68}, {"b": "70–80%", "n": 100, "pred": 75, "act": 70}, {"b": "80–90%", "n": 96, "pred": 85, "act": 80}, {"b": "90–100%", "n": 225, "pred": 97, "act": 95}], "under": [{"t": "New Mexico", "v": 19.5, "n": 4, "pre": 80, "now": 51}, {"t": "Miami", "v": 18.6, "n": 4, "pre": 14, "now": 10}, {"t": "Alabama", "v": 17.6, "n": 5, "pre": 20, "now": 2}, {"t": "James Madison", "v": 16.6, "n": 4, "pre": 116, "now": 53}, {"t": "Liberty", "v": 15.2, "n": 4, "pre": 93, "now": 81}, {"t": "North Dakota State", "v": 15.2, "n": 4, "pre": 117, "now": 60}, {"t": "Utah", "v": 14.6, "n": 3, "pre": 31, "now": 16}, {"t": "Wake Forest", "v": 13.3, "n": 5, "pre": 70, "now": 32}], "over": [{"t": "Akron", "v": -19.3, "n": 4, "pre": 96, "now": 133}, {"t": "Western Kentucky", "v": -18.5, "n": 4, "pre": 92, "now": 125}, {"t": "UTEP", "v": -18.3, "n": 4, "pre": 126, "now": 116}, {"t": "Maryland", "v": -16.0, "n": 4, "pre": 40, "now": 55}, {"t": "Sacramento State", "v": -15.5, "n": 4, "pre": 115, "now": 134}, {"t": "Arizona State", "v": -13.6, "n": 3, "pre": 57, "now": 70}, {"t": "Stanford", "v": -13.2, "n": 5, "pre": 82, "now": 86}, {"t": "Rutgers", "v": -12.5, "n": 4, "pre": 46, "now": 75}], "up": [{"t": "James Madison", "pre": 116, "now": 53}, {"t": "North Dakota State", "pre": 117, "now": 60}, {"t": "Toledo", "pre": 106, "now": 64}, {"t": "Wisconsin", "pre": 54, "now": 14}, {"t": "Wake Forest", "pre": 70, "now": 32}, {"t": "Georgia State", "pre": 121, "now": 87}, {"t": "Oregon State", "pre": 69, "now": 36}, {"t": "Duke", "pre": 68, "now": 35}], "down": [{"t": "Hawaii", "pre": 87, "now": 128}, {"t": "San Diego State", "pre": 45, "now": 84}, {"t": "Delaware", "pre": 81, "now": 120}, {"t": "Virginia", "pre": 30, "now": 68}, {"t": "Akron", "pre": 96, "now": 133}, {"t": "Cal", "pre": 50, "now": 83}, {"t": "Western Kentucky", "pre": 92, "now": 125}, {"t": "Southern Miss", "pre": 98, "now": 129}], "toppre": [{"t": "Ohio State", "r": 1, "now": 1}, {"t": "Texas", "r": 2, "now": 3}, {"t": "Oregon", "r": 3, "now": 9}, {"t": "Georgia", "r": 4, "now": 4}, {"t": "Oklahoma", "r": 5, "now": 31}, {"t": "Notre Dame", "r": 6, "now": 6}, {"t": "Ole Miss", "r": 7, "now": 20}, {"t": "Texas A&M", "r": 8, "now": 30}, {"t": "Indiana", "r": 9, "now": 7}, {"t": "Michigan", "r": 10, "now": 33}], "topnow": [{"t": "Ohio State", "r": 1, "pre": 1}, {"t": "Alabama", "r": 2, "pre": 20}, {"t": "Texas", "r": 3, "pre": 2}, {"t": "Georgia", "r": 4, "pre": 4}, {"t": "UCLA", "r": 5, "pre": 15}, {"t": "Notre Dame", "r": 6, "pre": 6}, {"t": "Indiana", "r": 7, "pre": 9}, {"t": "Nebraska", "r": 8, "pre": 21}, {"t": "Oregon", "r": 9, "pre": 3}, {"t": "Miami", "r": 10, "pre": 14}]};
+const rec=x=>`${x.w}&ndash;${x.l}${x.p?"&ndash;"+x.p:""}`;
+const pct=x=>x.pct==null?"&mdash;":x.pct.toFixed(1)+"%";
+document.getElementById("weeks").innerHTML=D.weeks.map(w=>`<tr class="${w.lab==="Season"?"total":""}">
+  <td><b>${w.lab}</b> <span class="rk2">${w.dates}</span></td><td>${w.n}</td>
+  <td>${rec(w.su)} <span class="rk2">${w.su.pct.toFixed(0)}%</span></td>
+  <td>${rec(w.fsu)} <span class="rk2">${w.fsu.pct.toFixed(0)}%</span></td>
+  <td>${rec(w.ats)} <span class="rk2">${w.ats.pct.toFixed(1)}%</span></td>
+  <td>${w.mae.toFixed(1)}</td><td>${w.mmae.toFixed(1)}</td></tr>`).join("");
+const meter=p=>`<span class="meter"><i style="width:${Math.max(0,Math.min(100,(p-30)/40*100))}%"></i><b></b></span>`;
+const brow=x=>`<tr><td>${x.b}</td><td>${rec(x)}</td><td>${pct(x)}${meter(x.pct)}</td></tr>`;
+document.getElementById("edge").innerHTML=D.edge.map(brow).join("");
+document.getElementById("spread").innerHTML=D.spread.map(brow).join("");
+document.getElementById("calib").innerHTML=D.calib.map(c=>`<tr><td>${c.b}</td><td>${c.n}</td><td>${c.pred}%</td><td><b>${c.act}%</b></td></tr>`).join("");
+document.getElementById("toppre").innerHTML=D.toppre.map(t=>`<tr><td>${t.r}. <b>${t.t}</b></td><td>${t.now===t.r?'<span class="rk2">&ndash;</span>':`<span class="${t.now<t.r?"up":"dn"}">#${t.now}</span>`}</td></tr>`).join("");
+document.getElementById("topnow").innerHTML=D.topnow.map(t=>`<tr><td>${t.r}. <b>${t.t}</b></td><td>${t.pre===t.r?'<span class="rk2">&ndash;</span>':`<span class="${t.r<t.pre?"up":"dn"}">#${t.pre}</span>`}</td></tr>`).join("");
+document.getElementById("up").innerHTML=D.up.map(t=>`<tr><td><b>${t.t}</b></td><td class="rk2">#${t.pre}</td><td class="up">#${t.now}</td></tr>`).join("");
+document.getElementById("down").innerHTML=D.down.map(t=>`<tr><td><b>${t.t}</b></td><td class="rk2">#${t.pre}</td><td class="dn">#${t.now}</td></tr>`).join("");
+const tr=t=>`<tr><td><b>${t.t}</b> <span class="rk2">${t.n} games</span></td><td class="${t.v>0?"up":"dn"}">${t.v>0?"+":""}${t.v.toFixed(1)}</td><td class="rk2">#${t.pre} &rarr; #${t.now}</td></tr>`;
+document.getElementById("under").innerHTML=D.under.map(tr).join("");
+document.getElementById("over").innerHTML=D.over.map(tr).join("");
+</script>
