@@ -1,0 +1,244 @@
+<title>Week 6 Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+  :root{
+    --ground:#eceeec; --surface:#ffffff; --surface-2:#f5f7f5; --rail:#e2e6e3;
+    --ink:#111614; --muted:#586460; --faint:#8a948f;
+    --hair:#dde2df; --hair-hard:#c8d0cb;
+    --turf:#1f5d43; --turf-soft:#e3efe8; --turf-line:#b9d8c8;
+    --chalk:#9a6b12; --chalk-soft:#f6eeda; --chalk-line:#e6d3a6;
+    --clay:#a8432a; --clay-soft:#f7e6e0; --clay-line:#e8c7bb;
+    --shadow:0 1px 1px rgba(17,22,20,.04), 0 8px 22px rgba(17,22,20,.07);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0d1210; --surface:#151b18; --surface-2:#111714; --rail:#1c2320;
+    --ink:#e8ede9; --muted:#96a39d; --faint:#6a7772;
+    --hair:#232b27; --hair-hard:#323c37;
+    --turf:#59b189; --turf-soft:#12251c; --turf-line:#1f4433;
+    --chalk:#d6a74a; --chalk-soft:#241d10; --chalk-line:#413318;
+    --clay:#dd7d5f; --clay-soft:#27150f; --clay-line:#452219;
+    --shadow:0 1px 1px rgba(0,0,0,.35), 0 12px 30px rgba(0,0,0,.45);
+  }}
+  :root[data-theme="dark"]{
+    --ground:#0d1210; --surface:#151b18; --surface-2:#111714; --rail:#1c2320;
+    --ink:#e8ede9; --muted:#96a39d; --faint:#6a7772;
+    --hair:#232b27; --hair-hard:#323c37;
+    --turf:#59b189; --turf-soft:#12251c; --turf-line:#1f4433;
+    --chalk:#d6a74a; --chalk-soft:#241d10; --chalk-line:#413318;
+    --clay:#dd7d5f; --clay-soft:#27150f; --clay-line:#452219;
+    --shadow:0 1px 1px rgba(0,0,0,.35), 0 12px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:"Source Sans 3",ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding-block:30px 72px;padding-left:18px;padding-right:18px}
+  .num{font-variant-numeric:tabular-nums}
+  h1,h2,h3,.cond{font-family:"Barlow Condensed","Source Sans 3",sans-serif;font-weight:700;letter-spacing:.01em}
+  .eyebrow{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--turf);font-weight:700;margin:0 0 6px;
+    font-family:"Source Sans 3",sans-serif}
+  h1{font-size:clamp(34px,6vw,52px);line-height:.98;margin:0;text-transform:uppercase}
+  .sub{margin:12px 0 0;color:var(--muted);max-width:64ch}
+  .sub b{color:var(--ink)}
+
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 6px}
+  .stat{flex:1 1 130px;background:var(--surface);border:1px solid var(--hair);border-radius:4px;padding:11px 13px}
+  .stat .k{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .stat .v{font-family:"Barlow Condensed",sans-serif;font-size:29px;line-height:1.08;margin-top:1px;font-variant-numeric:tabular-nums}
+  .stat.play .v{color:var(--turf)} .stat.fade .v{color:var(--clay)} .stat.up .v{color:var(--chalk)}
+
+  h2{font-size:23px;text-transform:uppercase;margin:38px 0 3px;letter-spacing:.02em}
+  .lede{color:var(--muted);margin:0 0 16px;max-width:66ch;font-size:14.5px}
+
+  .bets{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+  .bet{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--turf);border-radius:3px;
+    padding:12px 14px;box-shadow:var(--shadow)}
+  .bet .pick{font-family:"Barlow Condensed",sans-serif;font-size:24px;line-height:1.1;font-variant-numeric:tabular-nums}
+  .bet .vs{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .bet .why{font-size:12.5px;color:var(--faint);margin-top:7px;border-top:1px dashed var(--hair);padding-top:6px;font-variant-numeric:tabular-nums}
+
+  .controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:0 0 12px}
+  .controls button{font:600 12.5px/1 "Source Sans 3",sans-serif;color:var(--muted);background:var(--surface);
+    border:1px solid var(--hair-hard);border-radius:3px;padding:7px 11px;cursor:pointer}
+  .controls button[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+  .controls button:focus-visible{outline:2px solid var(--turf);outline-offset:2px}
+
+  .tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--hair);border-radius:4px;box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;min-width:760px}
+  thead th{position:sticky;top:0;background:var(--surface-2);text-align:left;font:700 10.5px/1.5 "Source Sans 3",sans-serif;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--faint);padding:9px 10px;border-bottom:1px solid var(--hair-hard);white-space:nowrap}
+  tbody td{padding:9px 10px;border-bottom:1px solid var(--hair);vertical-align:middle;font-variant-numeric:tabular-nums}
+  tbody tr:last-child td{border-bottom:none}
+  tr.daybreak td{background:var(--rail);font:700 11px/1.4 "Source Sans 3",sans-serif;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--muted);padding:6px 10px}
+  .game{font-weight:600;white-space:nowrap}
+  .game .at{color:var(--faint);font-weight:400;margin:0 5px}
+  .rk{color:var(--faint);font-size:11.5px;font-weight:400}
+  .t-time{color:var(--faint);font-size:12px;white-space:nowrap}
+  .lines{white-space:nowrap;color:var(--muted);font-size:13.5px}
+  .lines b{color:var(--ink);font-weight:600}
+  .pickcell{white-space:nowrap;font-weight:600}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--faint)}
+  .dot.up{background:var(--chalk)}
+  .badge{display:inline-block;font:700 10.5px/1 "Source Sans 3",sans-serif;letter-spacing:.07em;text-transform:uppercase;
+    padding:4px 7px;border-radius:2px;border:1px solid;white-space:nowrap}
+  .b-play{color:var(--turf);background:var(--turf-soft);border-color:var(--turf-line)}
+  .b-fade{color:var(--clay);background:var(--clay-soft);border-color:var(--clay-line)}
+  .b-pass{color:var(--muted);background:var(--surface-2);border-color:var(--hair-hard)}
+  .b-noline{color:var(--faint);background:transparent;border-color:var(--hair)}
+  tr.isbest td{background:var(--turf-soft)}
+
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin:14px 0 0;font-size:13px;color:var(--muted)}
+  .legend span b{color:var(--ink)}
+  .note{background:var(--surface);border:1px solid var(--hair);border-left:3px solid var(--chalk);border-radius:3px;
+    padding:14px 16px;margin:26px 0 0;color:var(--muted);box-shadow:var(--shadow)}
+  .note b{color:var(--ink)}
+  footer{margin-top:24px;color:var(--faint);font-size:12.5px;line-height:1.65}
+  @media (max-width:520px){ .stat{flex-basis:calc(50% - 5px)} }
+
+  .b-blowout{color:var(--chalk);background:var(--chalk-soft);border-color:var(--chalk-line)}
+  .marquee{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:12px;margin-bottom:6px}
+  .mq{background:var(--surface);border:1px solid var(--hair);border-radius:3px;padding:12px 14px;box-shadow:var(--shadow)}
+  .mq .m{font-family:"Barlow Condensed",sans-serif;font-size:19px;line-height:1.15}
+  .mq .m .rk{font-size:12px;color:var(--faint);font-weight:400}
+  .mq .row{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-top:7px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .mq .row b{color:var(--ink)}
+  .mq .lean{margin-top:8px;padding-top:7px;border-top:1px dashed var(--hair);font-size:13.5px;font-weight:700}
+  .top10{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 4px}
+  .top10 span{background:var(--surface);border:1px solid var(--hair);border-radius:999px;padding:5px 11px;font-size:13px;font-variant-numeric:tabular-nums}
+  .top10 b{font-family:"Barlow Condensed",sans-serif;font-size:15px;margin-right:5px;color:var(--turf)}
+
+  .wpbar{display:inline-block;width:46px;height:6px;border-radius:3px;background:var(--hair);vertical-align:middle;margin-right:7px;overflow:hidden}
+  .wpbar i{display:block;height:100%;background:var(--turf);border-radius:3px}
+  .wpc{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+  .mq .wpline{font-size:13px;color:var(--muted);margin-top:6px}
+  .calls{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .calls .card{background:var(--surface);border:1px solid var(--hair);border-radius:4px;padding:12px 14px;box-shadow:var(--shadow)}
+  .calls h3{font-family:"Barlow Condensed",sans-serif;font-size:18px;text-transform:uppercase;margin:0 0 6px;letter-spacing:.02em}
+  .calls ul{margin:0;padding-left:0;list-style:none}
+  .calls li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-top:1px solid var(--hair);font-size:14px;font-variant-numeric:tabular-nums}
+  .calls li:first-child{border-top:none}
+  .calls li span:last-child{color:var(--muted);white-space:nowrap}
+</style>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">cfb ranker &middot; predictions</p>
+    <h1>Week 6 card</h1>
+    <p class="sub">Every game on the October&nbsp;8&ndash;10 slate, from the rankings re-run Oct&nbsp;4 with every result
+      through Week&nbsp;5. <b>This card leads with winners</b> &mdash; replayed over the whole season the model picks them 76% of
+      the time. Against the spread it's break-even (52.5%), so the spread section shows where it disagrees with the market,
+      not bets.</p>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <h2>Top 10 going in</h2>
+  <div class="top10" id="top10"></div>
+
+  <h2>The games that matter</h2>
+  <p class="lede">Every matchup of two top-30 teams. <b>Win&nbsp;%</b> is the model's chance the pick wins outright &mdash;
+    checked over the full season replay, every range lands within about five points; picks it called 90%+ won 95%.</p>
+  <div class="marquee" id="marquee"></div>
+
+  <h2>Straight-up calls</h2>
+  <div class="calls">
+    <div class="card"><h3>Upset picks</h3><ul id="upsets"></ul></div>
+    <div class="card"><h3>Toss-ups (under 60%)</h3><ul id="tossups"></ul></div>
+  </div>
+
+  <h2>Biggest disagreements with the market</h2>
+  <p class="lede">The five FBS games where the model's line is furthest from DraftKings. <b>These are not bets.</b> Over the
+    season replay, the model's spread picks went 327&ndash;296 against closing lines, and big disagreements did no better than
+    small ones. They're here because they're the games where the ratings see something the market doesn't &mdash; usually
+    because the market knows something the ratings don't.</p>
+  <div class="bets" id="bets"></div>
+
+  <h2>The full board</h2>
+  <div class="controls">
+    <button id="f-fbs" aria-pressed="true">FBS games</button>
+    <button id="f-all" aria-pressed="false">All games</button>
+    <button id="f-line" aria-pressed="false">With a spread</button>
+    <button id="f-up" aria-pressed="false">Upset picks</button>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Kickoff</th><th>Game</th><th>Pick</th><th>Win %</th><th>Model</th><th>DraftKings</th><th>ATS lean</th></tr></thead>
+      <tbody id="board"></tbody>
+    </table>
+  </div>
+  <div class="legend">
+    <span><span class="badge b-play">Lean</span> &nbsp;model differs from DraftKings by 2+ points</span>
+    <span><span class="badge b-pass">Pass</span> &nbsp;within 2 points of DraftKings</span>
+    <span><span class="dot up"></span> model takes the underdog outright</span>
+  </div>
+
+  <div class="note" id="note"></div>
+  <footer>Ratings: cfb_ranker after Week&nbsp;5 (talent .63 / schedule .27 / experience .10; 646 results applied; EA roster
+    ratings as of Sept&nbsp;19). Win % assumes a normal spread of results with a 14-point standard deviation around the model's
+    margin. Lines: DraftKings via ESPN, captured Oct&nbsp;4; 57 of 104 games posted. Texas&ndash;Oklahoma is at a
+    neutral site, so no home-field points. Kickoffs in US Eastern.
+    A model's output, not betting advice.</footer>
+</div>
+<script>
+const G=[{"day":"Tue Oct 6","clock":"8:00 pm ET","away":"Southern Miss","home":"Troy","ark":143,"hrk":113,"fbs":true,"model":-9.5,"su":"Troy","su_by":9.6,"wp":75,"dk":-10.5,"ou":49.5,"edge":1.0,"ats":"Southern Miss","ats_num":10.5,"tier":"pass","upset":false,"marquee":false,"lean":false},{"day":"Wed Oct 7","clock":"7:00 pm ET","away":"Jacksonville State","home":"Kennesaw State","ark":105,"hrk":146,"fbs":true,"model":7.5,"su":"Jacksonville State","su_by":7.3,"wp":70,"dk":3.0,"ou":49.5,"edge":4.5,"ats":"Jacksonville State","ats_num":-3.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Wed Oct 7","clock":"7:30 pm ET","away":"New Mexico State","home":"FIU","ark":108,"hrk":120,"fbs":true,"model":0.0,"su":"New Mexico State","su_by":0.0,"wp":50,"dk":-5.5,"ou":46.5,"edge":5.5,"ats":"New Mexico State","ats_num":5.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Thu Oct 8","clock":"7:00 pm ET","away":"Sam Houston","home":"Liberty","ark":123,"hrk":82,"fbs":true,"model":-12.5,"su":"Liberty","su_by":12.4,"wp":81,"dk":-13.5,"ou":52.5,"edge":1.0,"ats":"Sam Houston","ats_num":13.5,"tier":"pass","upset":false,"marquee":false,"lean":false},{"day":"Thu Oct 8","clock":"7:00 pm ET","away":"Missouri State","home":"Western Kentucky","ark":121,"hrk":138,"fbs":true,"model":1.0,"su":"Missouri State","su_by":1.2,"wp":53,"dk":-2.5,"ou":55.5,"edge":3.5,"ats":"Missouri State","ats_num":2.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Thu Oct 8","clock":"7:30 pm ET","away":"USF","home":"UTSA","ark":106,"hrk":49,"fbs":true,"model":-18.0,"su":"UTSA","su_by":18.2,"wp":90,"dk":-7.0,"ou":52.5,"edge":-11.0,"ats":"UTSA","ats_num":-7.0,"tier":"play","upset":false,"marquee":false,"lean":true},{"day":"Thu Oct 8","clock":"7:30 pm ET","away":"South Alabama","home":"Arkansas State","ark":102,"hrk":124,"fbs":true,"model":2.5,"su":"South Alabama","su_by":2.6,"wp":57,"dk":-1.5,"ou":57.5,"edge":4.0,"ats":"South Alabama","ats_num":1.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Fri Oct 9","clock":"7:00 pm ET","away":"Florida State","home":"Louisville","ark":42,"hrk":63,"fbs":true,"model":5.0,"su":"Florida State","su_by":5.2,"wp":64,"dk":-5.5,"ou":58.5,"edge":10.5,"ats":"Florida State","ats_num":5.5,"tier":"play","upset":true,"marquee":false,"lean":true},{"day":"Fri Oct 9","clock":"7:00 pm ET","away":"Columbia","home":"Marist","ark":256,"hrk":201,"fbs":false,"model":-15.5,"su":"Marist","su_by":15.5,"wp":87,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Fri Oct 9","clock":"9:00 pm ET","away":"Iowa","home":"Washington","ark":23,"hrk":41,"fbs":true,"model":3.5,"su":"Iowa","su_by":3.5,"wp":60,"dk":-2.5,"ou":41.5,"edge":6.0,"ats":"Iowa","ats_num":2.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Fri Oct 9","clock":"9:00 pm ET","away":"Washington State","home":"Utah State","ark":92,"hrk":80,"fbs":true,"model":-5.0,"su":"Utah State","su_by":4.9,"wp":64,"dk":-4.0,"ou":42.5,"edge":-1.0,"ats":"Utah State","ats_num":-4.0,"tier":"pass","upset":false,"marquee":false,"lean":false},{"day":"Fri Oct 9","clock":"9:00 pm ET","away":"Wyoming","home":"San Jose State","ark":134,"hrk":93,"fbs":true,"model":-12.0,"su":"San Jose State","su_by":11.8,"wp":80,"dk":-6.5,"ou":43.5,"edge":-5.5,"ats":"San Jose State","ats_num":-6.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Fri Oct 9","clock":"10:15 pm ET","away":"Iowa State","home":"BYU","ark":54,"hrk":19,"fbs":true,"model":-15.0,"su":"BYU","su_by":15.2,"wp":86,"dk":-10.5,"ou":48.5,"edge":-4.5,"ats":"BYU","ats_num":-10.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Indiana","home":"Nebraska","ark":7,"hrk":8,"fbs":true,"model":-1.0,"su":"Nebraska","su_by":1.1,"wp":53,"dk":7.5,"ou":52.5,"edge":-8.5,"ats":"Nebraska","ats_num":7.5,"tier":"play","upset":true,"marquee":true,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Texas A&M","home":"Missouri","ark":30,"hrk":11,"fbs":true,"model":-11.5,"su":"Missouri","su_by":11.5,"wp":79,"dk":-4.5,"ou":48.5,"edge":-7.0,"ats":"Missouri","ats_num":-4.5,"tier":"play","upset":false,"marquee":true,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"UCF","home":"Oklahoma State","ark":61,"hrk":29,"fbs":true,"model":-14.5,"su":"Oklahoma State","su_by":14.3,"wp":85,"dk":-9.5,"ou":53.5,"edge":-5.0,"ats":"Oklahoma State","ats_num":-9.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"North Carolina","home":"Pittsburgh","ark":59,"hrk":34,"fbs":true,"model":-11.5,"su":"Pittsburgh","su_by":11.5,"wp":79,"dk":-4.0,"ou":46.5,"edge":-7.5,"ats":"Pittsburgh","ats_num":-4.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Arizona","home":"West Virginia","ark":27,"hrk":72,"fbs":true,"model":13.0,"su":"Arizona","su_by":12.8,"wp":82,"dk":3.0,"ou":60.5,"edge":10.0,"ats":"Arizona","ats_num":-3.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Wake Forest","home":"NC State","ark":32,"hrk":58,"fbs":true,"model":7.5,"su":"Wake Forest","su_by":7.3,"wp":70,"dk":3.5,"ou":60.5,"edge":4.0,"ats":"Wake Forest","ats_num":-3.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Tulane","home":"Army","ark":94,"hrk":110,"fbs":true,"model":2.0,"su":"Tulane","su_by":1.9,"wp":55,"dk":-3.5,"ou":46.5,"edge":5.5,"ats":"Tulane","ats_num":3.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Sacramento State","home":"Bowling Green","ark":151,"hrk":126,"fbs":true,"model":-10.0,"su":"Bowling Green","su_by":10.1,"wp":76,"dk":-7.0,"ou":42.5,"edge":-3.0,"ats":"Bowling Green","ats_num":-7.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"New Hampshire","home":"North Carolina A&T","ark":229,"hrk":236,"fbs":false,"model":0.0,"su":"North Carolina A&T","su_by":0.2,"wp":51,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Stonehill","home":"Sacred Heart","ark":220,"hrk":204,"fbs":false,"model":-5.0,"su":"Sacred Heart","su_by":5.2,"wp":64,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Bryant","home":"Brown","ark":186,"hrk":246,"fbs":false,"model":10.0,"su":"Bryant","su_by":9.8,"wp":76,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Dartmouth","home":"Yale","ark":243,"hrk":210,"fbs":false,"model":-10.0,"su":"Yale","su_by":9.9,"wp":76,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Robert Morris","home":"Morgan State","ark":149,"hrk":167,"fbs":false,"model":2.0,"su":"Robert Morris","su_by":2.0,"wp":56,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Princeton","home":"Wagner","ark":189,"hrk":226,"fbs":false,"model":4.0,"su":"Princeton","su_by":4.1,"wp":62,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:00 pm ET","away":"Morehead State","home":"Dayton","ark":258,"hrk":216,"fbs":false,"model":-14.0,"su":"Dayton","su_by":13.8,"wp":84,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:30 pm ET","away":"Ball State","home":"Northwestern","ark":148,"hrk":13,"fbs":true,"model":-43.0,"su":"Northwestern","su_by":43.0,"wp":100,"dk":-36.5,"ou":52.5,"edge":-6.5,"ats":"Northwestern","ats_num":-36.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:30 pm ET","away":"Bucknell","home":"Georgetown","ark":257,"hrk":266,"fbs":false,"model":4.0,"su":"Bucknell","su_by":3.9,"wp":61,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"12:45 pm ET","away":"South Carolina","home":"Florida","ark":46,"hrk":22,"fbs":true,"model":-12.0,"su":"Florida","su_by":11.8,"wp":80,"dk":-14.0,"ou":62.5,"edge":2.0,"ats":"South Carolina","ats_num":14.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"Old Dominion","home":"Appalachian State","ark":157,"hrk":111,"fbs":true,"model":-14.5,"su":"Appalachian State","su_by":14.7,"wp":85,"dk":-10.0,"ou":50.5,"edge":-4.5,"ats":"Appalachian State","ats_num":-10.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"Harvard","home":"Cornell","ark":182,"hrk":228,"fbs":false,"model":5.5,"su":"Harvard","su_by":5.3,"wp":65,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"Youngstown State","home":"Indiana State","ark":84,"hrk":164,"fbs":false,"model":19.0,"su":"Youngstown State","su_by":19.1,"wp":91,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"Long Island University","home":"Duquesne","ark":206,"hrk":179,"fbs":false,"model":-6.5,"su":"Duquesne","su_by":6.7,"wp":68,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"Howard","home":"Pennsylvania","ark":230,"hrk":254,"fbs":false,"model":4.5,"su":"Howard","su_by":4.3,"wp":62,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"William & Mary","home":"North Carolina Central","ark":265,"hrk":242,"fbs":false,"model":-12.5,"su":"North Carolina Central","su_by":12.5,"wp":81,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"San Diego","home":"Butler","ark":213,"hrk":169,"fbs":false,"model":-10.5,"su":"Butler","su_by":10.7,"wp":78,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"1:00 pm ET","away":"Samford","home":"Chattanooga","ark":211,"hrk":193,"fbs":false,"model":-5.5,"su":"Chattanooga","su_by":5.7,"wp":66,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"2:00 pm ET","away":"Miami (Ohio)","home":"UMass","ark":137,"hrk":116,"fbs":true,"model":-7.0,"su":"UMass","su_by":7.2,"wp":70,"dk":2.5,"ou":47.5,"edge":-9.5,"ats":"UMass","ats_num":2.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"2:00 pm ET","away":"Wofford","home":"Elon","ark":190,"hrk":217,"fbs":false,"model":2.0,"su":"Wofford","su_by":1.9,"wp":55,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"2:00 pm ET","away":"Southern Illinois","home":"South Dakota","ark":144,"hrk":107,"fbs":false,"model":-10.5,"su":"South Dakota","su_by":10.7,"wp":78,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"2:00 pm ET","away":"Drake","home":"Valparaiso","ark":184,"hrk":203,"fbs":false,"model":0.0,"su":"Drake","su_by":0.2,"wp":51,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"2:00 pm ET","away":"Stetson","home":"St. Thomas (MN)","ark":252,"hrk":221,"fbs":false,"model":-10.5,"su":"St. Thomas (MN)","su_by":10.3,"wp":77,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"2:00 pm ET","away":"East Tennessee State","home":"The Citadel","ark":170,"hrk":209,"fbs":false,"model":5.0,"su":"East Tennessee State","su_by":4.9,"wp":64,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"2:00 pm ET","away":"Southeast Missouri State","home":"Lindenwood","ark":192,"hrk":223,"fbs":false,"model":3.0,"su":"Southeast Missouri State","su_by":3.1,"wp":59,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:00 pm ET","away":"Idaho","home":"Weber State","ark":165,"hrk":177,"fbs":false,"model":-0.5,"su":"Weber State","su_by":0.5,"wp":51,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:00 pm ET","away":"Western Carolina","home":"Mercer","ark":181,"hrk":154,"fbs":false,"model":-9.0,"su":"Mercer","su_by":9.1,"wp":74,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:00 pm ET","away":"Mississippi Valley State","home":"Texas Southern","ark":240,"hrk":241,"fbs":false,"model":-2.5,"su":"Texas Southern","su_by":2.4,"wp":57,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:00 pm ET","away":"Southern","home":"Prairie View A&M","ark":259,"hrk":224,"fbs":false,"model":-13.5,"su":"Prairie View A&M","su_by":13.3,"wp":83,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Texas","home":"Oklahoma","ark":3,"hrk":31,"fbs":true,"model":17.0,"su":"Texas","su_by":16.9,"wp":89,"dk":7.5,"ou":39.5,"edge":9.5,"ats":"Texas","ats_num":-7.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Stanford","home":"Notre Dame","ark":88,"hrk":6,"fbs":true,"model":-33.0,"su":"Notre Dame","su_by":32.9,"wp":99,"dk":-37.5,"ou":53.5,"edge":4.5,"ats":"Stanford","ats_num":37.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Ole Miss","home":"Vanderbilt","ark":20,"hrk":48,"fbs":true,"model":8.0,"su":"Ole Miss","su_by":7.8,"wp":71,"dk":10.0,"ou":59.5,"edge":-2.0,"ats":"Vanderbilt","ats_num":10.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"UCLA","home":"Oregon","ark":5,"hrk":9,"fbs":true,"model":1.0,"su":"UCLA","su_by":1.2,"wp":53,"dk":-11.5,"ou":59.5,"edge":12.5,"ats":"UCLA","ats_num":11.5,"tier":"play","upset":true,"marquee":true,"lean":true},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Houston","home":"Kansas State","ark":39,"hrk":44,"fbs":true,"model":0.5,"su":"Houston","su_by":0.4,"wp":51,"dk":-2.5,"ou":55.5,"edge":3.0,"ats":"Houston","ats_num":2.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Duke","home":"Georgia Tech","ark":35,"hrk":91,"fbs":true,"model":14.0,"su":"Duke","su_by":13.9,"wp":84,"dk":7.0,"ou":49.5,"edge":7.0,"ats":"Duke","ats_num":-7.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Virginia Tech","home":"Cal","ark":47,"hrk":85,"fbs":true,"model":7.0,"su":"Virginia Tech","su_by":7.2,"wp":70,"dk":9.5,"ou":53.5,"edge":-2.5,"ats":"Cal","ats_num":9.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Illinois","home":"Michigan State","ark":57,"hrk":52,"fbs":true,"model":-4.5,"su":"Michigan State","su_by":4.7,"wp":63,"dk":3.5,"ou":49.5,"edge":-8.0,"ats":"Michigan State","ats_num":3.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Charlotte","home":"North Texas","ark":161,"hrk":73,"fbs":true,"model":-25.5,"su":"North Texas","su_by":25.4,"wp":97,"dk":-27.5,"ou":59.5,"edge":2.0,"ats":"Charlotte","ats_num":27.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Tulsa","home":"Navy","ark":100,"hrk":133,"fbs":true,"model":4.0,"su":"Tulsa","su_by":4.2,"wp":62,"dk":-2.5,"ou":49.5,"edge":6.5,"ats":"Tulsa","ats_num":2.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Eastern Michigan","home":"Akron","ark":79,"hrk":150,"fbs":true,"model":15.5,"su":"Eastern Michigan","su_by":15.7,"wp":87,"dk":6.5,"ou":50.5,"edge":9.0,"ats":"Eastern Michigan","ats_num":-6.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Buffalo","home":"Toledo","ark":145,"hrk":64,"fbs":true,"model":-23.0,"su":"Toledo","su_by":23.0,"wp":95,"dk":-19.5,"ou":54.5,"edge":-3.5,"ats":"Toledo","ats_num":-19.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Central Michigan","home":"Ohio","ark":112,"hrk":98,"fbs":true,"model":-6.0,"su":"Ohio","su_by":6.2,"wp":67,"dk":-3.5,"ou":47.5,"edge":-2.5,"ats":"Ohio","ats_num":-3.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Kent State","home":"Western Michigan","ark":128,"hrk":77,"fbs":true,"model":-14.0,"su":"Western Michigan","su_by":14.1,"wp":84,"dk":-13.5,"ou":43.5,"edge":-0.5,"ats":"Western Michigan","ats_num":-13.5,"tier":"pass","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Richmond","home":"Fordham","ark":196,"hrk":245,"fbs":false,"model":7.5,"su":"Richmond","su_by":7.7,"wp":71,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Eastern Illinois","home":"Gardner-Webb","ark":183,"hrk":174,"fbs":false,"model":-5.5,"su":"Gardner-Webb","su_by":5.3,"wp":65,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"UT Martin","home":"Tennessee State","ark":175,"hrk":251,"fbs":false,"model":14.0,"su":"UT Martin","su_by":13.9,"wp":84,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:30 pm ET","away":"Furman","home":"Tennessee Tech","ark":234,"hrk":172,"fbs":false,"model":-15.0,"su":"Tennessee Tech","su_by":15.1,"wp":86,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"3:45 pm ET","away":"Connecticut","home":"Temple","ark":129,"hrk":101,"fbs":true,"model":-8.5,"su":"Temple","su_by":8.5,"wp":73,"dk":-3.5,"ou":54.5,"edge":-5.0,"ats":"Temple","ats_num":-3.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"4:00 pm ET","away":"Rice","home":"East Carolina","ark":103,"hrk":117,"fbs":true,"model":0.5,"su":"Rice","su_by":0.3,"wp":51,"dk":-10.0,"ou":49.5,"edge":10.5,"ats":"Rice","ats_num":10.0,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"4:00 pm ET","away":"Stony Brook","home":"Towson","ark":158,"hrk":244,"fbs":false,"model":15.5,"su":"Stony Brook","su_by":15.5,"wp":87,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"4:00 pm ET","away":"Utah Tech","home":"Portland State","ark":238,"hrk":168,"fbs":false,"model":-17.0,"su":"Portland State","su_by":17.1,"wp":89,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"4:00 pm ET","away":"Florida A&M","home":"Alabama State","ark":264,"hrk":218,"fbs":false,"model":-18.0,"su":"Alabama State","su_by":18.2,"wp":90,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"4:00 pm ET","away":"Incarnate Word","home":"Lamar","ark":156,"hrk":131,"fbs":false,"model":-11.0,"su":"Lamar","su_by":10.9,"wp":78,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"4:15 pm ET","away":"Maryland","home":"Ohio State","ark":55,"hrk":1,"fbs":true,"model":-29.5,"su":"Ohio State","su_by":29.4,"wp":98,"dk":-34.5,"ou":56.5,"edge":5.0,"ats":"Maryland","ats_num":34.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"4:15 pm ET","away":"Tennessee","home":"Arkansas","ark":15,"hrk":62,"fbs":true,"model":14.0,"su":"Tennessee","su_by":14.1,"wp":84,"dk":13.5,"ou":49.5,"edge":0.5,"ats":"Tennessee","ats_num":-13.5,"tier":"pass","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"5:00 pm ET","away":"North Dakota","home":"Northern Iowa","ark":95,"hrk":135,"fbs":false,"model":7.0,"su":"North Dakota","su_by":6.8,"wp":69,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"5:00 pm ET","away":"Montana","home":"Northern Arizona","ark":89,"hrk":127,"fbs":false,"model":6.5,"su":"Montana","su_by":6.6,"wp":68,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"5:00 pm ET","away":"Jackson State","home":"Grambling","ark":194,"hrk":227,"fbs":false,"model":3.5,"su":"Jackson State","su_by":3.5,"wp":60,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"5:30 pm ET","away":"Davidson","home":"Presbyterian","ark":260,"hrk":235,"fbs":false,"model":-11.5,"su":"Presbyterian","su_by":11.3,"wp":79,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"6:00 pm ET","away":"San Diego State","home":"Oregon State","ark":86,"hrk":36,"fbs":true,"model":-16.5,"su":"Oregon State","su_by":16.6,"wp":88,"dk":-14.0,"ou":55.5,"edge":-2.5,"ats":"Oregon State","ats_num":-14.0,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"6:00 pm ET","away":"South Carolina State","home":"Charleston Southern","ark":188,"hrk":212,"fbs":false,"model":1.5,"su":"South Carolina State","su_by":1.6,"wp":55,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"6:00 pm ET","away":"Cal Poly","home":"Idaho State","ark":207,"hrk":153,"fbs":false,"model":-13.0,"su":"Idaho State","su_by":13.1,"wp":83,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"6:00 pm ET","away":"West Georgia","home":"Eastern Kentucky","ark":247,"hrk":239,"fbs":false,"model":-4.0,"su":"Eastern Kentucky","su_by":4.0,"wp":61,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"LSU","home":"Kentucky","ark":12,"hrk":25,"fbs":true,"model":3.5,"su":"LSU","su_by":3.7,"wp":60,"dk":9.5,"ou":54.5,"edge":-6.0,"ats":"Kentucky","ats_num":9.5,"tier":"play","upset":false,"marquee":true,"lean":false},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"UAB","home":"Memphis","ark":104,"hrk":68,"fbs":true,"model":-11.0,"su":"Memphis","su_by":11.0,"wp":78,"dk":-14.5,"ou":58.5,"edge":3.5,"ats":"UAB","ats_num":14.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"Nevada","home":"UTEP","ark":136,"hrk":125,"fbs":true,"model":-4.5,"su":"UTEP","su_by":4.7,"wp":63,"dk":9.5,"ou":49.5,"edge":-14.0,"ats":"UTEP","ats_num":9.5,"tier":"play","upset":true,"marquee":false,"lean":true},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"North Dakota State","home":"UNLV","ark":60,"hrk":66,"fbs":true,"model":-0.5,"su":"UNLV","su_by":0.6,"wp":52,"dk":3.0,"ou":49.5,"edge":-3.5,"ats":"UNLV","ats_num":3.0,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"Coastal Carolina","home":"Marshall","ark":159,"hrk":118,"fbs":true,"model":-14.5,"su":"Marshall","su_by":14.3,"wp":85,"dk":-3.0,"ou":57.5,"edge":-11.5,"ats":"Marshall","ats_num":-3.0,"tier":"play","upset":false,"marquee":false,"lean":true},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"Tarleton State","home":"Austin Peay","ark":115,"hrk":109,"fbs":false,"model":-3.5,"su":"Austin Peay","su_by":3.5,"wp":60,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"Northern Colorado","home":"Eastern Washington","ark":180,"hrk":191,"fbs":false,"model":-0.5,"su":"Eastern Washington","su_by":0.4,"wp":51,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:00 pm ET","away":"Bethune-Cookman","home":"Alabama A&M","ark":197,"hrk":231,"fbs":false,"model":3.5,"su":"Bethune-Cookman","su_by":3.5,"wp":60,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:30 pm ET","away":"Georgia","home":"Alabama","ark":4,"hrk":2,"fbs":true,"model":-5.5,"su":"Alabama","su_by":5.3,"wp":65,"dk":-1.5,"ou":55.5,"edge":-4.0,"ats":"Alabama","ats_num":-1.5,"tier":"play","upset":false,"marquee":true,"lean":false},{"day":"Sat Oct 10","clock":"7:30 pm ET","away":"USC","home":"Penn State","ark":24,"hrk":43,"fbs":true,"model":5.0,"su":"USC","su_by":5.0,"wp":64,"dk":-1.5,"ou":55.5,"edge":6.5,"ats":"USC","ats_num":1.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:30 pm ET","away":"Syracuse","home":"Virginia","ark":81,"hrk":69,"fbs":true,"model":-5.0,"su":"Virginia","su_by":5.2,"wp":64,"dk":-9.5,"ou":49.5,"edge":4.5,"ats":"Syracuse","ats_num":9.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:30 pm ET","away":"Air Force","home":"Northern Illinois","ark":96,"hrk":140,"fbs":true,"model":8.0,"su":"Air Force","su_by":8.1,"wp":72,"dk":11.5,"ou":47.5,"edge":-3.5,"ats":"Northern Illinois","ats_num":11.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:30 pm ET","away":"James Madison","home":"Georgia Southern","ark":53,"hrk":122,"fbs":true,"model":14.0,"su":"James Madison","su_by":14.0,"wp":84,"dk":8.5,"ou":53.5,"edge":5.5,"ats":"James Madison","ats_num":-8.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"7:30 pm ET","away":"Louisiana","home":"Louisiana Tech","ark":78,"hrk":99,"fbs":true,"model":2.5,"su":"Louisiana","su_by":2.6,"wp":57,"dk":-2.5,"ou":48.5,"edge":5.0,"ats":"Louisiana","ats_num":2.5,"tier":"play","upset":true,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"8:00 pm ET","away":"Minnesota","home":"Purdue","ark":17,"hrk":40,"fbs":true,"model":5.5,"su":"Minnesota","su_by":5.5,"wp":65,"dk":2.5,"ou":51.5,"edge":3.0,"ats":"Minnesota","ats_num":-2.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"8:00 pm ET","away":"Central Arkansas","home":"Abilene Christian","ark":232,"hrk":162,"fbs":false,"model":-15.5,"su":"Abilene Christian","su_by":15.6,"wp":87,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"8:00 pm ET","away":"SE Louisiana","home":"UT Rio Grande Valley","ark":152,"hrk":195,"fbs":false,"model":6.5,"su":"SE Louisiana","su_by":6.6,"wp":68,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"9:30 pm ET","away":"Hawaii","home":"Arizona State","ark":142,"hrk":71,"fbs":true,"model":-19.5,"su":"Arizona State","su_by":19.3,"wp":92,"dk":-21.5,"ou":51.5,"edge":2.0,"ats":"Hawaii","ats_num":21.5,"tier":"play","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"10:15 pm ET","away":"Kansas","home":"Utah","ark":67,"hrk":16,"fbs":true,"model":-20.0,"su":"Utah","su_by":20.1,"wp":92,"dk":null,"ou":null,"edge":null,"ats":null,"ats_num":null,"tier":"noline","upset":false,"marquee":false,"lean":false},{"day":"Sat Oct 10","clock":"10:30 pm ET","away":"Boise State","home":"Fresno State","ark":26,"hrk":37,"fbs":true,"model":2.0,"su":"Boise State","su_by":2.2,"wp":56,"dk":6.5,"ou":48.5,"edge":-4.5,"ats":"Fresno State","ats_num":6.5,"tier":"play","upset":false,"marquee":false,"lean":false}], C={"all": 104, "fbs": 58, "line": 57, "upsets": 17, "tossups": 11, "locks": 8}, TOP=[[1, "Ohio State", 97.1], [2, "Alabama", 96.42], [3, "Texas", 96.3], [4, "Georgia", 93.58], [5, "UCLA", 93.16], [6, "Notre Dame", 92.83], [7, "Indiana", 91.63], [8, "Nebraska", 90.27], [9, "Oregon", 89.43], [10, "Miami", 89.18]];
+const sp=n=>(n>0?"+":"")+Number(n).toFixed(1);
+const TIER={play:["b-play","Lean"],pass:["b-pass","Pass"],noline:["b-noline","No line yet"]};
+const bar=p=>`<span class="wpc"><span class="wpbar"><i style="width:${p}%"></i></span>${p}%</span>`;
+document.getElementById("stats").innerHTML=[
+  ["FBS games",C.fbs,""],["Near-locks (90%+)",C.locks,"play"],["Toss-ups (<60%)",C.tossups,""],
+  ["Upset picks",C.upsets,"up"],["Lines posted",`${C.line}/${C.all}`,""]
+].map(([k,v,c])=>`<div class="stat ${c}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+document.getElementById("top10").innerHTML=TOP.map(([r,t,v])=>`<span><b>${r}</b>${t} <span style="opacity:.6">${v.toFixed(1)}</span></span>`).join("");
+
+document.getElementById("marquee").innerHTML=G.filter(g=>g.marquee).map(g=>`
+  <div class="mq">
+    <div class="m">${g.away} <span class="rk">#${g.ark}</span> at ${g.home} <span class="rk">#${g.hrk}</span></div>
+    <div class="lean" style="border-top:none;padding-top:0;margin-top:6px">${g.su} by ${g.su_by.toFixed(1)}${g.upset?' <span class="dot up" style="margin-left:4px"></span>':""}</div>
+    <div class="wpline">${bar(g.wp)}</div>
+    <div class="row"><span>DraftKings</span><b>${g.dk===null?"no line yet":(g.dk<0?g.home+" "+sp(g.dk):g.away+" "+sp(-g.dk))}</b></div>
+    ${g.dk!==null?`<div class="row"><span>ATS lean</span><b>${g.ats} ${sp(g.ats_num)} <span class="badge ${TIER[g.tier][0]}">${TIER[g.tier][1]}</span></b></div>`:""}
+  </div>`).join("");
+
+const li=g=>`<li><span><b>${g.su}</b> over ${g.su===g.home?g.away:g.home}</span><span>${g.wp}%${g.dk!==null?` &middot; DK ${sp(g.dk)}`:""}</span></li>`;
+document.getElementById("upsets").innerHTML=G.filter(g=>g.upset).sort((a,b)=>b.wp-a.wp).map(li).join("");
+document.getElementById("tossups").innerHTML=G.filter(g=>g.fbs&&g.wp<60).sort((a,b)=>a.wp-b.wp).map(li).join("");
+
+document.getElementById("bets").innerHTML=G.filter(g=>g.lean).sort((a,b)=>Math.abs(b.edge)-Math.abs(a.edge)).map(g=>`
+  <div class="bet">
+    <div class="pick">${g.ats} ${sp(g.ats_num)}</div>
+    <div class="vs">${g.away} at ${g.home} &middot; ${g.day}</div>
+    <div class="why">model ${g.home} ${sp(g.model)} &nbsp;vs&nbsp; DK ${sp(g.dk)} &nbsp;&middot;&nbsp; ${Math.abs(g.edge).toFixed(1)} pt edge</div>
+  </div>`).join("");
+
+let filter="fbs";
+const tests={fbs:g=>g.fbs, all:()=>true, line:g=>g.dk!==null, up:g=>g.upset};
+function render(){
+  let day=null,h="";
+  for(const g of G.filter(tests[filter])){
+    if(g.day!==day){day=g.day;h+=`<tr class="daybreak"><td colspan="7">${day}</td></tr>`;}
+    const [cls,label]=TIER[g.tier];
+    h+=`<tr class="${g.lean?"isbest":""}">
+      <td class="t-time">${g.clock}</td>
+      <td class="game">${g.away} <span class="rk">#${g.ark}</span><span class="at">at</span>${g.home} <span class="rk">#${g.hrk}</span></td>
+      <td class="pickcell">${g.upset?'<span class="dot up"></span>':'<span class="dot"></span>'}${g.su} <span class="rk">by ${g.su_by.toFixed(1)}</span></td>
+      <td>${bar(g.wp)}</td>
+      <td class="lines"><b>${sp(g.model)}</b></td>
+      <td class="lines">${g.dk===null?"&mdash;":sp(g.dk)+(g.ou?` <span style="opacity:.7">o/u ${g.ou}</span>`:"")}</td>
+      <td class="pickcell">${g.ats?`${g.ats} ${sp(g.ats_num)} `:""}<span class="badge ${cls}">${label}</span></td>
+    </tr>`;
+  }
+  document.getElementById("board").innerHTML=h;
+}
+for(const k of Object.keys(tests)) document.getElementById("f-"+k).addEventListener("click",()=>{
+  filter=k; for(const j of Object.keys(tests)) document.getElementById("f-"+j).setAttribute("aria-pressed",String(j===k)); render();});
+render();
+
+document.getElementById("note").innerHTML=`<b>The four games of the week.</b> <b>Georgia at Alabama</b> is #4 at #2:
+  the model has Alabama by 5.5 (65%), a bit more than the market's 1.5. In <b>Texas&ndash;Oklahoma</b> the model makes Texas a
+  17-point favorite, more than double DraftKings' 7.5. Two of the model's loudest straight-up calls go against the market:
+  <b>UCLA at Oregon</b> (model UCLA by 1; Oregon is favored by 11.5) and <b>Indiana at Nebraska</b> (model Nebraska by 1;
+  Indiana favored by 7.5). Both are coin flips by the model's own estimate &mdash; 53% &mdash; so read them as &ldquo;closer than
+  the line says,&rdquo; not as upset predictions.`;
+</script>
