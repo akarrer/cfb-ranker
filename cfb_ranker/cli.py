@@ -265,7 +265,11 @@ def cmd_export(args):
         sys.exit("No rankings yet — run `python -m cfb_ranker rank` first.")
     template = (ROOT / "cfb_ranker" / "report_template.html").read_text(encoding="utf-8")
     csv_text = rankings.read_text(encoding="utf-8").strip()
-    html = template.replace("__RANKINGS_CSV__", csv_text)
+    w = _load_weights()
+    html = (template.replace("__RANKINGS_CSV__", csv_text)
+            .replace("__W_TALENT__", f'{w["cfb27_talent"]:.2f}')
+            .replace("__W_SOS__", f'{w["sos"]:.2f}')
+            .replace("__W_EXP__", f'{w["experience"]:.2f}'))
     out = ROOT / "rankings.html"
     out.write_text(html, encoding="utf-8")
     n = csv_text.count("\n")  # rows minus header
