@@ -40,6 +40,12 @@ DEFAULT_WEIGHTS = {
     # sos_preseason_factor, then ramps linearly to full weight at sos_full_week.
     "sos_full_week": 4,
     "sos_preseason_factor": 0.25,
+    # As real games accumulate, move weight from talent to schedule: after
+    # talent_shift_start_week, talent_shift_per_week moves from cfb27_talent to sos
+    # each week, stopping when talent reaches talent_floor. 0 per week = no shift.
+    "talent_shift_start_week": 3,
+    "talent_shift_per_week": 0.0,
+    "talent_floor": 0.55,
     # in-season results update (Elo-style nudge toward outcomes)
     "results_k": 0.12,
     "results_mov_cap": 28.0,
@@ -111,6 +117,13 @@ def sos_weight_factor(week: int, w: dict) -> float:
     return pf + (1.0 - pf) * (week / full)
 
 
+def talent_shift(week: int, w: dict) -> float:
+    """Weight moved from talent to SOS by this week (never takes talent below the floor)."""
+    weeks = max(0, week - int(w.get("talent_shift_start_week", 3)))
+    room = max(0.0, w["cfb27_talent"] - float(w.get("talent_floor", 0.55)))
+    return min(float(w.get("talent_shift_per_week", 0.0)) * weeks, room)
+
+
 def rank(
     teams: list[Team],
     weights: dict,
@@ -121,6 +134,9 @@ def rank(
     log=print,
 ) -> list[Team]:
     w = {**DEFAULT_WEIGHTS, **(weights or {})}
+    shift = talent_shift(week, w)
+    w["cfb27_talent"] -= shift
+    w["sos"] += shift
     _prep_factor_inputs(teams, returning, w)
 
     factor_scores = _normalized_factor_scores(teams)

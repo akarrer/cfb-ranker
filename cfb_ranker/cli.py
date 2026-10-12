@@ -235,6 +235,8 @@ def cmd_rank(args):
                          week=args.week, results=results)
     _print_table(ranked, args.top)
     path = _write_csv(ranked)
+    # remember the week so `export` can show the weights in effect for it
+    (OUTPUT / "rank_meta.json").write_text(json.dumps({"week": args.week}), encoding="utf-8")
     print(f"\n[rank] full table -> {path}")
 
 
@@ -265,7 +267,12 @@ def cmd_export(args):
         sys.exit("No rankings yet — run `python -m cfb_ranker rank` first.")
     template = (ROOT / "cfb_ranker" / "report_template.html").read_text(encoding="utf-8")
     csv_text = rankings.read_text(encoding="utf-8").strip()
-    w = _load_weights()
+    w = {**ranker.DEFAULT_WEIGHTS, **_load_weights()}
+    meta = OUTPUT / "rank_meta.json"
+    week = json.loads(meta.read_text(encoding="utf-8"))["week"] if meta.exists() else 0
+    shift = ranker.talent_shift(week, w)
+    w["cfb27_talent"] -= shift
+    w["sos"] += shift
     html = (template.replace("__RANKINGS_CSV__", csv_text)
             .replace("__W_TALENT__", f'{w["cfb27_talent"]:.2f}')
             .replace("__W_SOS__", f'{w["sos"]:.2f}')

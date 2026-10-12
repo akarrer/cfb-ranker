@@ -23,5 +23,8 @@
   "results_k": 0.25,
   "results_wl_k": 4.0,
   "results_sigma": 14.0,
-  "results_loss_mult": 1.5
+  "results_loss_mult": 1.5,
+  "talent_shift_start_week": 3,
+  "talent_shift_per_week": 0.04,
+  "talent_floor": 0.55
 }
